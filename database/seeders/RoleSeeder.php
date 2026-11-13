@@ -16,6 +16,7 @@ class RoleSeeder extends Seeder
             '--all' => true,
             '--panel' => 'admin',
             '--option' => 'policies_and_permissions',
+            '--ignore-existing-policies' => true,
             '--no-interaction' => true,
         ]);
 
