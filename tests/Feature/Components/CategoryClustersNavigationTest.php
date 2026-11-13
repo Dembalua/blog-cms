@@ -18,8 +18,8 @@ class CategoryClustersNavigationTest extends TestCase
 
     public function test_does_not_render_when_content_is_not_a_pillar(): void
     {
-        $cluster  = Cluster::factory()->create();
-        $content  = Content::factory()->published()->create(['cluster_id' => $cluster->id, 'is_pillar' => null]);
+        $cluster = Cluster::factory()->create();
+        $content = Content::factory()->published()->create(['cluster_id' => $cluster->id, 'is_pillar' => null]);
         $component = new CategoryClustersNavigation($content);
 
         $this->assertFalse($component->shouldRender());
@@ -27,7 +27,7 @@ class CategoryClustersNavigationTest extends TestCase
 
     public function test_does_not_render_when_content_has_no_cluster(): void
     {
-        $content   = Content::factory()->published()->create(['cluster_id' => null, 'is_pillar' => true]);
+        $content = Content::factory()->published()->create(['cluster_id' => null, 'is_pillar' => true]);
         $component = new CategoryClustersNavigation($content);
 
         $this->assertFalse($component->shouldRender());
@@ -35,8 +35,8 @@ class CategoryClustersNavigationTest extends TestCase
 
     public function test_does_not_render_when_cluster_has_no_related_clusters(): void
     {
-        $cluster  = Cluster::factory()->create();
-        $pillar   = Content::factory()->published()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
+        $cluster = Cluster::factory()->create();
+        $pillar = Content::factory()->published()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
         $component = new CategoryClustersNavigation($pillar);
 
         $this->assertFalse($component->shouldRender());
@@ -48,7 +48,7 @@ class CategoryClustersNavigationTest extends TestCase
         $clusterB = Cluster::factory()->create();
         $clusterA->relatedClusters()->attach($clusterB->id);
 
-        $pillarA  = Content::factory()->published()->create(['cluster_id' => $clusterA->id, 'is_pillar' => true]);
+        $pillarA = Content::factory()->published()->create(['cluster_id' => $clusterA->id, 'is_pillar' => true]);
         Content::factory()->draft()->create(['cluster_id' => $clusterB->id, 'is_pillar' => true]);
 
         $component = new CategoryClustersNavigation($pillarA);
@@ -86,7 +86,7 @@ class CategoryClustersNavigationTest extends TestCase
         Content::factory()->published()->create(['cluster_id' => $clusterC->id, 'is_pillar' => true, 'title' => 'Pillar C']);
 
         $component = new CategoryClustersNavigation($pillarA);
-        $titles    = $component->pillars->pluck('title');
+        $titles = $component->pillars->pluck('title');
 
         $this->assertContains('Pillar B', $titles);
         $this->assertContains('Pillar C', $titles);

@@ -45,9 +45,9 @@ class HomepageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListHomepages::route('/'),
+            'index' => ListHomepages::route('/'),
             'create' => CreateHomepage::route('/create'),
-            'edit'   => EditHomepage::route('/{record}/edit'),
+            'edit' => EditHomepage::route('/{record}/edit'),
         ];
     }
 

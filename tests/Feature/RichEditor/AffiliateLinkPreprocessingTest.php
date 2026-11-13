@@ -15,7 +15,7 @@ class AffiliateLinkPreprocessingTest extends FilamentTestCase
     private function docWith(array $paragraphs): array
     {
         return [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => $paragraphs,
         ];
     }
@@ -26,7 +26,7 @@ class AffiliateLinkPreprocessingTest extends FilamentTestCase
     private function paragraphWith(array $children): array
     {
         return [
-            'type'    => 'paragraph',
+            'type' => 'paragraph',
             'content' => $children,
         ];
     }
@@ -37,10 +37,10 @@ class AffiliateLinkPreprocessingTest extends FilamentTestCase
     private function affiliateLinkText(string $text, ?int $linkId): array
     {
         return [
-            'type'  => 'text',
-            'text'  => $text,
+            'type' => 'text',
+            'text' => $text,
             'marks' => [[
-                'type'  => 'affiliateLink',
+                'type' => 'affiliateLink',
                 'attrs' => ['affiliateLinkId' => $linkId],
             ]],
         ];
@@ -124,7 +124,7 @@ class AffiliateLinkPreprocessingTest extends FilamentTestCase
 
         $html = $host->renderSafeRichContent('content');
 
-        $this->assertStringContainsString('/go/amazon-pillow?c=' . $host->id, $html);
+        $this->assertStringContainsString('/go/amazon-pillow?c='.$host->id, $html);
     }
 
     // -------------------------------------------------------------------------
@@ -237,7 +237,7 @@ class AffiliateLinkPreprocessingTest extends FilamentTestCase
     public function test_multiple_affiliate_links_are_processed_independently(): void
     {
         $alive = AffiliateLink::factory()->create(['name' => 'Alive Affiliate']);
-        $host  = $this->makeHostWithContent(
+        $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([$this->affiliateLinkText('old', $alive->id)]),
                 $this->paragraphWith([$this->affiliateLinkText('ghost', 99999)]),
@@ -257,9 +257,9 @@ class AffiliateLinkPreprocessingTest extends FilamentTestCase
 
     public function test_original_content_attribute_is_restored_after_rendering(): void
     {
-        $link         = AffiliateLink::factory()->create(['name' => 'New Name']);
+        $link = AffiliateLink::factory()->create(['name' => 'New Name']);
         $originalText = 'Pre-rename Text';
-        $host         = $this->makeHostWithContent(
+        $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([
                     $this->affiliateLinkText($originalText, $link->id),

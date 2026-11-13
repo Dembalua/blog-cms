@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories\Tables;
 
+use App\Models\Category;
 use App\Models\MenuItem;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Actions\BulkActionGroup;
@@ -13,9 +14,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class CategoriesTable
 {
@@ -79,13 +79,13 @@ class CategoriesTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->before(function (DeleteBulkAction $action, \Illuminate\Database\Eloquent\Collection $records) {
+                        ->before(function (DeleteBulkAction $action, Collection $records) {
                             $blockedByMenu = $records->filter(
-                                fn($record) => MenuItem::where('model_type', \App\Models\Category::class)->where('model_id', $record->id)->exists()
+                                fn ($record) => MenuItem::where('model_type', Category::class)->where('model_id', $record->id)->exists()
                             );
 
                             $blockedByContents = $records->filter(
-                                fn($record) => $record->contents()->exists()
+                                fn ($record) => $record->contents()->exists()
                             );
 
                             $blocked = $blockedByMenu->merge($blockedByContents)->unique('id');

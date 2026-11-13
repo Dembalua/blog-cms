@@ -10,10 +10,7 @@ class LanguageServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -24,7 +21,7 @@ class LanguageServiceProvider extends ServiceProvider
             $switch
                 ->circular()
                 ->renderHook('panels::global-search.before')
-                ->locales(['en','de']);
+                ->locales(['en', 'de']);
         });
     }
 }

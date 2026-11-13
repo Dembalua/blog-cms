@@ -33,9 +33,9 @@ class AffiliateLinkForm
                                 if ($operation !== 'create') {
                                     return;
                                 }
-                                $name        = $get('name') ?? '';
+                                $name = $get('name') ?? '';
                                 $networkName = $state ? AffiliateNetwork::find($state)?->name ?? '' : '';
-                                $set('slug', Str::slug($networkName . '-' . $name, '-', 'de'));
+                                $set('slug', Str::slug($networkName.'-'.$name, '-', 'de'));
                             }),
 
                         TextInput::make('url')
@@ -53,9 +53,9 @@ class AffiliateLinkForm
                                 if ($operation !== 'create') {
                                     return;
                                 }
-                                $networkId   = $get('affiliate_network_id');
+                                $networkId = $get('affiliate_network_id');
                                 $networkName = $networkId ? AffiliateNetwork::find($networkId)?->name ?? '' : '';
-                                $set('slug', Str::slug($networkName . '-' . $state, '-', 'de'));
+                                $set('slug', Str::slug($networkName.'-'.$state, '-', 'de'));
                             }),
 
                         TextInput::make('slug')
@@ -64,7 +64,7 @@ class AffiliateLinkForm
                             ->unique(ignoreRecord: true)
                             ->maxLength(100)
                             ->prefix('go/')
-                            ->disabled(fn(Get $get) => ! $get('edit_slug'))
+                            ->disabled(fn (Get $get) => ! $get('edit_slug'))
                             ->dehydrated()
                             ->hintIcon('heroicon-m-question-mark-circle')
                             ->hintIconTooltip(__('resource.affiliate_link_resource.form.slug_tooltip'))
@@ -73,7 +73,7 @@ class AffiliateLinkForm
                                     ->icon('heroicon-m-pencil')
                                     ->color('danger')
                                     ->tooltip(__('resource.affiliate_link_resource.form.slug_tooltip'))
-                                    ->action(fn(Set $set, Get $get) => $set('edit_slug', ! $get('edit_slug')))
+                                    ->action(fn (Set $set, Get $get) => $set('edit_slug', ! $get('edit_slug')))
                             ),
 
                         TextInput::make('edit_slug')

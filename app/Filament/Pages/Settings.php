@@ -19,27 +19,30 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Illuminate\Support\HtmlString;
-use Filament\Schemas\Components\Grid;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\EmbeddedSchema;
 use Filament\Schemas\Components\Form;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 
 class Settings extends Page
 {
     use HasPageShield;
 
     protected static string|null|\BackedEnum $navigationIcon = Heroicon::OutlinedCog6Tooth;
+
     protected static ?int $navigationSort = 1;
+
     protected string $view = 'filament.pages.settings';
+
     public ?array $data = [];
 
     public function getTitle(): string|Htmlable
@@ -55,42 +58,42 @@ class Settings extends Page
     public function mount(): void
     {
         $this->form->fill([
-            'site_name'        => Setting::get('site.name'),
-            'site_logo'        => Setting::get('site.logo'),
-            'site_logo_dark'   => Setting::get('site.logo_dark'),
-            'site_favicon'     => Setting::get('site.favicon'),
-            'menu_header'      => Setting::get('menu.header'),
-            'menu_footer'      => Setting::get('menu.footer'),
-            'menu_max_depth'   => Setting::get('menu.max_depth'),
-            'footer_slogan'    => Setting::get('footer.slogan'),
+            'site_name' => Setting::get('site.name'),
+            'site_logo' => Setting::get('site.logo'),
+            'site_logo_dark' => Setting::get('site.logo_dark'),
+            'site_favicon' => Setting::get('site.favicon'),
+            'menu_header' => Setting::get('menu.header'),
+            'menu_footer' => Setting::get('menu.footer'),
+            'menu_max_depth' => Setting::get('menu.max_depth'),
+            'footer_slogan' => Setting::get('footer.slogan'),
             'social_instagram' => Setting::get('social.instagram'),
-            'social_youtube'   => Setting::get('social.youtube'),
+            'social_youtube' => Setting::get('social.youtube'),
             'social_pinterest' => Setting::get('social.pinterest'),
-            'theme_light_primary'     => Setting::get('theme.light_primary'),
-            'theme_dark_primary'      => Setting::get('theme.dark_primary'),
-            'theme_light_secondary'   => Setting::get('theme.light_secondary'),
-            'theme_dark_secondary'    => Setting::get('theme.dark_secondary'),
-            'theme_light_background'  => Setting::get('theme.light_background'),
-            'theme_dark_background'   => Setting::get('theme.dark_background'),
-            'theme_light_text'        => Setting::get('theme.light_text'),
-            'theme_dark_text'         => Setting::get('theme.dark_text'),
-            'theme_light_surface'     => Setting::get('theme.light_surface'),
-            'theme_dark_surface'      => Setting::get('theme.dark_surface'),
-            'theme_light_text_muted'  => Setting::get('theme.light_text_muted'),
-            'theme_dark_text_muted'   => Setting::get('theme.dark_text_muted'),
+            'theme_light_primary' => Setting::get('theme.light_primary'),
+            'theme_dark_primary' => Setting::get('theme.dark_primary'),
+            'theme_light_secondary' => Setting::get('theme.light_secondary'),
+            'theme_dark_secondary' => Setting::get('theme.dark_secondary'),
+            'theme_light_background' => Setting::get('theme.light_background'),
+            'theme_dark_background' => Setting::get('theme.dark_background'),
+            'theme_light_text' => Setting::get('theme.light_text'),
+            'theme_dark_text' => Setting::get('theme.dark_text'),
+            'theme_light_surface' => Setting::get('theme.light_surface'),
+            'theme_dark_surface' => Setting::get('theme.dark_surface'),
+            'theme_light_text_muted' => Setting::get('theme.light_text_muted'),
+            'theme_dark_text_muted' => Setting::get('theme.dark_text_muted'),
             'theme_light_text_subtle' => Setting::get('theme.light_text_subtle'),
-            'theme_dark_text_subtle'  => Setting::get('theme.dark_text_subtle'),
-            'theme_light_border'      => Setting::get('theme.light_border'),
-            'theme_dark_border'       => Setting::get('theme.dark_border'),
-            'category_per_page'        => Setting::get('content.category_page_size') ?? 12,
-            'maintenance_pages'        => json_decode(Setting::get('maintenance.pages') ?? '[]', true),
-            'maintenance_enabled'      => (bool) Setting::get('maintenance.enabled'),
-            'maintenance_allowed_ips'  => Setting::get('maintenance.allowed_ips'),
-            'rss_default_image'        => Setting::get('rss.default_image'),
-            'rss_title'                => Setting::get('rss.title'),
-            'rss_description'          => Setting::get('rss.description'),
-            'site_privacy_page'        => Setting::get('site.privacy_page'),
-            'site_homepage_content'    => Setting::get('site.homepage_content'),
+            'theme_dark_text_subtle' => Setting::get('theme.dark_text_subtle'),
+            'theme_light_border' => Setting::get('theme.light_border'),
+            'theme_dark_border' => Setting::get('theme.dark_border'),
+            'category_per_page' => Setting::get('content.category_page_size') ?? 12,
+            'maintenance_pages' => json_decode(Setting::get('maintenance.pages') ?? '[]', true),
+            'maintenance_enabled' => (bool) Setting::get('maintenance.enabled'),
+            'maintenance_allowed_ips' => Setting::get('maintenance.allowed_ips'),
+            'rss_default_image' => Setting::get('rss.default_image'),
+            'rss_title' => Setting::get('rss.title'),
+            'rss_description' => Setting::get('rss.description'),
+            'site_privacy_page' => Setting::get('site.privacy_page'),
+            'site_homepage_content' => Setting::get('site.homepage_content'),
         ]);
     }
 
@@ -134,9 +137,9 @@ class Settings extends Page
                                             ->label(__('settings.fields.site_privacy_page'))
                                             ->helperText(__('settings.fields.site_privacy_page_hint'))
                                             ->options(fn () => Content::whereIn(
-                                                    'id',
-                                                    MenuItem::where('model_type', Content::class)->pluck('model_id')
-                                                )
+                                                'id',
+                                                MenuItem::where('model_type', Content::class)->pluck('model_id')
+                                            )
                                                 ->whereHas('path')
                                                 ->pluck('title', 'id')
                                                 ->toArray()
@@ -224,10 +227,10 @@ class Settings extends Page
                                             ->searchable()
                                             ->options(
                                                 Content::where('status', ContentStatus::PUBLISHED)
-                                                    ->whereHas('path', fn($q) => $q->whereNotNull('url'))
+                                                    ->whereHas('path', fn ($q) => $q->whereNotNull('url'))
                                                     ->with('path')
                                                     ->get()
-                                                    ->mapWithKeys(fn($c) => [$c->id => $c->title . ' (' . $c->path->url . ')'])
+                                                    ->mapWithKeys(fn ($c) => [$c->id => $c->title.' ('.$c->path->url.')'])
                                             )
                                             ->native(false),
                                         Toggle::make('maintenance_enabled')
@@ -236,7 +239,7 @@ class Settings extends Page
                                         Placeholder::make('maintenance_warning')
                                             ->label('')
                                             ->content(new HtmlString(
-                                                '<p class="text-sm font-medium text-danger-600 dark:text-danger-400">⚠ ' . __('settings.fields.maintenance_warning') . '</p>'
+                                                '<p class="text-sm font-medium text-danger-600 dark:text-danger-400">⚠ '.__('settings.fields.maintenance_warning').'</p>'
                                             ))
                                             ->visible(fn ($get) => (bool) $get('maintenance_enabled')),
                                         Textarea::make('maintenance_allowed_ips')
@@ -267,12 +270,12 @@ class Settings extends Page
                                             ->label(__('settings.fields.rss_title'))
                                             ->maxLength(255)
                                             ->live(onBlur: true)
-                                            ->helperText(fn ($state) => strlen($state ?? '') . ' / 255 ' . __('resource.default_form_fields.signs')),
+                                            ->helperText(fn ($state) => strlen($state ?? '').' / 255 '.__('resource.default_form_fields.signs')),
                                         TextInput::make('rss_description')
                                             ->label(__('settings.fields.rss_description'))
                                             ->maxLength(500)
                                             ->live(onBlur: true)
-                                            ->helperText(fn ($state) => strlen($state ?? '') . ' / 500 ' . __('resource.default_form_fields.signs')),
+                                            ->helperText(fn ($state) => strlen($state ?? '').' / 500 '.__('resource.default_form_fields.signs')),
                                         CuratorPicker::make('rss_default_image')
                                             ->label(__('settings.fields.rss_default_image'))
                                             ->hint(__('settings.fields.rss_default_image_hint'))
@@ -283,12 +286,12 @@ class Settings extends Page
                                         [
                                             Placeholder::make('rss_url_main')
                                                 ->label(__('settings.sections.rss_main'))
-                                                ->content(new HtmlString('<code style="user-select:all">' . url('/rss') . '</code>')),
+                                                ->content(new HtmlString('<code style="user-select:all">'.url('/rss').'</code>')),
                                         ],
                                         Category::with('path')->get()
-                                            ->map(fn ($cat) => Placeholder::make('rss_url_cat_' . $cat->id)
+                                            ->map(fn ($cat) => Placeholder::make('rss_url_cat_'.$cat->id)
                                                 ->label($cat->name)
-                                                ->content(new HtmlString('<code style="user-select:all">' . route('feed.category', $cat->path?->slug) . '</code>'))
+                                                ->content(new HtmlString('<code style="user-select:all">'.route('feed.category', $cat->path?->slug).'</code>'))
                                             )->all()
                                     )),
                             ]),
@@ -366,41 +369,41 @@ class Settings extends Page
         $data = $this->form->getState();
 
         $settings = [
-            'site_name'        => ['group' => 'site',   'key' => 'name',      'type' => 'string'],
-            'site_logo'        => ['group' => 'site',   'key' => 'logo',      'type' => 'integer'],
-            'site_logo_dark'   => ['group' => 'site',   'key' => 'logo_dark', 'type' => 'integer'],
-            'site_favicon'     => ['group' => 'site',   'key' => 'favicon',   'type' => 'integer'],
-            'menu_header'      => ['group' => 'menu',   'key' => 'header',    'type' => 'integer'],
-            'menu_footer'      => ['group' => 'menu',   'key' => 'footer',    'type' => 'integer'],
-            'menu_max_depth'   => ['group' => 'menu',   'key' => 'max_depth', 'type' => 'integer'],
-            'footer_slogan'    => ['group' => 'footer', 'key' => 'slogan',    'type' => 'string'],
+            'site_name' => ['group' => 'site',   'key' => 'name',      'type' => 'string'],
+            'site_logo' => ['group' => 'site',   'key' => 'logo',      'type' => 'integer'],
+            'site_logo_dark' => ['group' => 'site',   'key' => 'logo_dark', 'type' => 'integer'],
+            'site_favicon' => ['group' => 'site',   'key' => 'favicon',   'type' => 'integer'],
+            'menu_header' => ['group' => 'menu',   'key' => 'header',    'type' => 'integer'],
+            'menu_footer' => ['group' => 'menu',   'key' => 'footer',    'type' => 'integer'],
+            'menu_max_depth' => ['group' => 'menu',   'key' => 'max_depth', 'type' => 'integer'],
+            'footer_slogan' => ['group' => 'footer', 'key' => 'slogan',    'type' => 'string'],
             'social_instagram' => ['group' => 'social', 'key' => 'instagram', 'type' => 'string'],
-            'social_youtube'   => ['group' => 'social', 'key' => 'youtube',   'type' => 'string'],
+            'social_youtube' => ['group' => 'social', 'key' => 'youtube',   'type' => 'string'],
             'social_pinterest' => ['group' => 'social', 'key' => 'pinterest', 'type' => 'string'],
-            'theme_light_primary'     => ['group' => 'theme', 'key' => 'light_primary',     'type' => 'string'],
-            'theme_dark_primary'      => ['group' => 'theme', 'key' => 'dark_primary',      'type' => 'string'],
-            'theme_light_secondary'   => ['group' => 'theme', 'key' => 'light_secondary',   'type' => 'string'],
-            'theme_dark_secondary'    => ['group' => 'theme', 'key' => 'dark_secondary',    'type' => 'string'],
-            'theme_light_background'  => ['group' => 'theme', 'key' => 'light_background',  'type' => 'string'],
-            'theme_dark_background'   => ['group' => 'theme', 'key' => 'dark_background',   'type' => 'string'],
-            'theme_light_text'        => ['group' => 'theme', 'key' => 'light_text',        'type' => 'string'],
-            'theme_dark_text'         => ['group' => 'theme', 'key' => 'dark_text',         'type' => 'string'],
-            'theme_light_surface'     => ['group' => 'theme', 'key' => 'light_surface',     'type' => 'string'],
-            'theme_dark_surface'      => ['group' => 'theme', 'key' => 'dark_surface',      'type' => 'string'],
-            'theme_light_text_muted'  => ['group' => 'theme', 'key' => 'light_text_muted',  'type' => 'string'],
-            'theme_dark_text_muted'   => ['group' => 'theme', 'key' => 'dark_text_muted',   'type' => 'string'],
+            'theme_light_primary' => ['group' => 'theme', 'key' => 'light_primary',     'type' => 'string'],
+            'theme_dark_primary' => ['group' => 'theme', 'key' => 'dark_primary',      'type' => 'string'],
+            'theme_light_secondary' => ['group' => 'theme', 'key' => 'light_secondary',   'type' => 'string'],
+            'theme_dark_secondary' => ['group' => 'theme', 'key' => 'dark_secondary',    'type' => 'string'],
+            'theme_light_background' => ['group' => 'theme', 'key' => 'light_background',  'type' => 'string'],
+            'theme_dark_background' => ['group' => 'theme', 'key' => 'dark_background',   'type' => 'string'],
+            'theme_light_text' => ['group' => 'theme', 'key' => 'light_text',        'type' => 'string'],
+            'theme_dark_text' => ['group' => 'theme', 'key' => 'dark_text',         'type' => 'string'],
+            'theme_light_surface' => ['group' => 'theme', 'key' => 'light_surface',     'type' => 'string'],
+            'theme_dark_surface' => ['group' => 'theme', 'key' => 'dark_surface',      'type' => 'string'],
+            'theme_light_text_muted' => ['group' => 'theme', 'key' => 'light_text_muted',  'type' => 'string'],
+            'theme_dark_text_muted' => ['group' => 'theme', 'key' => 'dark_text_muted',   'type' => 'string'],
             'theme_light_text_subtle' => ['group' => 'theme', 'key' => 'light_text_subtle', 'type' => 'string'],
-            'theme_dark_text_subtle'  => ['group' => 'theme', 'key' => 'dark_text_subtle',  'type' => 'string'],
-            'theme_light_border'      => ['group' => 'theme',    'key' => 'light_border', 'type' => 'string'],
-            'theme_dark_border'       => ['group' => 'theme',    'key' => 'dark_border',  'type' => 'string'],
-            'category_per_page'       => ['group' => 'content',     'key' => 'category_page_size', 'type' => 'integer'],
-            'maintenance_enabled'     => ['group' => 'maintenance', 'key' => 'enabled',            'type' => 'boolean'],
+            'theme_dark_text_subtle' => ['group' => 'theme', 'key' => 'dark_text_subtle',  'type' => 'string'],
+            'theme_light_border' => ['group' => 'theme',    'key' => 'light_border', 'type' => 'string'],
+            'theme_dark_border' => ['group' => 'theme',    'key' => 'dark_border',  'type' => 'string'],
+            'category_per_page' => ['group' => 'content',     'key' => 'category_page_size', 'type' => 'integer'],
+            'maintenance_enabled' => ['group' => 'maintenance', 'key' => 'enabled',            'type' => 'boolean'],
             'maintenance_allowed_ips' => ['group' => 'maintenance', 'key' => 'allowed_ips',        'type' => 'string'],
-            'rss_default_image'       => ['group' => 'rss',  'key' => 'default_image', 'type' => 'integer'],
-            'rss_title'               => ['group' => 'rss',  'key' => 'title',         'type' => 'string'],
-            'rss_description'         => ['group' => 'rss',  'key' => 'description',   'type' => 'string'],
-            'site_privacy_page'       => ['group' => 'site', 'key' => 'privacy_page',     'type' => 'integer'],
-            'site_homepage_content'   => ['group' => 'site', 'key' => 'homepage_content', 'type' => 'integer'],
+            'rss_default_image' => ['group' => 'rss',  'key' => 'default_image', 'type' => 'integer'],
+            'rss_title' => ['group' => 'rss',  'key' => 'title',         'type' => 'string'],
+            'rss_description' => ['group' => 'rss',  'key' => 'description',   'type' => 'string'],
+            'site_privacy_page' => ['group' => 'site', 'key' => 'privacy_page',     'type' => 'integer'],
+            'site_homepage_content' => ['group' => 'site', 'key' => 'homepage_content', 'type' => 'integer'],
         ];
 
         foreach ($settings as $field => $config) {

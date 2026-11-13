@@ -11,10 +11,10 @@ class InternalLinkExtensionTest extends FilamentTestCase
 {
     private function makeMark(mixed $postId): object
     {
-        $attrs       = new \stdClass();
+        $attrs = new \stdClass;
         $attrs->postId = $postId;
 
-        $mark        = new \stdClass();
+        $mark = new \stdClass;
         $mark->attrs = $attrs;
 
         return $mark;
@@ -26,16 +26,16 @@ class InternalLinkExtensionTest extends FilamentTestCase
 
     public function test_renders_anchor_tag(): void
     {
-        $post   = Content::factory()->published()->create();
-        $result = (new InternalLinkExtension())->renderHTML($this->makeMark($post->id), []);
+        $post = Content::factory()->published()->create();
+        $result = (new InternalLinkExtension)->renderHTML($this->makeMark($post->id), []);
 
         $this->assertSame('a', $result[0]);
     }
 
     public function test_renders_with_content_slot(): void
     {
-        $post   = Content::factory()->published()->create();
-        $result = (new InternalLinkExtension())->renderHTML($this->makeMark($post->id), []);
+        $post = Content::factory()->published()->create();
+        $result = (new InternalLinkExtension)->renderHTML($this->makeMark($post->id), []);
 
         $this->assertSame(0, $result[2]);
     }
@@ -46,22 +46,22 @@ class InternalLinkExtensionTest extends FilamentTestCase
 
     public function test_resolves_post_id_to_url(): void
     {
-        $post   = Content::factory()->published()->create();
-        $result = (new InternalLinkExtension())->renderHTML($this->makeMark($post->id), []);
+        $post = Content::factory()->published()->create();
+        $result = (new InternalLinkExtension)->renderHTML($this->makeMark($post->id), []);
 
         $this->assertStringContainsString($post->path->url, $result[1]['href']);
     }
 
     public function test_falls_back_to_hash_when_post_not_found(): void
     {
-        $result = (new InternalLinkExtension())->renderHTML($this->makeMark(99999), []);
+        $result = (new InternalLinkExtension)->renderHTML($this->makeMark(99999), []);
 
         $this->assertSame('#', $result[1]['href']);
     }
 
     public function test_falls_back_to_hash_when_post_id_is_null(): void
     {
-        $result = (new InternalLinkExtension())->renderHTML($this->makeMark(null), []);
+        $result = (new InternalLinkExtension)->renderHTML($this->makeMark(null), []);
 
         $this->assertSame('#', $result[1]['href']);
     }
@@ -72,8 +72,8 @@ class InternalLinkExtensionTest extends FilamentTestCase
 
     public function test_merges_extra_html_attributes(): void
     {
-        $post   = Content::factory()->published()->create();
-        $result = (new InternalLinkExtension())->renderHTML(
+        $post = Content::factory()->published()->create();
+        $result = (new InternalLinkExtension)->renderHTML(
             $this->makeMark($post->id),
             ['class' => 'my-link', 'data-test' => 'value'],
         );
@@ -89,9 +89,9 @@ class InternalLinkExtensionTest extends FilamentTestCase
 
     public function test_same_post_is_queried_only_once(): void
     {
-        $post      = Content::factory()->published()->create();
-        $extension = new InternalLinkExtension();
-        $mark      = $this->makeMark($post->id);
+        $post = Content::factory()->published()->create();
+        $extension = new InternalLinkExtension;
+        $mark = $this->makeMark($post->id);
 
         $queryCount = 0;
         DB::listen(function ($query) use (&$queryCount) {

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class AffiliateLink extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'affiliate_network_id',
         'name',
@@ -22,7 +23,7 @@ class AffiliateLink extends Model
     ];
 
     protected $casts = [
-        'is_active'      => 'boolean',
+        'is_active' => 'boolean',
         'last_checked_at' => 'datetime',
     ];
 

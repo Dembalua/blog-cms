@@ -90,9 +90,9 @@ class CategoryResourceTest extends FilamentTestCase
 
         Livewire::test(CreateCategory::class)
             ->fillForm([
-                'name'      => $data->name,
+                'name' => $data->name,
                 'path.slug' => Str::slug($data->name),
-                'active'    => true,
+                'active' => true,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -105,8 +105,8 @@ class CategoryResourceTest extends FilamentTestCase
 
         $this->assertDatabaseHas('paths', [
             'model_type' => Category::class,
-            'model_id'   => $category->id,
-            'slug'       => Str::slug($data->name),
+            'model_id' => $category->id,
+            'slug' => Str::slug($data->name),
         ]);
     }
 
@@ -153,7 +153,7 @@ class CategoryResourceTest extends FilamentTestCase
     {
         Livewire::test(CreateCategory::class)
             ->fillForm([
-                'name'      => 'Some Category',
+                'name' => 'Some Category',
                 'path.slug' => null,
             ])
             ->call('create')
@@ -182,7 +182,7 @@ class CategoryResourceTest extends FilamentTestCase
         Livewire::test(EditCategory::class, ['record' => $category->getRouteKey()])
             ->assertOk()
             ->assertSchemaStateSet([
-                'name'      => $category->name,
+                'name' => $category->name,
                 'path.slug' => $category->path->slug,
             ]);
     }
@@ -197,7 +197,7 @@ class CategoryResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('categories', [
-            'id'   => $category->id,
+            'id' => $category->id,
             'name' => 'Updated Name',
         ]);
     }
@@ -214,12 +214,12 @@ class CategoryResourceTest extends FilamentTestCase
 
         $this->assertDatabaseMissing('paths', [
             'model_type' => Category::class,
-            'model_id'   => $category->id,
+            'model_id' => $category->id,
         ]);
 
         $this->assertDatabaseHas('path_redirects', [
-            'old_path'    => $url,
-            'new_path'    => null,
+            'old_path' => $url,
+            'new_path' => null,
             'status_code' => 410,
         ]);
     }

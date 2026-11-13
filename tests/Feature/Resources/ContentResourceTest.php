@@ -12,6 +12,8 @@ use App\Models\Cluster;
 use App\Models\Content;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
+use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Tests\FilamentTestCase;
@@ -134,11 +136,11 @@ class ContentResourceTest extends FilamentTestCase
 
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'     => $data->title,
+                'title' => $data->title,
                 'path.slug' => Str::slug($data->title),
-                'content'   => $data->content,
-                'type'      => ContentType::POST->value,
-                'status'    => ContentStatus::DRAFT->value,
+                'content' => $data->content,
+                'type' => ContentType::POST->value,
+                'status' => ContentStatus::DRAFT->value,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -147,13 +149,13 @@ class ContentResourceTest extends FilamentTestCase
 
         $this->assertDatabaseHas('contents', [
             'title' => $data->title,
-            'type'  => ContentType::POST->value,
+            'type' => ContentType::POST->value,
         ]);
 
         $this->assertDatabaseHas('paths', [
             'model_type' => Content::class,
-            'model_id'   => $content->id,
-            'slug'       => Str::slug($data->title),
+            'model_id' => $content->id,
+            'slug' => Str::slug($data->title),
         ]);
     }
 
@@ -163,18 +165,18 @@ class ContentResourceTest extends FilamentTestCase
 
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'     => $data->title,
+                'title' => $data->title,
                 'path.slug' => Str::slug($data->title),
-                'content'   => $data->content,
-                'type'      => ContentType::PAGE->value,
-                'status'    => ContentStatus::DRAFT->value,
+                'content' => $data->content,
+                'type' => ContentType::PAGE->value,
+                'status' => ContentStatus::DRAFT->value,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('contents', [
             'title' => $data->title,
-            'type'  => ContentType::PAGE->value,
+            'type' => ContentType::PAGE->value,
         ]);
     }
 
@@ -190,7 +192,7 @@ class ContentResourceTest extends FilamentTestCase
     {
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'     => 'Some Content',
+                'title' => 'Some Content',
                 'path.slug' => null,
             ])
             ->call('create')
@@ -211,7 +213,7 @@ class ContentResourceTest extends FilamentTestCase
             ->fillForm(['title' => 'My Title'])
             ->assertSchemaStateSet([
                 'metaData.meta_title' => 'My Title',
-                'metaData.og_title'   => 'My Title',
+                'metaData.og_title' => 'My Title',
             ]);
     }
 
@@ -220,12 +222,12 @@ class ContentResourceTest extends FilamentTestCase
         Livewire::test(CreateContent::class)
             ->fillForm([
                 'metaData.meta_title' => 'Custom Meta',
-                'metaData.og_title'   => 'Custom OG',
+                'metaData.og_title' => 'Custom OG',
             ])
             ->fillForm(['title' => 'My Title'])
             ->assertSchemaStateSet([
                 'metaData.meta_title' => 'Custom Meta',
-                'metaData.og_title'   => 'Custom OG',
+                'metaData.og_title' => 'Custom OG',
             ]);
     }
 
@@ -234,14 +236,14 @@ class ContentResourceTest extends FilamentTestCase
         $content = Content::factory()->create();
         $content->metaData()->create([
             'meta_title' => 'Existing Meta',
-            'og_title'   => 'Existing OG',
+            'og_title' => 'Existing OG',
         ]);
 
         Livewire::test(EditContent::class, ['record' => $content->getRouteKey()])
             ->fillForm(['title' => 'Changed Title'])
             ->assertSchemaStateSet([
                 'metaData.meta_title' => 'Existing Meta',
-                'metaData.og_title'   => 'Existing OG',
+                'metaData.og_title' => 'Existing OG',
             ]);
     }
 
@@ -251,15 +253,15 @@ class ContentResourceTest extends FilamentTestCase
 
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'     => $data->title,
+                'title' => $data->title,
                 'path.slug' => Str::slug($data->title),
-                'content'   => $data->content,
+                'content' => $data->content,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('contents', [
-            'title'     => $data->title,
+            'title' => $data->title,
             'author_id' => auth()->id(),
         ]);
     }
@@ -275,7 +277,7 @@ class ContentResourceTest extends FilamentTestCase
         Livewire::test(EditContent::class, ['record' => $content->getRouteKey()])
             ->assertOk()
             ->assertSchemaStateSet([
-                'title'     => $content->title,
+                'title' => $content->title,
                 'path.slug' => $content->path->slug,
             ]);
     }
@@ -290,7 +292,7 @@ class ContentResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('contents', [
-            'id'    => $content->id,
+            'id' => $content->id,
             'title' => 'Updated Title',
         ]);
     }
@@ -305,7 +307,7 @@ class ContentResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('contents', [
-            'id'     => $content->id,
+            'id' => $content->id,
             'status' => ContentStatus::PUBLISHED->value,
         ]);
     }
@@ -322,12 +324,12 @@ class ContentResourceTest extends FilamentTestCase
 
         $this->assertDatabaseMissing('paths', [
             'model_type' => Content::class,
-            'model_id'   => $content->id,
+            'model_id' => $content->id,
         ]);
 
         $this->assertDatabaseHas('path_redirects', [
-            'old_path'    => $url,
-            'new_path'    => null,
+            'old_path' => $url,
+            'new_path' => null,
             'status_code' => 410,
         ]);
     }
@@ -343,11 +345,11 @@ class ContentResourceTest extends FilamentTestCase
 
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'       => $data->title,
-                'path.slug'   => Str::slug($data->title),
-                'content'     => $data->content,
-                'type'        => ContentType::POST->value,
-                'status'      => ContentStatus::DRAFT->value,
+                'title' => $data->title,
+                'path.slug' => Str::slug($data->title),
+                'content' => $data->content,
+                'type' => ContentType::POST->value,
+                'status' => ContentStatus::DRAFT->value,
                 'category_id' => $category->id,
             ])
             ->call('create')
@@ -377,9 +379,9 @@ class ContentResourceTest extends FilamentTestCase
 
     public function test_can_filter_by_cluster(): void
     {
-        $cluster       = Cluster::factory()->create();
-        $inCluster     = Content::factory()->count(2)->create(['cluster_id' => $cluster->id]);
-        $notInCluster  = Content::factory()->count(2)->create(['cluster_id' => null]);
+        $cluster = Cluster::factory()->create();
+        $inCluster = Content::factory()->count(2)->create(['cluster_id' => $cluster->id]);
+        $notInCluster = Content::factory()->count(2)->create(['cluster_id' => null]);
 
         Livewire::test(ListContents::class)
             ->filterTable('cluster_id', $cluster->id)
@@ -389,8 +391,8 @@ class ContentResourceTest extends FilamentTestCase
 
     public function test_can_filter_by_is_pillar(): void
     {
-        $cluster  = Cluster::factory()->create();
-        $pillar   = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
+        $cluster = Cluster::factory()->create();
+        $pillar = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
         $nonPilar = Content::factory()->create(['cluster_id' => $cluster->id]);
 
         Livewire::test(ListContents::class)
@@ -406,19 +408,19 @@ class ContentResourceTest extends FilamentTestCase
     public function test_pillar_validation_fails_when_cluster_already_has_pillar(): void
     {
         $category = Category::factory()->create();
-        $cluster  = Cluster::factory()->create(['category_id' => $category->id]);
+        $cluster = Cluster::factory()->create(['category_id' => $category->id]);
         Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
 
         $data = Content::factory()->post()->make();
 
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'       => $data->title,
-                'path.slug'   => Str::slug($data->title),
-                'content'     => $data->content,
+                'title' => $data->title,
+                'path.slug' => Str::slug($data->title),
+                'content' => $data->content,
                 'category_id' => $category->id,
-                'cluster_id'  => $cluster->id,
-                'is_pillar'   => true,
+                'cluster_id' => $cluster->id,
+                'is_pillar' => true,
             ])
             ->call('create')
             ->assertHasFormErrors(['is_pillar']);
@@ -427,24 +429,24 @@ class ContentResourceTest extends FilamentTestCase
     public function test_pillar_validation_passes_when_no_pillar_exists_in_cluster(): void
     {
         $category = Category::factory()->create();
-        $cluster  = Cluster::factory()->create(['category_id' => $category->id]);
+        $cluster = Cluster::factory()->create(['category_id' => $category->id]);
 
         $data = Content::factory()->post()->make();
 
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'       => $data->title,
-                'path.slug'   => Str::slug($data->title),
-                'content'     => $data->content,
+                'title' => $data->title,
+                'path.slug' => Str::slug($data->title),
+                'content' => $data->content,
                 'category_id' => $category->id,
-                'cluster_id'  => $cluster->id,
-                'is_pillar'   => true,
+                'cluster_id' => $cluster->id,
+                'is_pillar' => true,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('contents', [
-            'title'     => $data->title,
+            'title' => $data->title,
             'is_pillar' => true,
         ]);
     }
@@ -452,7 +454,7 @@ class ContentResourceTest extends FilamentTestCase
     public function test_pillar_validation_ignores_current_record_on_edit(): void
     {
         $cluster = Cluster::factory()->create();
-        $pillar  = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
+        $pillar = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
 
         Livewire::test(EditContent::class, ['record' => $pillar->getRouteKey()])
             ->fillForm(['is_pillar' => true])
@@ -463,7 +465,7 @@ class ContentResourceTest extends FilamentTestCase
     public function test_is_pillar_stored_as_null_when_toggled_off(): void
     {
         $cluster = Cluster::factory()->create();
-        $pillar  = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
+        $pillar = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
 
         Livewire::test(EditContent::class, ['record' => $pillar->getRouteKey()])
             ->fillForm(['is_pillar' => false])
@@ -471,7 +473,7 @@ class ContentResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('contents', [
-            'id'       => $pillar->id,
+            'id' => $pillar->id,
             'is_pillar' => null,
         ]);
     }
@@ -495,17 +497,17 @@ class ContentResourceTest extends FilamentTestCase
     {
         $categoryA = Category::factory()->create();
         $categoryB = Category::factory()->create();
-        $clusterB  = Cluster::factory()->create(['category_id' => $categoryB->id]);
+        $clusterB = Cluster::factory()->create(['category_id' => $categoryB->id]);
 
         $data = Content::factory()->post()->make();
 
         Livewire::test(CreateContent::class)
             ->fillForm([
-                'title'       => $data->title,
-                'path.slug'   => Str::slug($data->title),
-                'content'     => $data->content,
+                'title' => $data->title,
+                'path.slug' => Str::slug($data->title),
+                'content' => $data->content,
                 'category_id' => $categoryA->id,
-                'cluster_id'  => $clusterB->id,
+                'cluster_id' => $clusterB->id,
             ])
             ->call('create')
             ->assertHasFormErrors(['cluster_id']);
@@ -515,12 +517,12 @@ class ContentResourceTest extends FilamentTestCase
     {
         $categoryA = Category::factory()->create();
         $categoryB = Category::factory()->create();
-        $clusterA  = Cluster::factory()->create(['category_id' => $categoryA->id]);
+        $clusterA = Cluster::factory()->create(['category_id' => $categoryA->id]);
 
         Livewire::test(CreateContent::class)
             ->fillForm([
                 'category_id' => $categoryA->id,
-                'cluster_id'  => $clusterA->id,
+                'cluster_id' => $clusterA->id,
             ])
             ->assertSchemaStateSet(['cluster_id' => $clusterA->id])
             ->fillForm(['category_id' => $categoryB->id])
@@ -534,15 +536,15 @@ class ContentResourceTest extends FilamentTestCase
     public function test_two_contents_in_same_category_cannot_share_the_same_url(): void
     {
         $category = Category::factory()->create();
-        $first    = Content::factory()->create(['category_id' => $category->id]);
+        $first = Content::factory()->create(['category_id' => $category->id]);
 
-        $this->expectException(\Illuminate\Database\UniqueConstraintViolationException::class);
+        $this->expectException(UniqueConstraintViolationException::class);
 
-        \Illuminate\Support\Facades\DB::table('paths')->insert([
+        DB::table('paths')->insert([
             'model_type' => Content::class,
-            'model_id'   => 999,
-            'slug'       => $first->path->slug,
-            'url'        => $first->path->url,
+            'model_id' => 999,
+            'slug' => $first->path->slug,
+            'url' => $first->path->url,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -562,7 +564,7 @@ class ContentResourceTest extends FilamentTestCase
 
     public function test_inbound_links_tab_shows_linking_article_title(): void
     {
-        $target  = Content::factory()->create();
+        $target = Content::factory()->create();
         $linking = Content::factory()->create([
             'content' => $this->makeContentWithInternalLink($target->id),
         ]);
@@ -574,7 +576,7 @@ class ContentResourceTest extends FilamentTestCase
 
     public function test_inbound_links_tab_shows_correct_count(): void
     {
-        $target   = Content::factory()->create();
+        $target = Content::factory()->create();
         $linkingA = Content::factory()->create([
             'content' => $this->makeContentWithInternalLink($target->id),
         ]);
@@ -590,9 +592,9 @@ class ContentResourceTest extends FilamentTestCase
 
     public function test_inbound_links_tab_does_not_show_unrelated_articles(): void
     {
-        $target      = Content::factory()->create();
-        $unrelated   = Content::factory()->create();
-        $linking     = Content::factory()->create([
+        $target = Content::factory()->create();
+        $unrelated = Content::factory()->create();
+        $linking = Content::factory()->create([
             'content' => $this->makeContentWithInternalLink($target->id),
         ]);
 
@@ -604,10 +606,10 @@ class ContentResourceTest extends FilamentTestCase
     public function test_inbound_links_tab_shows_category_badge_when_present(): void
     {
         $category = Category::factory()->create();
-        $target   = Content::factory()->create();
+        $target = Content::factory()->create();
         Content::factory()->create([
             'category_id' => $category->id,
-            'content'     => $this->makeContentWithInternalLink($target->id),
+            'content' => $this->makeContentWithInternalLink($target->id),
         ]);
 
         Livewire::test(EditContent::class, ['record' => $target->getRouteKey()])
@@ -617,15 +619,15 @@ class ContentResourceTest extends FilamentTestCase
     private function makeContentWithInternalLink(int $postId): array
     {
         return [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => [
                 [
-                    'type'    => 'paragraph',
-                    'attrs'   => ['textAlign' => 'start'],
+                    'type' => 'paragraph',
+                    'attrs' => ['textAlign' => 'start'],
                     'content' => [
                         [
-                            'type'  => 'text',
-                            'text'  => 'See also this article.',
+                            'type' => 'text',
+                            'text' => 'See also this article.',
                             'marks' => [
                                 ['type' => 'internalLink', 'attrs' => ['postId' => $postId]],
                             ],

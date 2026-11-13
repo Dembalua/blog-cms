@@ -14,7 +14,7 @@ class AffiliateNetworkLinksWidget extends TableWidget
 {
     public ?Model $record = null;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getTableHeading(): string
     {
@@ -39,7 +39,7 @@ class AffiliateNetworkLinksWidget extends TableWidget
                     ->sortable(),
                 TextColumn::make('slug')
                     ->label(__('resource.affiliate_link_resource.form.slug'))
-                    ->formatStateUsing(fn($state) => 'go/' . $state),
+                    ->formatStateUsing(fn ($state) => 'go/'.$state),
                 IconColumn::make('is_active')
                     ->label(__('resource.affiliate_link_resource.form.is_active'))
                     ->boolean()

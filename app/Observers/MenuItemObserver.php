@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Models\Content;
 use App\Models\MenuItem;
 use App\Services\PathService;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 
 class MenuItemObserver

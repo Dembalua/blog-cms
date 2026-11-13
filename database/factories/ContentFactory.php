@@ -21,7 +21,7 @@ class ContentFactory extends Factory
         return [
             'title' => $title,
             'excerpt' => fake()->optional()->text(100),
-            'content' => RichContentRenderer::make('<p>' . implode('</p><p>', fake()->paragraphs(3)) . '</p>')->toArray(),
+            'content' => RichContentRenderer::make('<p>'.implode('</p><p>', fake()->paragraphs(3)).'</p>')->toArray(),
             'feature_image_id' => null,
             'is_featured' => false,
             'type' => ContentType::POST->value,
@@ -37,7 +37,7 @@ class ContentFactory extends Factory
         return $this->afterCreating(function (Content $content) {
             $content->path()->create([
                 'slug' => Str::slug($content->title, '-', 'de'),
-                'url'  => Str::slug($content->title, '-', 'de'),
+                'url' => Str::slug($content->title, '-', 'de'),
             ]);
         });
     }
@@ -68,7 +68,7 @@ class ContentFactory extends Factory
     public function scheduled(): static
     {
         return $this->state([
-            'status'       => ContentStatus::SCHEDULED->value,
+            'status' => ContentStatus::SCHEDULED->value,
             'published_at' => now()->subHour(),
         ]);
     }

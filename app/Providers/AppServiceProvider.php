@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Mail\CmsError;
 use App\Models\AffiliateLink;
 use App\Models\Content;
 use App\Models\MenuItem;
@@ -14,7 +15,6 @@ use App\View\MenuComposer;
 use App\View\SiteComposer;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
-use App\Mail\CmsError;
 use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -32,17 +32,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->extend(
             HtmlSanitizerConfig::class,
             fn (HtmlSanitizerConfig $config) => $config
-                ->allowElement('svg',      ['fill', 'stroke', 'stroke-width', 'width', 'height', 'aria-hidden', 'role'])
-                ->allowElement('path',     ['fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'fill-rule', 'clip-rule'])
-                ->allowElement('circle',   ['cx', 'cy', 'r', 'fill', 'stroke', 'stroke-width'])
-                ->allowElement('rect',     ['x', 'y', 'width', 'height', 'rx', 'ry', 'fill', 'stroke'])
-                ->allowElement('line',     ['x1', 'y1', 'x2', 'y2', 'stroke', 'stroke-width', 'stroke-linecap'])
+                ->allowElement('svg', ['fill', 'stroke', 'stroke-width', 'width', 'height', 'aria-hidden', 'role'])
+                ->allowElement('path', ['fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'fill-rule', 'clip-rule'])
+                ->allowElement('circle', ['cx', 'cy', 'r', 'fill', 'stroke', 'stroke-width'])
+                ->allowElement('rect', ['x', 'y', 'width', 'height', 'rx', 'ry', 'fill', 'stroke'])
+                ->allowElement('line', ['x1', 'y1', 'x2', 'y2', 'stroke', 'stroke-width', 'stroke-linecap'])
                 ->allowElement('polyline', ['points', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin'])
-                ->allowElement('polygon',  ['points', 'fill', 'stroke'])
-                ->allowElement('g',        ['fill', 'stroke', 'transform', 'opacity'])
-                ->allowElement('defs',     [])
-                ->allowAttribute('viewbox',     allowedElements: 'svg')
-                ->allowAttribute('d',           allowedElements: 'path')
+                ->allowElement('polygon', ['points', 'fill', 'stroke'])
+                ->allowElement('g', ['fill', 'stroke', 'transform', 'opacity'])
+                ->allowElement('defs', [])
+                ->allowAttribute('viewbox', allowedElements: 'svg')
+                ->allowAttribute('d', allowedElements: 'path')
                 ->allowAttribute('aria-hidden', allowedElements: '*'),
         );
     }

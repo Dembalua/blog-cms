@@ -31,7 +31,7 @@ class AffiliateLinksTable
                     ->toggleable(),
                 TextColumn::make('slug')
                     ->label(__('resource.affiliate_link_resource.form.slug'))
-                    ->formatStateUsing(fn($state) => 'go/' . $state)
+                    ->formatStateUsing(fn ($state) => 'go/'.$state)
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -51,12 +51,12 @@ class AffiliateLinksTable
                 TextColumn::make('last_status_code')
                     ->label(__('resource.affiliate_link_resource.table.last_status_code'))
                     ->badge()
-                    ->color(fn($state) => match (true) {
-                        $state === null        => 'gray',
+                    ->color(fn ($state) => match (true) {
+                        $state === null => 'gray',
                         $state >= 200 && $state < 300 => 'success',
-                        default                => 'danger',
+                        default => 'danger',
                     })
-                    ->formatStateUsing(fn($state) => $state ?? '—')
+                    ->formatStateUsing(fn ($state) => $state ?? '—')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('last_checked_at')
@@ -71,7 +71,7 @@ class AffiliateLinksTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->striped()
-            ->modifyQueryUsing(fn($query) => $query->addSelect([
+            ->modifyQueryUsing(fn ($query) => $query->addSelect([
                 'articles_count' => Content::selectRaw('COUNT(*)')
                     ->whereRaw("content LIKE CONCAT('%\"affiliateLinkId\":', affiliate_links.id, '%')"),
             ]))
@@ -84,7 +84,7 @@ class AffiliateLinksTable
                     ->label(__('resource.affiliate_link_resource.form.is_active')),
                 Filter::make('unused')
                     ->label(__('resource.affiliate_link_resource.filters.unused'))
-                    ->query(fn($query) => $query->whereNotExists(function ($sub) {
+                    ->query(fn ($query) => $query->whereNotExists(function ($sub) {
                         $sub->select(DB::raw(1))
                             ->from('contents')
                             ->whereRaw("content LIKE CONCAT('%\"affiliateLinkId\":', affiliate_links.id, '%')");
@@ -92,7 +92,7 @@ class AffiliateLinksTable
                     ->toggle(),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->filtersFormColumns(2)
-            ->filtersFormSchema(fn(array $filters): array => [
+            ->filtersFormSchema(fn (array $filters): array => [
                 Section::make()
                     ->schema([
                         $filters['affiliate_network_id'],

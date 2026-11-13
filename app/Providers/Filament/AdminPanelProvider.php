@@ -75,27 +75,27 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make()
-                    ->navigationGroup(fn() => __('resource.navigation_groups.user_management'))
+                    ->navigationGroup(fn () => __('resource.navigation_groups.user_management'))
                     ->navigationSort(1),
                 CuratorPlugin::make()
-                ->navigationGroup(fn() => __('resource.navigation_groups.editorial'))
-                ->navigationSort(3),
+                    ->navigationGroup(fn () => __('resource.navigation_groups.editorial'))
+                    ->navigationSort(3),
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                    ->label(fn() => __('resource.navigation_groups.editorial'))
+                    ->label(fn () => __('resource.navigation_groups.editorial'))
                     ->collapsible(),
                 NavigationGroup::make()
-                    ->label(fn() => __('resource.navigation_groups.affiliate'))
+                    ->label(fn () => __('resource.navigation_groups.affiliate'))
                     ->collapsible(),
                 NavigationGroup::make()
-                    ->label(fn() => __('resource.navigation_groups.system'))
+                    ->label(fn () => __('resource.navigation_groups.system'))
                     ->collapsible(),
                 NavigationGroup::make()
-                    ->label(fn() => __('resource.navigation_groups.user_management'))
+                    ->label(fn () => __('resource.navigation_groups.user_management'))
                     ->collapsible(),
             ]);
     }

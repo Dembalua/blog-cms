@@ -22,7 +22,7 @@ class PublishIndexNowKey extends Command
         }
 
         $key = config('services.indexnow.key');
-        $this->info('Published key file: ' . public_path($key . '.txt'));
+        $this->info('Published key file: '.public_path($key.'.txt'));
 
         return self::SUCCESS;
     }

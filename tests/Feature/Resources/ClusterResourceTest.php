@@ -50,7 +50,7 @@ class ClusterResourceTest extends FilamentTestCase
     {
         Cluster::factory()->count(5)->create();
 
-        $sortedAsc  = Cluster::query()->orderBy('title')->get();
+        $sortedAsc = Cluster::query()->orderBy('title')->get();
         $sortedDesc = Cluster::query()->orderBy('title', 'desc')->get();
 
         Livewire::test(ListClusters::class)
@@ -76,7 +76,7 @@ class ClusterResourceTest extends FilamentTestCase
 
         Livewire::test(CreateCluster::class)
             ->fillForm([
-                'title'       => 'Developer Growth',
+                'title' => 'Developer Growth',
                 'category_id' => $category->id,
             ])
             ->call('create')
@@ -100,7 +100,7 @@ class ClusterResourceTest extends FilamentTestCase
 
         Livewire::test(CreateCluster::class)
             ->fillForm([
-                'title'       => 'Existing Cluster',
+                'title' => 'Existing Cluster',
                 'category_id' => $category->id,
             ])
             ->call('create')
@@ -140,7 +140,7 @@ class ClusterResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('clusters', [
-            'id'    => $cluster->id,
+            'id' => $cluster->id,
             'title' => 'Updated Title',
         ]);
     }
@@ -148,7 +148,7 @@ class ClusterResourceTest extends FilamentTestCase
     public function test_title_must_be_unique_but_ignores_current_record(): void
     {
         $cluster = Cluster::factory()->create([
-            'title'       => 'My Cluster',
+            'title' => 'My Cluster',
             'category_id' => Category::factory()->create()->id,
         ]);
 
@@ -161,11 +161,11 @@ class ClusterResourceTest extends FilamentTestCase
     public function test_title_must_be_unique_on_edit(): void
     {
         Cluster::factory()->create([
-            'title'       => 'Taken Title',
+            'title' => 'Taken Title',
             'category_id' => Category::factory()->create()->id,
         ]);
         $cluster = Cluster::factory()->create([
-            'title'       => 'My Cluster',
+            'title' => 'My Cluster',
             'category_id' => Category::factory()->create()->id,
         ]);
 
@@ -248,7 +248,7 @@ class ClusterResourceTest extends FilamentTestCase
     {
         $cluster = Cluster::factory()->create();
         $article = Content::factory()->create(['cluster_id' => $cluster->id]);
-        $other   = Content::factory()->create();
+        $other = Content::factory()->create();
 
         Livewire::test(ClusterContentsWidget::class, ['record' => $cluster])
             ->assertCanSeeTableRecords([$article])
@@ -258,7 +258,7 @@ class ClusterResourceTest extends FilamentTestCase
     public function test_contents_widget_shows_pillar_article(): void
     {
         $cluster = Cluster::factory()->create();
-        $pillar  = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
+        $pillar = Content::factory()->create(['cluster_id' => $cluster->id, 'is_pillar' => true]);
 
         Livewire::test(ClusterContentsWidget::class, ['record' => $cluster])
             ->assertCanSeeTableRecords([$pillar]);

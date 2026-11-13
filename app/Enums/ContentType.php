@@ -6,22 +6,22 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum ContentType: string implements HasLabel, HasColor
+enum ContentType: string implements HasColor, HasLabel
 {
     case POST = 'post';
     case PAGE = 'page';
     case HOMEPAGE = 'homepage';
 
-    public function getLabel(): string|htmlable|null
+    public function getLabel(): string|Htmlable|null
     {
-        return mb_strtoupper(__('enums.content_type.' . $this->value));
+        return mb_strtoupper(__('enums.content_type.'.$this->value));
     }
 
     public function getColor(): string|array|null
     {
-        return match($this) {
-            self::POST     => 'primary',
-            self::PAGE     => 'success',
+        return match ($this) {
+            self::POST => 'primary',
+            self::PAGE => 'success',
             self::HOMEPAGE => 'warning',
         };
     }

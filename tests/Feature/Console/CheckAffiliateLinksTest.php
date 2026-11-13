@@ -19,7 +19,7 @@ class CheckAffiliateLinksTest extends FilamentTestCase
         $this->artisan('affiliate-links:check');
 
         $this->assertDatabaseHas('affiliate_links', [
-            'id'               => $link->id,
+            'id' => $link->id,
             'last_status_code' => 200,
         ]);
 
@@ -79,7 +79,7 @@ class CheckAffiliateLinksTest extends FilamentTestCase
         $this->artisan('affiliate-links:check');
 
         $this->assertDatabaseHas('affiliate_links', [
-            'id'               => $link->id,
+            'id' => $link->id,
             'last_status_code' => 200,
         ]);
     }
@@ -88,12 +88,12 @@ class CheckAffiliateLinksTest extends FilamentTestCase
     {
         $link = AffiliateLink::factory()->create(['url' => 'https://example.com/unreachable']);
 
-        Http::fake(['https://example.com/unreachable' => fn() => throw new \Exception('Connection failed')]);
+        Http::fake(['https://example.com/unreachable' => fn () => throw new \Exception('Connection failed')]);
 
         $this->artisan('affiliate-links:check');
 
         $this->assertDatabaseHas('affiliate_links', [
-            'id'               => $link->id,
+            'id' => $link->id,
             'last_status_code' => 0,
         ]);
     }

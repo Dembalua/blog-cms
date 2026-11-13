@@ -98,7 +98,7 @@ class QuizBlockTest extends FilamentTestCase
             [
                 'questions' => [[
                     'question' => 'Are you a morning person?',
-                    'answers'  => [
+                    'answers' => [
                         ['label' => 'Absolutely yes', 'points' => 5],
                         ['label' => 'Not at all', 'points' => 1],
                     ],
@@ -120,9 +120,9 @@ class QuizBlockTest extends FilamentTestCase
         $html = QuizBlock::toHtml(
             [
                 'questions' => [],
-                'results'   => [[
-                    'heading'    => 'Klare Lerche',
-                    'body'       => 'Du bist morgens am aktivsten.',
+                'results' => [[
+                    'heading' => 'Klare Lerche',
+                    'body' => 'Du bist morgens am aktivsten.',
                     'min_points' => 5,
                     'max_points' => 9,
                 ]],
@@ -140,10 +140,10 @@ class QuizBlockTest extends FilamentTestCase
     {
         $html = QuizBlock::toHtml(
             [
-                'heading'   => 'Quiz Title',
+                'heading' => 'Quiz Title',
                 'questions' => [[
                     'question' => 'Config Question',
-                    'answers'  => [['label' => 'A', 'points' => 1]],
+                    'answers' => [['label' => 'A', 'points' => 1]],
                 ]],
                 'results' => [],
             ],
@@ -161,19 +161,19 @@ class QuizBlockTest extends FilamentTestCase
     public function test_to_html_renders_internal_link_when_post_selected(): void
     {
         $cluster = Cluster::factory()->create();
-        $post    = Content::factory()->published()->create([
+        $post = Content::factory()->published()->create([
             'cluster_id' => $cluster->id,
-            'title'      => 'Linked Article',
+            'title' => 'Linked Article',
         ]);
 
         $html = QuizBlock::toHtml(
             [
                 'questions' => [],
-                'results'   => [[
-                    'heading'      => 'A',
-                    'body'         => 'a',
-                    'min_points'   => 0,
-                    'max_points'   => 10,
+                'results' => [[
+                    'heading' => 'A',
+                    'body' => 'a',
+                    'min_points' => 0,
+                    'max_points' => 10,
                     'link_post_id' => $post->id,
                 ]],
             ],
@@ -189,9 +189,9 @@ class QuizBlockTest extends FilamentTestCase
         $html = QuizBlock::toHtml(
             [
                 'questions' => [],
-                'results'   => [[
-                    'heading'    => 'A',
-                    'body'       => 'a',
+                'results' => [[
+                    'heading' => 'A',
+                    'body' => 'a',
                     'min_points' => 0,
                     'max_points' => 10,
                 ]],
@@ -207,11 +207,11 @@ class QuizBlockTest extends FilamentTestCase
         $html = QuizBlock::toHtml(
             [
                 'questions' => [],
-                'results'   => [[
-                    'heading'      => 'A',
-                    'body'         => 'a',
-                    'min_points'   => 0,
-                    'max_points'   => 10,
+                'results' => [[
+                    'heading' => 'A',
+                    'body' => 'a',
+                    'min_points' => 0,
+                    'max_points' => 10,
                     'link_post_id' => 99999,
                 ]],
             ],
@@ -224,17 +224,17 @@ class QuizBlockTest extends FilamentTestCase
     public function test_to_html_link_with_arrow_class_when_enabled(): void
     {
         $cluster = Cluster::factory()->create();
-        $post    = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
+        $post = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
 
         $html = QuizBlock::toHtml(
             [
                 'questions' => [],
-                'results'   => [[
-                    'heading'         => 'A',
-                    'body'            => 'a',
-                    'min_points'      => 0,
-                    'max_points'      => 10,
-                    'link_post_id'    => $post->id,
+                'results' => [[
+                    'heading' => 'A',
+                    'body' => 'a',
+                    'min_points' => 0,
+                    'max_points' => 10,
+                    'link_post_id' => $post->id,
                     'link_with_arrow' => true,
                 ]],
             ],
@@ -247,17 +247,17 @@ class QuizBlockTest extends FilamentTestCase
     public function test_to_html_link_without_arrow_class_when_disabled(): void
     {
         $cluster = Cluster::factory()->create();
-        $post    = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
+        $post = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
 
         $html = QuizBlock::toHtml(
             [
                 'questions' => [],
-                'results'   => [[
-                    'heading'         => 'A',
-                    'body'            => 'a',
-                    'min_points'      => 0,
-                    'max_points'      => 10,
-                    'link_post_id'    => $post->id,
+                'results' => [[
+                    'heading' => 'A',
+                    'body' => 'a',
+                    'min_points' => 0,
+                    'max_points' => 10,
+                    'link_post_id' => $post->id,
                     'link_with_arrow' => false,
                 ]],
             ],
@@ -276,7 +276,7 @@ class QuizBlockTest extends FilamentTestCase
         $html = QuizBlock::toPreviewHtml(
             [
                 'questions' => [['question' => 'Preview Question', 'answers' => []]],
-                'results'   => [],
+                'results' => [],
             ]
         );
 
@@ -288,8 +288,8 @@ class QuizBlockTest extends FilamentTestCase
         $html = QuizBlock::toPreviewHtml(
             [
                 'questions' => [],
-                'results'   => [[
-                    'heading'    => 'Preview Result',
+                'results' => [[
+                    'heading' => 'Preview Result',
                     'min_points' => 0,
                     'max_points' => 5,
                 ]],

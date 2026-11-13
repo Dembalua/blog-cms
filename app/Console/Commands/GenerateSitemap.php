@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Content;
 use App\Models\Setting;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
@@ -22,9 +23,9 @@ class GenerateSitemap extends Command
     {
         $sitemap = Sitemap::create();
 
-        $homeUrl    = Url::create('/');
+        $homeUrl = Url::create('/');
         $homepageId = Setting::get('site.homepage_content');
-        $homepage   = $homepageId
+        $homepage = $homepageId
             ? Content::where('id', $homepageId)->where('type', ContentType::HOMEPAGE)->first()
             : null;
 
@@ -37,7 +38,7 @@ class GenerateSitemap extends Command
                     ->max('updated_at');
 
                 if ($maxPost && $maxPost > $lastmod) {
-                    $lastmod = \Illuminate\Support\Carbon::parse($maxPost);
+                    $lastmod = Carbon::parse($maxPost);
                 }
             }
 
@@ -48,33 +49,33 @@ class GenerateSitemap extends Command
                 ->max('updated_at');
 
             if ($latestPostUpdate) {
-                $homeUrl->setLastModificationDate(\Illuminate\Support\Carbon::parse($latestPostUpdate));
+                $homeUrl->setLastModificationDate(Carbon::parse($latestPostUpdate));
             }
         }
 
         $sitemap->add($homeUrl);
 
         Category::active()->with('path', 'metaData')->get()
-            ->filter(fn(Category $category) => $category->path?->url)
-            ->filter(fn(Category $category) => ! in_array($category->metaData?->robots, [
+            ->filter(fn (Category $category) => $category->path?->url)
+            ->filter(fn (Category $category) => ! in_array($category->metaData?->robots, [
                 MetaDataRobots::NOINDEX_FOLLOW,
                 MetaDataRobots::NOINDEX_NOFOLLOW,
             ]))
-            ->each(fn(Category $category) => $sitemap->add(
-                Url::create('/' . $category->path->url)
+            ->each(fn (Category $category) => $sitemap->add(
+                Url::create('/'.$category->path->url)
                     ->setLastModificationDate($category->updated_at)
             ));
 
         Content::where('status', ContentStatus::PUBLISHED)
             ->with('path', 'metaData')
             ->get()
-            ->filter(fn(Content $content) => $content->path?->url)
-            ->filter(fn(Content $content) => ! in_array($content->metaData?->robots, [
+            ->filter(fn (Content $content) => $content->path?->url)
+            ->filter(fn (Content $content) => ! in_array($content->metaData?->robots, [
                 MetaDataRobots::NOINDEX_FOLLOW,
                 MetaDataRobots::NOINDEX_NOFOLLOW,
             ]))
-            ->each(fn(Content $content) => $sitemap->add(
-                Url::create('/' . $content->path->url)
+            ->each(fn (Content $content) => $sitemap->add(
+                Url::create('/'.$content->path->url)
                     ->setLastModificationDate($content->updated_at)
             ));
 

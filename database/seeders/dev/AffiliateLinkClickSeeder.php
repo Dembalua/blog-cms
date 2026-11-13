@@ -22,13 +22,13 @@ class AffiliateLinkClickSeeder extends Seeder
             ['link' => 'digistore24-laravel-mastery-course',   'content' => 'Building REST APIs with Laravel',             'clicks' => 12, 'last_clicked_at' => now()->subDays(5)],
         ];
 
-        $links    = AffiliateLink::whereIn('slug', array_unique(array_column($clicks, 'link')))->get()->keyBy('slug');
+        $links = AffiliateLink::whereIn('slug', array_unique(array_column($clicks, 'link')))->get()->keyBy('slug');
         $contents = Content::whereIn('title', array_unique(array_column($clicks, 'content')))->get()->keyBy('title');
 
         $totals = [];
 
         foreach ($clicks as $row) {
-            $link    = $links->get($row['link']);
+            $link = $links->get($row['link']);
             $content = $contents->get($row['content']);
 
             if (! $link || ! $content) {
@@ -38,10 +38,10 @@ class AffiliateLinkClickSeeder extends Seeder
             AffiliateLinkClick::firstOrCreate(
                 [
                     'affiliate_link_id' => $link->id,
-                    'content_id'        => $content->id,
+                    'content_id' => $content->id,
                 ],
                 [
-                    'clicks'          => $row['clicks'],
+                    'clicks' => $row['clicks'],
                     'last_clicked_at' => $row['last_clicked_at'],
                 ]
             );

@@ -14,7 +14,7 @@ class CategoryClustersNavigation extends Component
 
     public function __construct(private readonly Content $content)
     {
-        $this->pillars = new Collection();
+        $this->pillars = new Collection;
 
         if (! $content->is_pillar || ! $content->cluster_id) {
             return;

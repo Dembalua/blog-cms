@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use App\Models\User;
 use App\Models\Media;
+use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Filament\Resources\Resource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -75,7 +75,7 @@ abstract class FilamentTestCase extends TestCase
             'directory' => 'test',
             'visibility' => 'public',
             'name' => fake()->word(),
-            'path' => 'test/' . fake()->word() . '.jpg',
+            'path' => 'test/'.fake()->word().'.jpg',
             'width' => 800,
             'height' => 600,
             'size' => 1024,
@@ -95,7 +95,8 @@ abstract class FilamentTestCase extends TestCase
     /**
      * Assert that a guest is redirected to the login page
      * when trying to access a resource.
-     * @param class-string<Resource> $resource
+     *
+     * @param  class-string<resource>  $resource
      */
     protected function assertGuestIsRedirected(string $resource): void
     {
@@ -106,7 +107,8 @@ abstract class FilamentTestCase extends TestCase
     /**
      * Assert that a user without any roles receives a 403
      * when trying to access a resource.
-     * @param class-string<Resource> $resource
+     *
+     * @param  class-string<resource>  $resource
      */
     protected function assertUserWithoutRolesIsForbidden(string $resource): void
     {
@@ -119,7 +121,8 @@ abstract class FilamentTestCase extends TestCase
     /**
      * Assert that a user with the user role receives a 403
      * when trying to access a resource reserved for super_admin.
-     * @param class-string<Resource> $resource
+     *
+     * @param  class-string<resource>  $resource
      */
     protected function assertUserRoleIsForbidden(string $resource): void
     {
@@ -131,7 +134,8 @@ abstract class FilamentTestCase extends TestCase
 
     /**
      * Assert that a user with the user role can access a resource.
-     * @param class-string<Resource> $resource
+     *
+     * @param  class-string<resource>  $resource
      */
     protected function assertUserRoleCanAccess(string $resource): void
     {
@@ -143,7 +147,8 @@ abstract class FilamentTestCase extends TestCase
 
     /**
      * Assert that a super_admin can access a resource.
-     * @param class-string<Resource> $resource
+     *
+     * @param  class-string<resource>  $resource
      */
     protected function assertSuperAdminCanAccess(string $resource): void
     {

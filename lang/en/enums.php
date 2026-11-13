@@ -2,20 +2,20 @@
 
 return [
     'content_status' => [
-        'draft'     => 'Draft',
+        'draft' => 'Draft',
         'published' => 'Published',
         'scheduled' => 'Scheduled',
-        'archived'  => 'Archived',
+        'archived' => 'Archived',
     ],
     'content_type' => [
-        'post'     => 'Post',
-        'page'     => 'Page',
+        'post' => 'Post',
+        'page' => 'Page',
         'homepage' => 'Homepage',
     ],
     'meta_data_robots' => [
-        'index, follow'    => 'Index, Follow',
-        'noindex, follow'  => 'No Index, Follow',
+        'index, follow' => 'Index, Follow',
+        'noindex, follow' => 'No Index, Follow',
         'noindex, nofollow' => 'No Index, No Follow',
-        'index, nofollow'  => 'Index, No Follow',
+        'index, nofollow' => 'Index, No Follow',
     ],
 ];

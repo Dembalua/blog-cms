@@ -20,6 +20,7 @@ class ClusterResource extends Resource
     protected static ?string $model = Cluster::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
     protected static ?int $navigationSort = 3;
 
     protected static ?string $recordTitleAttribute = 'title';
@@ -42,9 +43,9 @@ class ClusterResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListClusters::route('/'),
+            'index' => ListClusters::route('/'),
             'create' => CreateCluster::route('/create'),
-            'edit'   => EditCluster::route('/{record}/edit'),
+            'edit' => EditCluster::route('/{record}/edit'),
         ];
     }
 

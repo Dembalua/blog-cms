@@ -115,7 +115,7 @@ class MenuResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('menus', [
-            'id'   => $menu->id,
+            'id' => $menu->id,
             'name' => 'Updated Name',
         ]);
     }
@@ -165,12 +165,12 @@ class MenuResourceTest extends FilamentTestCase
 
     public function test_widget_shows_only_items_for_current_menu(): void
     {
-        $menu           = Menu::factory()->create();
-        $otherMenu      = Menu::factory()->create();
-        $ownContent     = Content::factory()->page()->create();
+        $menu = Menu::factory()->create();
+        $otherMenu = Menu::factory()->create();
+        $ownContent = Content::factory()->page()->create();
         $foreignContent = Content::factory()->page()->create();
-        $ownItem        = MenuItem::factory()->forContent($ownContent)->create(['menu_id' => $menu->id]);
-        $foreignItem    = MenuItem::factory()->forContent($foreignContent)->create(['menu_id' => $otherMenu->id]);
+        $ownItem = MenuItem::factory()->forContent($ownContent)->create(['menu_id' => $menu->id]);
+        $foreignItem = MenuItem::factory()->forContent($foreignContent)->create(['menu_id' => $otherMenu->id]);
 
         Livewire::test(MenuItemWidget::class, ['record' => $menu])
             ->assertSee($ownItem->title)
@@ -179,73 +179,73 @@ class MenuResourceTest extends FilamentTestCase
 
     public function test_can_create_menu_item_with_page(): void
     {
-        $menu    = Menu::factory()->create();
+        $menu = Menu::factory()->create();
         $content = Content::factory()->page()->create();
 
         $item = MenuItem::create([
-            'menu_id'    => $menu->id,
-            'title'      => $content->title,
-            'model_id'   => $content->id,
+            'menu_id' => $menu->id,
+            'title' => $content->title,
+            'model_id' => $content->id,
             'model_type' => Content::class,
-            'order'      => 0,
+            'order' => 0,
         ]);
 
         $this->assertDatabaseHas('menu_items', [
-            'menu_id'    => $menu->id,
-            'model_id'   => $content->id,
+            'menu_id' => $menu->id,
+            'model_id' => $content->id,
             'model_type' => Content::class,
-            'title'      => $content->title,
+            'title' => $content->title,
         ]);
     }
 
     public function test_can_create_menu_item_with_category(): void
     {
-        $menu     = Menu::factory()->create();
+        $menu = Menu::factory()->create();
         $category = Category::factory()->create();
 
         MenuItem::create([
-            'menu_id'    => $menu->id,
-            'title'      => $category->name,
-            'model_id'   => $category->id,
+            'menu_id' => $menu->id,
+            'title' => $category->name,
+            'model_id' => $category->id,
             'model_type' => Category::class,
-            'order'      => 0,
+            'order' => 0,
         ]);
 
         $this->assertDatabaseHas('menu_items', [
-            'menu_id'    => $menu->id,
-            'model_id'   => $category->id,
+            'menu_id' => $menu->id,
+            'model_id' => $category->id,
             'model_type' => Category::class,
         ]);
     }
 
     public function test_can_create_nested_menu_item(): void
     {
-        $menu    = Menu::factory()->create();
+        $menu = Menu::factory()->create();
         $content = Content::factory()->page()->create();
-        $parent  = MenuItem::factory()->forContent($content)->create(['menu_id' => $menu->id]);
-        $child   = Content::factory()->page()->create();
+        $parent = MenuItem::factory()->forContent($content)->create(['menu_id' => $menu->id]);
+        $child = Content::factory()->page()->create();
 
         MenuItem::create([
-            'menu_id'    => $menu->id,
-            'title'      => $child->title,
-            'model_id'   => $child->id,
+            'menu_id' => $menu->id,
+            'title' => $child->title,
+            'model_id' => $child->id,
             'model_type' => Content::class,
-            'parent_id'  => $parent->id,
-            'order'      => 0,
+            'parent_id' => $parent->id,
+            'order' => 0,
         ]);
 
         $this->assertDatabaseHas('menu_items', [
-            'menu_id'   => $menu->id,
+            'menu_id' => $menu->id,
             'parent_id' => $parent->id,
-            'title'     => $child->title,
+            'title' => $child->title,
         ]);
     }
 
     public function test_can_delete_menu_item(): void
     {
-        $menu    = Menu::factory()->create();
+        $menu = Menu::factory()->create();
         $content = Content::factory()->page()->create();
-        $item    = MenuItem::factory()->forContent($content)->create(['menu_id' => $menu->id]);
+        $item = MenuItem::factory()->forContent($content)->create(['menu_id' => $menu->id]);
 
         $item->delete();
 
@@ -254,9 +254,9 @@ class MenuResourceTest extends FilamentTestCase
 
     public function test_deleting_menu_cascades_to_items(): void
     {
-        $menu    = Menu::factory()->create();
+        $menu = Menu::factory()->create();
         $content = Content::factory()->page()->create();
-        $item    = MenuItem::factory()->forContent($content)->create(['menu_id' => $menu->id]);
+        $item = MenuItem::factory()->forContent($content)->create(['menu_id' => $menu->id]);
 
         $menu->delete();
 
@@ -265,11 +265,11 @@ class MenuResourceTest extends FilamentTestCase
 
     public function test_deleting_parent_item_cascades_to_children(): void
     {
-        $menu          = Menu::factory()->create();
+        $menu = Menu::factory()->create();
         $parentContent = Content::factory()->page()->create();
-        $childContent  = Content::factory()->page()->create();
-        $parent        = MenuItem::factory()->forContent($parentContent)->create(['menu_id' => $menu->id]);
-        $child         = MenuItem::factory()->withParent($parent)->forContent($childContent)->create();
+        $childContent = Content::factory()->page()->create();
+        $parent = MenuItem::factory()->forContent($parentContent)->create(['menu_id' => $menu->id]);
+        $child = MenuItem::factory()->withParent($parent)->forContent($childContent)->create();
 
         $parent->delete();
 

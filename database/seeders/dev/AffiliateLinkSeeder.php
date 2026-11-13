@@ -35,15 +35,15 @@ class AffiliateLinkSeeder extends Seeder
             }
 
             foreach ($items as $item) {
-                $slug = Str::slug($network->name . '-' . $item['name'], '-', 'de');
+                $slug = Str::slug($network->name.'-'.$item['name'], '-', 'de');
 
                 AffiliateLink::firstOrCreate(
                     ['slug' => $slug],
                     [
                         'affiliate_network_id' => $network->id,
-                        'name'                 => $item['name'],
-                        'url'                  => $item['url'],
-                        'is_active'            => true,
+                        'name' => $item['name'],
+                        'url' => $item['url'],
+                        'is_active' => true,
                     ]
                 );
             }

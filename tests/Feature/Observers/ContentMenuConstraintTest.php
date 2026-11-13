@@ -51,7 +51,7 @@ class ContentMenuConstraintTest extends FilamentTestCase
         $content->update(['category_id' => $category->id]);
 
         $this->assertDatabaseHas('contents', [
-            'id'          => $content->id,
+            'id' => $content->id,
             'category_id' => $category->id,
         ]);
     }
@@ -66,7 +66,7 @@ class ContentMenuConstraintTest extends FilamentTestCase
         MenuItem::factory()->forContent($content)->create();
 
         $this->assertDatabaseHas('contents', [
-            'id'          => $content->id,
+            'id' => $content->id,
             'category_id' => null,
         ]);
     }

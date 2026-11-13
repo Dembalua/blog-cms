@@ -6,25 +6,25 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum ContentStatus: string implements HasLabel, HasColor
+enum ContentStatus: string implements HasColor, HasLabel
 {
     case DRAFT = 'draft';
     case PUBLISHED = 'published';
     case SCHEDULED = 'scheduled';
-    case ARCHIVED  = 'archived';
+    case ARCHIVED = 'archived';
 
-    public function getLabel(): string|htmlable|null
+    public function getLabel(): string|Htmlable|null
     {
-        return mb_strtoupper(__('enums.content_status.' . $this->value));
+        return mb_strtoupper(__('enums.content_status.'.$this->value));
     }
 
     public function getColor(): string|array|null
     {
-        return match($this) {
-            self::DRAFT     => 'warning',
+        return match ($this) {
+            self::DRAFT => 'warning',
             self::PUBLISHED => 'success',
             self::SCHEDULED => 'primary',
-            self::ARCHIVED  => 'danger',
+            self::ARCHIVED => 'danger',
         };
     }
 }

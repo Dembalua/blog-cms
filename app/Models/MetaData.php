@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class MetaData extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'meta_title',
         'meta_description',

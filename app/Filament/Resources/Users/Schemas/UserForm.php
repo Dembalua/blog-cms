@@ -25,7 +25,7 @@ class UserForm
                             ->relationship('roles', 'name')
                             ->multiple()
                             ->preload()
-                            ->searchable()
+                            ->searchable(),
                     ])->columnSpan(2),
                 Section::make(__('resource.user_resource.form.personal_information'))
                     ->description(__('resource.user_resource.form.personal_information_description'))
@@ -76,7 +76,7 @@ class UserForm
                             ->live(),
 
                         ViewField::make('password_rules')
-                            ->view('filament.components.password-rules')
+                            ->view('filament.components.password-rules'),
                     ])->columnSpan(1),
             ]);
     }

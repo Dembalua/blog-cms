@@ -20,12 +20,12 @@ class MenuItemFactory extends Factory
         ]);
 
         return [
-            'menu_id'    => Menu::factory(),
-            'title'      => fake()->words(2, true),
-            'model_id'   => $model->id,
+            'menu_id' => Menu::factory(),
+            'title' => fake()->words(2, true),
+            'model_id' => $model->id,
             'model_type' => $model::class,
-            'parent_id'  => null,
-            'order'      => fake()->numberBetween(0, 10),
+            'parent_id' => null,
+            'order' => fake()->numberBetween(0, 10),
         ];
     }
 
@@ -33,14 +33,14 @@ class MenuItemFactory extends Factory
     {
         return $this->state([
             'parent_id' => $parent->id,
-            'menu_id'   => $parent->menu_id,
+            'menu_id' => $parent->menu_id,
         ]);
     }
 
     public function forContent(Content $content): static
     {
         return $this->state([
-            'model_id'   => $content->id,
+            'model_id' => $content->id,
             'model_type' => Content::class,
         ]);
     }
@@ -48,7 +48,7 @@ class MenuItemFactory extends Factory
     public function forCategory(Category $category): static
     {
         return $this->state([
-            'model_id'   => $category->id,
+            'model_id' => $category->id,
             'model_type' => Category::class,
         ]);
     }

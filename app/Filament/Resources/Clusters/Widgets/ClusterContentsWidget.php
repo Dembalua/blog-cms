@@ -54,7 +54,7 @@ class ClusterContentsWidget extends TableWidget
                     ->sortable(),
                 TextColumn::make('published_at')
                     ->label(__('resource.content_resource.form.published_at'))
-                    ->formatStateUsing(fn($state) => $state?->isoFormat('L'))
+                    ->formatStateUsing(fn ($state) => $state?->isoFormat('L'))
                     ->placeholder('—')
                     ->sortable(),
             ])

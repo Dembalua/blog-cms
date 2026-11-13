@@ -46,10 +46,10 @@ class AffiliateLinkExtension extends Mark
         return [
             'a',
             array_merge($HTMLAttributes, [
-                'href'   => url('go/' . $link->slug),
-                'rel'    => 'nofollow sponsored noopener',
+                'href' => url('go/'.$link->slug),
+                'rel' => 'nofollow sponsored noopener',
                 'target' => '_blank',
-                'class'  => 'affiliate-link',
+                'class' => 'affiliate-link',
             ]),
             0,
         ];

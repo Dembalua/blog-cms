@@ -11,6 +11,6 @@ return [
         'lowercase' => 'One lowercase letter',
         'number' => 'One number',
         'symbol' => 'One special character',
-        'match' => 'Passwords match'
+        'match' => 'Passwords match',
     ],
 ];

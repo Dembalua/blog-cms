@@ -52,7 +52,7 @@ class AffiliateLinkResourceTest extends FilamentTestCase
     {
         AffiliateLink::factory()->count(3)->create();
 
-        $sortedAsc  = AffiliateLink::orderBy('name')->get();
+        $sortedAsc = AffiliateLink::orderBy('name')->get();
         $sortedDesc = AffiliateLink::orderBy('name', 'desc')->get();
 
         Livewire::test(ListAffiliateLinks::class)
@@ -78,10 +78,10 @@ class AffiliateLinkResourceTest extends FilamentTestCase
     public function test_can_filter_links_by_network(): void
     {
         $amazon = AffiliateNetwork::factory()->create(['name' => 'Amazon']);
-        $awin   = AffiliateNetwork::factory()->create(['name' => 'Awin']);
+        $awin = AffiliateNetwork::factory()->create(['name' => 'Awin']);
 
         $amazonLinks = AffiliateLink::factory()->count(2)->create(['affiliate_network_id' => $amazon->id]);
-        $awinLinks   = AffiliateLink::factory()->count(2)->create(['affiliate_network_id' => $awin->id]);
+        $awinLinks = AffiliateLink::factory()->count(2)->create(['affiliate_network_id' => $awin->id]);
 
         Livewire::test(ListAffiliateLinks::class)
             ->filterTable('affiliate_network_id', $amazon->id)
@@ -91,7 +91,7 @@ class AffiliateLinkResourceTest extends FilamentTestCase
 
     public function test_can_filter_active_links(): void
     {
-        $active   = AffiliateLink::factory()->count(2)->create();
+        $active = AffiliateLink::factory()->count(2)->create();
         $inactive = AffiliateLink::factory()->inactive()->count(2)->create();
 
         Livewire::test(ListAffiliateLinks::class)
@@ -103,7 +103,7 @@ class AffiliateLinkResourceTest extends FilamentTestCase
     public function test_can_filter_unused_links(): void
     {
         $unused = AffiliateLink::factory()->create();
-        $used   = AffiliateLink::factory()->create();
+        $used = AffiliateLink::factory()->create();
 
         Content::factory()->create([
             'content' => $this->makeContentWithAffiliateLink($used->id),
@@ -132,10 +132,10 @@ class AffiliateLinkResourceTest extends FilamentTestCase
         Livewire::test(CreateAffiliateLink::class)
             ->fillForm([
                 'affiliate_network_id' => $network->id,
-                'name'                 => 'Clean Code Book',
-                'slug'                 => 'amazon-clean-code-book',
-                'url'                  => 'https://example.com/clean-code',
-                'is_active'            => true,
+                'name' => 'Clean Code Book',
+                'slug' => 'amazon-clean-code-book',
+                'url' => 'https://example.com/clean-code',
+                'is_active' => true,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -173,9 +173,9 @@ class AffiliateLinkResourceTest extends FilamentTestCase
         Livewire::test(CreateAffiliateLink::class)
             ->fillForm([
                 'affiliate_network_id' => $network->id,
-                'name'                 => 'Test',
-                'slug'                 => 'test-slug',
-                'url'                  => 'not-a-url',
+                'name' => 'Test',
+                'slug' => 'test-slug',
+                'url' => 'not-a-url',
             ])
             ->call('create')
             ->assertHasFormErrors(['url' => 'url']);
@@ -189,9 +189,9 @@ class AffiliateLinkResourceTest extends FilamentTestCase
         Livewire::test(CreateAffiliateLink::class)
             ->fillForm([
                 'affiliate_network_id' => $network->id,
-                'name'                 => 'Test',
-                'slug'                 => 'existing-slug',
-                'url'                  => 'https://example.com',
+                'name' => 'Test',
+                'slug' => 'existing-slug',
+                'url' => 'https://example.com',
             ])
             ->call('create')
             ->assertHasFormErrors(['slug' => 'unique']);
@@ -204,7 +204,7 @@ class AffiliateLinkResourceTest extends FilamentTestCase
         Livewire::test(CreateAffiliateLink::class)
             ->fillForm([
                 'affiliate_network_id' => $network->id,
-                'name'                 => 'Clean Code Book',
+                'name' => 'Clean Code Book',
             ])
             ->assertSchemaStateSet([
                 'slug' => Str::slug('Amazon-Clean Code Book'),
@@ -224,7 +224,7 @@ class AffiliateLinkResourceTest extends FilamentTestCase
             ->assertSchemaStateSet([
                 'name' => $link->name,
                 'slug' => $link->slug,
-                'url'  => $link->url,
+                'url' => $link->url,
             ]);
     }
 
@@ -238,7 +238,7 @@ class AffiliateLinkResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('affiliate_links', [
-            'id'   => $link->id,
+            'id' => $link->id,
             'name' => 'Updated Name',
         ]);
     }
@@ -295,9 +295,9 @@ class AffiliateLinkResourceTest extends FilamentTestCase
 
     public function test_usage_widget_shows_articles_that_use_the_link(): void
     {
-        $link    = AffiliateLink::factory()->create();
-        $using   = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
-        $other   = Content::factory()->create();
+        $link = AffiliateLink::factory()->create();
+        $using = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
+        $other = Content::factory()->create();
 
         Livewire::test(AffiliateLinkUsageWidget::class, ['record' => $link])
             ->assertCanSeeTableRecords([$using])
@@ -327,14 +327,14 @@ class AffiliateLinkResourceTest extends FilamentTestCase
 
     public function test_usage_widget_shows_pivot_click_count_per_article(): void
     {
-        $link    = AffiliateLink::factory()->create();
+        $link = AffiliateLink::factory()->create();
         $content = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
 
         AffiliateLinkClick::create([
             'affiliate_link_id' => $link->id,
-            'content_id'        => $content->id,
-            'clicks'            => 7,
-            'last_clicked_at'   => now(),
+            'content_id' => $content->id,
+            'clicks' => 7,
+            'last_clicked_at' => now(),
         ]);
 
         Livewire::test(AffiliateLinkUsageWidget::class, ['record' => $link])
@@ -344,15 +344,15 @@ class AffiliateLinkResourceTest extends FilamentTestCase
 
     public function test_usage_widget_shows_last_clicked_at_per_article(): void
     {
-        $link      = AffiliateLink::factory()->create();
-        $content   = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
+        $link = AffiliateLink::factory()->create();
+        $content = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
         $clickedAt = now()->subDay()->startOfSecond();
 
         AffiliateLinkClick::create([
             'affiliate_link_id' => $link->id,
-            'content_id'        => $content->id,
-            'clicks'            => 1,
-            'last_clicked_at'   => $clickedAt,
+            'content_id' => $content->id,
+            'clicks' => 1,
+            'last_clicked_at' => $clickedAt,
         ]);
 
         Livewire::test(AffiliateLinkUsageWidget::class, ['record' => $link])
@@ -361,7 +361,7 @@ class AffiliateLinkResourceTest extends FilamentTestCase
 
     public function test_usage_widget_shows_zero_clicks_for_articles_without_pivot_row(): void
     {
-        $link    = AffiliateLink::factory()->create();
+        $link = AffiliateLink::factory()->create();
         $content = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
 
         Livewire::test(AffiliateLinkUsageWidget::class, ['record' => $link])
@@ -371,14 +371,14 @@ class AffiliateLinkResourceTest extends FilamentTestCase
 
     public function test_usage_widget_description_reflects_unassigned_click_count(): void
     {
-        $link    = AffiliateLink::factory()->create(['clicks' => 10]);
+        $link = AffiliateLink::factory()->create(['clicks' => 10]);
         $content = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
 
         AffiliateLinkClick::create([
             'affiliate_link_id' => $link->id,
-            'content_id'        => $content->id,
-            'clicks'            => 7,
-            'last_clicked_at'   => now(),
+            'content_id' => $content->id,
+            'clicks' => 7,
+            'last_clicked_at' => now(),
         ]);
 
         $expected = __('resource.affiliate_link_resource.usage_widget.unassigned', ['count' => 3]);
@@ -389,14 +389,14 @@ class AffiliateLinkResourceTest extends FilamentTestCase
 
     public function test_usage_widget_unassigned_is_never_negative(): void
     {
-        $link    = AffiliateLink::factory()->create(['clicks' => 2]);
+        $link = AffiliateLink::factory()->create(['clicks' => 2]);
         $content = Content::factory()->create(['content' => $this->makeContentWithAffiliateLink($link->id)]);
 
         AffiliateLinkClick::create([
             'affiliate_link_id' => $link->id,
-            'content_id'        => $content->id,
-            'clicks'            => 5,
-            'last_clicked_at'   => now(),
+            'content_id' => $content->id,
+            'clicks' => 5,
+            'last_clicked_at' => now(),
         ]);
 
         $expected = __('resource.affiliate_link_resource.usage_widget.unassigned', ['count' => 0]);
@@ -408,13 +408,13 @@ class AffiliateLinkResourceTest extends FilamentTestCase
     private function makeContentWithAffiliateLink(int $affiliateLinkId): array
     {
         return [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => [[
-                'type'    => 'paragraph',
-                'attrs'   => ['textAlign' => 'start'],
+                'type' => 'paragraph',
+                'attrs' => ['textAlign' => 'start'],
                 'content' => [[
-                    'type'  => 'text',
-                    'text'  => 'Test',
+                    'type' => 'text',
+                    'text' => 'Test',
                     'marks' => [['type' => 'affiliateLink', 'attrs' => ['affiliateLinkId' => $affiliateLinkId]]],
                 ]],
             ]],

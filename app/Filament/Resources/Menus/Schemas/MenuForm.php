@@ -21,7 +21,7 @@ class MenuForm
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(80)
-                            ->helperText(fn($state) => strlen($state ?? '') . ' / 80 ' . __('resource.default_form_fields.signs'))
+                            ->helperText(fn ($state) => strlen($state ?? '').' / 80 '.__('resource.default_form_fields.signs'))
                             ->live(onBlur: true),
                     ]),
             ]);

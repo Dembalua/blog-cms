@@ -11,7 +11,7 @@ return [
         'lowercase' => 'Ein Kleinbuchstabe',
         'number' => 'Eine Zahl',
         'symbol' => 'Ein Sonderzeichen',
-        'match' => 'Passwörter stimmen überein'
+        'match' => 'Passwörter stimmen überein',
     ],
 
 ];

@@ -8,14 +8,14 @@ use App\Models\AffiliateLink;
 use App\Models\AffiliateLinkClick;
 use App\Models\Category;
 use App\Models\Content;
-use App\Models\Setting;
 use App\Models\MenuItem;
 use App\Models\Path;
 use App\Models\PathRedirect;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+use App\Models\Setting;
 use App\Services\BreadcrumbService;
 use App\Services\MetaService;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -32,16 +32,16 @@ class FrontendController extends Controller
                     $affected = AffiliateLinkClick::where('affiliate_link_id', $link->id)
                         ->where('content_id', $contentId)
                         ->update([
-                            'clicks'          => DB::raw('clicks + 1'),
+                            'clicks' => DB::raw('clicks + 1'),
                             'last_clicked_at' => now(),
                         ]);
 
                     if ($affected === 0) {
                         AffiliateLinkClick::create([
                             'affiliate_link_id' => $link->id,
-                            'content_id'        => $contentId,
-                            'clicks'            => 1,
-                            'last_clicked_at'   => now(),
+                            'content_id' => $contentId,
+                            'clicks' => 1,
+                            'last_clicked_at' => now(),
                         ]);
                     }
                 }
@@ -57,7 +57,7 @@ class FrontendController extends Controller
         $path = Path::with([
             'model' => fn ($q) => $q->morphWith([
                 Category::class => ['metaData', 'image'],
-                Content::class  => ['metaData', 'featureImage', 'author'],
+                Content::class => ['metaData', 'featureImage', 'author'],
             ]),
         ])->where('url', $url)->first();
 
@@ -96,7 +96,7 @@ class FrontendController extends Controller
         }
 
         if ($model instanceof Category) {
-            if (!$model->active) {
+            if (! $model->active) {
                 abort(404);
             }
 
@@ -108,15 +108,15 @@ class FrontendController extends Controller
                         ->where('model_id', $model->id)
                         ->first();
 
-                    $categoryIds         = [$model->id];
-                    $directContentIds    = [];
-                    $subCategoryIds      = [];
+                    $categoryIds = [$model->id];
+                    $directContentIds = [];
+                    $subCategoryIds = [];
                     $subCategoryChildIds = [];
 
                     if ($menuItem) {
                         foreach ($menuItem->children as $child) {
                             if ($child->model_type === Category::class) {
-                                $categoryIds[]    = $child->model_id;
+                                $categoryIds[] = $child->model_id;
                                 $subCategoryIds[] = $child->model_id;
                                 $subCategoryChildIds[$child->model_id] = [];
                             } elseif ($child->model_type === Content::class) {
@@ -144,14 +144,14 @@ class FrontendController extends Controller
                 : collect();
 
             $allGrandchildIds = $subCategoryChildIds ? array_unique(array_merge(...array_values($subCategoryChildIds))) : [];
-            $grandchildren    = $allGrandchildIds
+            $grandchildren = $allGrandchildIds
                 ? Category::whereIn('id', $allGrandchildIds)->with('path')->active()->get()->keyBy('id')
                 : collect();
 
-            $navTree = $subCategories->map(fn($sub) => [
+            $navTree = $subCategories->map(fn ($sub) => [
                 'category' => $sub,
                 'children' => collect($subCategoryChildIds[$sub->id] ?? [])
-                    ->map(fn($id) => $grandchildren->get($id))
+                    ->map(fn ($id) => $grandchildren->get($id))
                     ->filter()
                     ->values(),
             ]);
@@ -159,7 +159,7 @@ class FrontendController extends Controller
             $contents = Content::with('featureImage', 'path')
                 ->where(function ($query) use ($categoryIds, $directContentIds) {
                     $query->whereIn('category_id', $categoryIds);
-                    if (!empty($directContentIds)) {
+                    if (! empty($directContentIds)) {
                         $query->orWhereIn('id', $directContentIds);
                     }
                 })
@@ -174,11 +174,11 @@ class FrontendController extends Controller
                 ->keyBy('id');
 
             return view('pages.category', [
-                'category'      => $model,
-                'contents'      => $contents,
+                'category' => $model,
+                'contents' => $contents,
                 'subCategories' => $subCategories,
-                'navTree'       => $navTree,
-                'categoryMap'   => $categoryMap,
+                'navTree' => $navTree,
+                'categoryMap' => $categoryMap,
             ]);
         }
 

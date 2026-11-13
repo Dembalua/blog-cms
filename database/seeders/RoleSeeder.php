@@ -26,9 +26,8 @@ class RoleSeeder extends Seeder
 
         $user = Role::query()->firstOrCreate(['name' => 'user']);
         $userPermissions = Permission::all()
-            ->filter(fn($p) =>
-                !str_ends_with($p->name, ':Role') &&
-                !str_ends_with($p->name, ':User')
+            ->filter(fn ($p) => ! str_ends_with($p->name, ':Role') &&
+                ! str_ends_with($p->name, ':User')
             );
         $user->syncPermissions($userPermissions);
     }

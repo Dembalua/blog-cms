@@ -13,9 +13,9 @@ class SettingFactory extends Factory
     {
         return [
             'group' => 'site',
-            'key'   => 'name',
+            'key' => 'name',
             'value' => fake()->word(),
-            'type'  => 'string',
+            'type' => 'string',
         ];
     }
 
@@ -23,9 +23,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'site',
-            'key'   => 'name',
+            'key' => 'name',
             'value' => fake()->company(),
-            'type'  => 'string',
+            'type' => 'string',
         ]);
     }
 
@@ -33,9 +33,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'site',
-            'key'   => 'logo',
+            'key' => 'logo',
             'value' => null,
-            'type'  => 'integer',
+            'type' => 'integer',
         ]);
     }
 
@@ -43,9 +43,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'site',
-            'key'   => 'logo_dark',
+            'key' => 'logo_dark',
             'value' => null,
-            'type'  => 'integer',
+            'type' => 'integer',
         ]);
     }
 
@@ -53,9 +53,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'site',
-            'key'   => 'favicon',
+            'key' => 'favicon',
             'value' => null,
-            'type'  => 'integer',
+            'type' => 'integer',
         ]);
     }
 
@@ -63,9 +63,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'menu',
-            'key'   => 'header',
+            'key' => 'header',
             'value' => null,
-            'type'  => 'integer',
+            'type' => 'integer',
         ]);
     }
 
@@ -73,9 +73,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'menu',
-            'key'   => 'footer',
+            'key' => 'footer',
             'value' => null,
-            'type'  => 'integer',
+            'type' => 'integer',
         ]);
     }
 
@@ -83,9 +83,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'footer',
-            'key'   => 'slogan',
+            'key' => 'slogan',
             'value' => $slogan,
-            'type'  => 'string',
+            'type' => 'string',
         ]);
     }
 
@@ -93,9 +93,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'seo',
-            'key'   => 'meta',
+            'key' => 'meta',
             'value' => null,
-            'type'  => 'string',
+            'type' => 'string',
         ]);
     }
 
@@ -103,9 +103,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'menu',
-            'key'   => 'max_depth',
+            'key' => 'max_depth',
             'value' => $depth,
-            'type'  => 'integer',
+            'type' => 'integer',
         ]);
     }
 
@@ -133,9 +133,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'maintenance',
-            'key'   => 'enabled',
+            'key' => 'enabled',
             'value' => $enabled ? 1 : 0,
-            'type'  => 'boolean',
+            'type' => 'boolean',
         ]);
     }
 
@@ -143,9 +143,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'maintenance',
-            'key'   => 'allowed_ips',
+            'key' => 'allowed_ips',
             'value' => $ips,
-            'type'  => 'string',
+            'type' => 'string',
         ]);
     }
 
@@ -153,9 +153,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'maintenance',
-            'key'   => 'pages',
+            'key' => 'pages',
             'value' => json_encode($contentIds),
-            'type'  => 'string',
+            'type' => 'string',
         ]);
     }
 
@@ -163,9 +163,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'content',
-            'key'   => 'category_page_size',
+            'key' => 'category_page_size',
             'value' => $size,
-            'type'  => 'integer',
+            'type' => 'integer',
         ]);
     }
 
@@ -173,9 +173,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'rss',
-            'key'   => 'title',
+            'key' => 'title',
             'value' => $title,
-            'type'  => 'string',
+            'type' => 'string',
         ]);
     }
 
@@ -183,9 +183,9 @@ class SettingFactory extends Factory
     {
         return $this->state([
             'group' => 'rss',
-            'key'   => 'description',
+            'key' => 'description',
             'value' => $description,
-            'type'  => 'string',
+            'type' => 'string',
         ]);
     }
 }

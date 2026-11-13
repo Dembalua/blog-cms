@@ -12,8 +12,8 @@ class ClusterSeeder extends Seeder
     {
         $clusters = [
             'Laravel Fundamentals' => 'Web Development',
-            'Frontend Essentials'  => 'Design & UX',
-            'Developer Growth'     => 'Career & Learning',
+            'Frontend Essentials' => 'Design & UX',
+            'Developer Growth' => 'Career & Learning',
         ];
 
         $categories = Category::whereIn('name', $clusters)->pluck('id', 'name');
@@ -25,8 +25,8 @@ class ClusterSeeder extends Seeder
             );
         }
 
-        $laravel   = Cluster::where('title', 'Laravel Fundamentals')->first();
-        $frontend  = Cluster::where('title', 'Frontend Essentials')->first();
+        $laravel = Cluster::where('title', 'Laravel Fundamentals')->first();
+        $frontend = Cluster::where('title', 'Frontend Essentials')->first();
         $developer = Cluster::where('title', 'Developer Growth')->first();
 
         $laravel->relatedClusters()->syncWithoutDetaching([$frontend->id]);

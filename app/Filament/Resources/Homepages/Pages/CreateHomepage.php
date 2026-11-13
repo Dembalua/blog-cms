@@ -13,9 +13,10 @@ class CreateHomepage extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['type']      = ContentType::HOMEPAGE;
-        $data['status']    = ContentStatus::PUBLISHED;
+        $data['type'] = ContentType::HOMEPAGE;
+        $data['status'] = ContentStatus::PUBLISHED;
         $data['author_id'] = $data['author_id'] ?? auth()->id();
+
         return $data;
     }
 }

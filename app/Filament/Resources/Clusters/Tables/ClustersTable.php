@@ -45,7 +45,7 @@ class ClustersTable
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->deferFilters(false)
             ->filtersFormColumns(4)
-            ->filtersFormSchema(fn(array $filters): array => [
+            ->filtersFormSchema(fn (array $filters): array => [
                 Section::make()
                     ->schema([
                         $filters['category_id'],

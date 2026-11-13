@@ -5,9 +5,9 @@ namespace App\Filament\Pages\Auth;
 use Filament\Auth\Pages\EditProfile as BaseEditProfile;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ViewField;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Component;
 use Illuminate\Validation\Rules\Password;
 
 class EditProfile extends BaseEditProfile
@@ -21,11 +21,12 @@ class EditProfile extends BaseEditProfile
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
-                $this->getPasswordRulesFormComponent()
+                $this->getPasswordRulesFormComponent(),
             ]);
     }
 
-    public function getLastNameFormComponent() {
+    public function getLastNameFormComponent()
+    {
         return TextInput::make('lastname')
             ->label(__('resource.user_resource.form.last_name'))
             ->required()

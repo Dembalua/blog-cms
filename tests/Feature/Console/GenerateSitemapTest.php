@@ -4,6 +4,7 @@ namespace Tests\Feature\Console;
 
 use App\Models\Category;
 use App\Models\Content;
+use Database\Factories\MetaDataFactory;
 use Illuminate\Support\Facades\Artisan;
 use Tests\FilamentTestCase;
 
@@ -53,7 +54,7 @@ class GenerateSitemapTest extends FilamentTestCase
     {
         $content = Content::factory()->post()->published()->create();
         $content->metaData()->create(
-            \Database\Factories\MetaDataFactory::new()->noIndex()->make()->toArray()
+            MetaDataFactory::new()->noIndex()->make()->toArray()
         );
 
         Artisan::call('sitemap:generate');
@@ -92,7 +93,7 @@ class GenerateSitemapTest extends FilamentTestCase
     {
         $category = Category::factory()->active()->create();
         $category->metaData()->create(
-            \Database\Factories\MetaDataFactory::new()->noIndex()->make()->toArray()
+            MetaDataFactory::new()->noIndex()->make()->toArray()
         );
 
         Artisan::call('sitemap:generate');

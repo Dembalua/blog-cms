@@ -8,7 +8,6 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 
 class MetaDataFields
@@ -19,13 +18,13 @@ class MetaDataFields
             TextInput::make('og_title')
                 ->label(__('meta-data.fields.og_title'))
                 ->maxLength(95)
-                ->helperText(fn($state) => strlen($state ?? '') . ' / 95 ' . __('resource.default_form_fields.signs'))
+                ->helperText(fn ($state) => strlen($state ?? '').' / 95 '.__('resource.default_form_fields.signs'))
                 ->live(onBlur: true),
             Textarea::make('og_description')
                 ->label(__('meta-data.fields.og_description'))
                 ->rows(3)
                 ->maxLength(200)
-                ->helperText(fn($state) => strlen($state ?? '') . ' / 200 ' . __('resource.default_form_fields.signs'))
+                ->helperText(fn ($state) => strlen($state ?? '').' / 200 '.__('resource.default_form_fields.signs'))
                 ->live(onBlur: true),
         ];
 
@@ -51,13 +50,13 @@ class MetaDataFields
                         TextInput::make('meta_title')
                             ->label(__('meta-data.fields.meta_title'))
                             ->maxLength(60)
-                            ->helperText(fn($state) => strlen($state ?? '') . ' / 60 ' . __('resource.default_form_fields.signs'))
+                            ->helperText(fn ($state) => strlen($state ?? '').' / 60 '.__('resource.default_form_fields.signs'))
                             ->live(onBlur: true),
                         Textarea::make('meta_description')
                             ->label(__('meta-data.fields.meta_description'))
                             ->rows(3)
                             ->maxLength(160)
-                            ->helperText(fn($state) => strlen($state ?? '') . ' / 160 ' . __('resource.default_form_fields.signs'))
+                            ->helperText(fn ($state) => strlen($state ?? '').' / 160 '.__('resource.default_form_fields.signs'))
                             ->live(onBlur: true),
                         TagsInput::make('meta_keywords')
                             ->label(__('meta-data.fields.meta_keywords'))

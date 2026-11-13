@@ -167,9 +167,9 @@ class ContactFormControllerTest extends FilamentTestCase
     private function validPayload(array $overrides = []): array
     {
         return array_merge([
-            'name'                  => 'John Doe',
-            'email'                 => 'john@example.com',
-            'message'               => 'Hi, I would like more information about your services.',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'message' => 'Hi, I would like more information about your services.',
             'cf-turnstile-response' => 'valid-token',
         ], $overrides);
     }

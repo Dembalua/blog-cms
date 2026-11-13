@@ -24,11 +24,11 @@ class CheckAffiliateLinks extends Command
 
         foreach ($links as $link) {
             try {
-                $response   = Http::timeout(10)->head($link->url);
+                $response = Http::timeout(10)->head($link->url);
                 $statusCode = $response->status();
 
                 if ($statusCode === 405) {
-                    $response   = Http::timeout(10)->get($link->url);
+                    $response = Http::timeout(10)->get($link->url);
                     $statusCode = $response->status();
                 }
             } catch (\Throwable) {
@@ -37,7 +37,7 @@ class CheckAffiliateLinks extends Command
 
             $link->update([
                 'last_status_code' => $statusCode,
-                'last_checked_at'  => now(),
+                'last_checked_at' => now(),
             ]);
 
             if ($statusCode < 200 || $statusCode >= 300) {

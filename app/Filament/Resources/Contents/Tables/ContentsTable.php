@@ -4,6 +4,8 @@ namespace App\Filament\Resources\Contents\Tables;
 
 use App\Enums\ContentStatus;
 use App\Enums\ContentType;
+use App\Models\Category;
+use App\Models\Cluster;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -34,14 +36,14 @@ class ContentsTable
                     ->searchable()
                     ->sortable()
                     ->limit(30)
-                    ->tooltip(fn($record) => $record->title),
+                    ->tooltip(fn ($record) => $record->title),
                 TextColumn::make('cluster.title')
                     ->label(__('resource.content_resource.form.cluster'))
-                    ->getStateUsing(fn($record) => $record->cluster?->title ?? __('resource.content_resource.filters.no_cluster'))
+                    ->getStateUsing(fn ($record) => $record->cluster?->title ?? __('resource.content_resource.filters.no_cluster'))
                     ->badge()
-                    ->color(fn($state) => $state === __('resource.content_resource.filters.no_cluster') ? 'warning' : 'gray')
-                    ->sortable(query: fn($query, $direction) => $query->orderBy(
-                        \App\Models\Cluster::select('title')->whereColumn('clusters.id', 'contents.cluster_id'),
+                    ->color(fn ($state) => $state === __('resource.content_resource.filters.no_cluster') ? 'warning' : 'gray')
+                    ->sortable(query: fn ($query, $direction) => $query->orderBy(
+                        Cluster::select('title')->whereColumn('clusters.id', 'contents.cluster_id'),
                         $direction
                     ))
                     ->toggleable(),
@@ -62,12 +64,12 @@ class ContentsTable
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('published_at')
                     ->label(__('resource.content_resource.form.published_at'))
-                    ->formatStateUsing(fn($state) => $state?->isoFormat('L'))
+                    ->formatStateUsing(fn ($state) => $state?->isoFormat('L'))
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('revised_at')
                     ->label(__('resource.content_resource.form.revised_at'))
-                    ->formatStateUsing(fn($state) => $state?->isoFormat('L'))
+                    ->formatStateUsing(fn ($state) => $state?->isoFormat('L'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')
@@ -88,19 +90,19 @@ class ContentsTable
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('category.name')
                     ->label(__('resource.content_resource.form.category'))
-                    ->getStateUsing(fn($record) => $record->category?->name ?? __('resource.content_resource.filters.no_category'))
+                    ->getStateUsing(fn ($record) => $record->category?->name ?? __('resource.content_resource.filters.no_category'))
                     ->badge()
-                    ->color(fn($state) => $state === __('resource.content_resource.filters.no_category') ? 'warning' : 'gray')
-                    ->sortable(query: fn($query, $direction) => $query->orderBy(
-                        \App\Models\Category::select('name')->whereColumn('categories.id', 'contents.category_id'),
+                    ->color(fn ($state) => $state === __('resource.content_resource.filters.no_category') ? 'warning' : 'gray')
+                    ->sortable(query: fn ($query, $direction) => $query->orderBy(
+                        Category::select('name')->whereColumn('categories.id', 'contents.category_id'),
                         $direction
                     ))
                     ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_pillar')
                     ->label(__('resource.content_resource.form.is_pillar'))
                     ->default(false)
-                    ->icon(fn($state) => $state ? 'heroicon-s-fire' : 'heroicon-o-fire')
-                    ->color(fn($state) => $state ? 'warning' : 'gray')
+                    ->icon(fn ($state) => $state ? 'heroicon-s-fire' : 'heroicon-o-fire')
+                    ->color(fn ($state) => $state ? 'warning' : 'gray')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
@@ -139,15 +141,15 @@ class ContentsTable
                     ->native(false),
                 Filter::make('is_featured')
                     ->label(__('resource.content_resource.form.is_featured'))
-                    ->query(fn($query) => $query->where('is_featured', true))
+                    ->query(fn ($query) => $query->where('is_featured', true))
                     ->toggle(),
                 Filter::make('no_category')
                     ->label(__('resource.content_resource.filters.no_category'))
-                    ->query(fn($query) => $query->whereNull('category_id'))
+                    ->query(fn ($query) => $query->whereNull('category_id'))
                     ->toggle(),
                 Filter::make('no_cluster')
                     ->label(__('resource.content_resource.filters.no_cluster'))
-                    ->query(fn($query) => $query->whereNull('cluster_id'))
+                    ->query(fn ($query) => $query->whereNull('cluster_id'))
                     ->toggle(),
                 SelectFilter::make('category_id')
                     ->label(__('resource.content_resource.form.category'))
@@ -159,30 +161,30 @@ class ContentsTable
                     ->native(false),
                 Filter::make('is_pillar')
                     ->label(__('resource.content_resource.form.is_pillar'))
-                    ->query(fn($query) => $query->whereNotNull('is_pillar'))
+                    ->query(fn ($query) => $query->whereNotNull('is_pillar'))
                     ->toggle(),
                 Filter::make('published_at')
                     ->schema([
                         DatePicker::make('published_from')
                             ->label(__('resource.content_resource.form.published_from'))
                             ->native(false)
-                            ->maxDate(fn(Get $get) => $get('published_until') ?: now()),
+                            ->maxDate(fn (Get $get) => $get('published_until') ?: now()),
                         DatePicker::make('published_until')
                             ->label(__('resource.content_resource.form.published_until'))
                             ->native(false)
-                            ->minDate(fn(Get $get) => $get('published_from')),
+                            ->minDate(fn (Get $get) => $get('published_from')),
                     ])
                     ->columns(2)
                     ->columnSpan(2)
                     ->query(function ($query, array $data) {
                         return $query
-                            ->when($data['published_from'], fn($query, $date) => $query->whereDate('published_at', '>=', $date))
-                            ->when($data['published_until'], fn($query, $date) => $query->whereDate('published_at', '<=', $date));
+                            ->when($data['published_from'], fn ($query, $date) => $query->whereDate('published_at', '>=', $date))
+                            ->when($data['published_until'], fn ($query, $date) => $query->whereDate('published_at', '<=', $date));
                     }),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->deferFilters(false)
             ->filtersFormColumns(4)
-            ->filtersFormSchema(fn(array $filters): array => [
+            ->filtersFormSchema(fn (array $filters): array => [
                 Section::make()
                     ->schema([
                         $filters['type'],

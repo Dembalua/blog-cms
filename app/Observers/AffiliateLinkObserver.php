@@ -14,15 +14,15 @@ class AffiliateLinkObserver
             return;
         }
 
-        $oldPath = 'go/' . $link->getOriginal('slug');
-        $newPath = 'go/' . $link->slug;
+        $oldPath = 'go/'.$link->getOriginal('slug');
+        $newPath = 'go/'.$link->slug;
 
         PathRedirect::where('new_path', $oldPath)->update(['new_path' => $newPath]);
 
         PathRedirect::updateOrCreate(
             ['old_path' => $oldPath],
             [
-                'new_path'    => $newPath,
+                'new_path' => $newPath,
                 'status_code' => RedirectStatus::MOVED_PERMANENTLY,
             ]
         );
@@ -32,13 +32,13 @@ class AffiliateLinkObserver
 
     public function created(AffiliateLink $link): void
     {
-        PathRedirect::where('old_path', 'go/' . $link->slug)->delete();
+        PathRedirect::where('old_path', 'go/'.$link->slug)->delete();
     }
 
     public function deleted(AffiliateLink $link): void
     {
         PathRedirect::updateOrCreate(
-            ['old_path' => 'go/' . $link->slug],
+            ['old_path' => 'go/'.$link->slug],
             ['new_path' => null, 'status_code' => RedirectStatus::GONE]
         );
     }

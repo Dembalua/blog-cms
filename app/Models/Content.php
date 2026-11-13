@@ -16,6 +16,7 @@ use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\PostCardsSm
 use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\PostListBlock;
 use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\QuizBlock;
 use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\SectionsBlock;
+use App\Services\PathService;
 use Filament\Forms\Components\RichEditor\Models\Concerns\InteractsWithRichContent;
 use Filament\Forms\Components\RichEditor\Models\Contracts\HasRichContent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +28,7 @@ use Illuminate\Support\Facades\Cache;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
-class Content extends Model implements HasRichContent, Feedable
+class Content extends Model implements Feedable, HasRichContent
 {
     use HasFactory, InteractsWithRichContent;
 
@@ -55,15 +56,18 @@ class Content extends Model implements HasRichContent, Feedable
     ];
 
     protected $casts = [
-        'status'       => ContentStatus::class,
-        'type'         => ContentType::class,
+        'status' => ContentStatus::class,
+        'type' => ContentType::class,
         'published_at' => 'datetime',
-        'revised_at'   => 'datetime',
+        'revised_at' => 'datetime',
     ];
 
-    public function getContentAttribute(mixed $value): array|null
+    public function getContentAttribute(mixed $value): ?array
     {
-        if (is_null($value)) return null;
+        if (is_null($value)) {
+            return null;
+        }
+
         return is_array($value) ? $value : json_decode($value, true);
     }
 
@@ -81,8 +85,8 @@ class Content extends Model implements HasRichContent, Feedable
 
     public function renderSafeRichContent(string $field): string
     {
-        $originalRaw   = $this->attributes[$field] ?? null;
-        $contentArray  = $this->getAttribute($field);
+        $originalRaw = $this->attributes[$field] ?? null;
+        $contentArray = $this->getAttribute($field);
 
         if (is_array($contentArray)) {
             $processed = $this->preprocessInternalLinks($contentArray);
@@ -109,7 +113,7 @@ class Content extends Model implements HasRichContent, Feedable
                     return $matches[0];
                 }
 
-                return '<a' . $attrs . ' rel="noopener noreferrer">';
+                return '<a'.$attrs.' rel="noopener noreferrer">';
             },
             $html
         );
@@ -153,7 +157,7 @@ class Content extends Model implements HasRichContent, Feedable
      * paragraphs that become empty as a result are dropped as well.
      *
      * @param  array<string, mixed>  $node
-     * @param  array<int, \App\Models\Content|null>  $postCache
+     * @param  array<int, Content|null>  $postCache
      * @return array<string, mixed>|null
      */
     protected function walkInternalLinkNodes(array $node, array &$postCache): ?array
@@ -218,7 +222,7 @@ class Content extends Model implements HasRichContent, Feedable
 
     /**
      * @param  array<string, mixed>  $node
-     * @param  array<int, \App\Models\AffiliateLink|null>  $linkCache
+     * @param  array<int, AffiliateLink|null>  $linkCache
      * @return array<string, mixed>|null
      */
     protected function walkAffiliateLinkNodes(array $node, array &$linkCache): ?array
@@ -321,7 +325,7 @@ class Content extends Model implements HasRichContent, Feedable
                 PathRedirect::updateOrCreate(
                     ['old_path' => $model->path->url],
                     [
-                        'new_path'    => null,
+                        'new_path' => null,
                         'status_code' => RedirectStatus::GONE,
                     ]
                 );
@@ -334,10 +338,10 @@ class Content extends Model implements HasRichContent, Feedable
             MenuItem::where('model_type', Content::class)
                 ->where('model_id', $model->id)
                 ->pluck('menu_id')
-                ->each(fn($menuId) => Cache::forget("menu_{$menuId}"));
+                ->each(fn ($menuId) => Cache::forget("menu_{$menuId}"));
 
             if ($model->wasChanged('category_id')) {
-                app(\App\Services\PathService::class)->generateForModel($model);
+                app(PathService::class)->generateForModel($model);
             }
         });
     }
@@ -380,7 +384,7 @@ class Content extends Model implements HasRichContent, Feedable
     public function toFeedItem(): FeedItem
     {
         $imageUrl = $this->featureImage?->url ?? '';
-        if (!$imageUrl) {
+        if (! $imageUrl) {
             $defaultId = Setting::get('rss.default_image');
             $imageUrl = $defaultId ? (Media::find($defaultId)?->url ?? '') : '';
         }

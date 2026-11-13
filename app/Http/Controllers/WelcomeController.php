@@ -16,7 +16,7 @@ class WelcomeController extends Controller
 
         $slogan = Setting::get('footer.slogan');
         if ($slogan) {
-            view()->share('pageTitleFull', Setting::get('site.name') . ' | ' . $slogan);
+            view()->share('pageTitleFull', Setting::get('site.name').' | '.$slogan);
         }
 
         $homepageId = Setting::get('site.homepage_content');
@@ -30,6 +30,7 @@ class WelcomeController extends Controller
             if ($homepage) {
                 $meta['author'] = $homepage->author?->name;
                 view()->share('meta', $meta);
+
                 return view('pages.homepage', ['content' => $homepage]);
             }
         }

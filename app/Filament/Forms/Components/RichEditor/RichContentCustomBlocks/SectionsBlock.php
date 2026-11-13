@@ -88,7 +88,7 @@ class SectionsBlock extends RichContentCustomBlock
                                             ->orderBy('cluster_position')
                                             ->get(['id', 'title', 'cluster_position'])
                                             ->mapWithKeys(fn ($c) => [
-                                                $c->id => ($c->cluster_position ? $c->cluster_position . ' – ' : '') . $c->title,
+                                                $c->id => ($c->cluster_position ? $c->cluster_position.' – ' : '').$c->title,
                                             ])
                                             ->toArray()
                                         : []
@@ -116,11 +116,11 @@ class SectionsBlock extends RichContentCustomBlock
         $count = count($config['items'] ?? []);
 
         if ($count > 0) {
-            $label .= ' (' . $count . ')';
+            $label .= ' ('.$count.')';
         }
 
         if (! empty($config['heading'])) {
-            $label .= ': ' . $config['heading'];
+            $label .= ': '.$config['heading'];
         }
 
         return $label;
@@ -133,8 +133,8 @@ class SectionsBlock extends RichContentCustomBlock
     {
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.sections.preview', [
             'heading' => $config['heading'] ?? null,
-            'intro'   => $config['intro'] ?? null,
-            'items'   => $config['items'] ?? [],
+            'intro' => $config['intro'] ?? null,
+            'items' => $config['items'] ?? [],
         ])->render();
     }
 
@@ -151,8 +151,8 @@ class SectionsBlock extends RichContentCustomBlock
 
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.sections.index', [
             'heading' => $config['heading'] ?? null,
-            'intro'   => $config['intro'] ?? null,
-            'items'   => $items,
+            'intro' => $config['intro'] ?? null,
+            'items' => $items,
         ])->render();
     }
 
@@ -173,10 +173,10 @@ class SectionsBlock extends RichContentCustomBlock
             return '';
         }
 
-        $href      = url($post->path->url);
+        $href = url($post->path->url);
         $withArrow = (bool) ($item['link_with_arrow'] ?? true);
-        $class     = 'internal-link' . ($withArrow ? ' internal-link--with-arrow' : '');
+        $class = 'internal-link'.($withArrow ? ' internal-link--with-arrow' : '');
 
-        return '<a href="' . e($href) . '" class="' . $class . '">' . e($post->title) . '</a>';
+        return '<a href="'.e($href).'" class="'.$class.'">'.e($post->title).'</a>';
     }
 }
