@@ -6,21 +6,20 @@ use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Filament\Forms\MetaDataFields;
 use App\Filament\Forms\RichContentField;
-use App\Models\Cluster;
 use App\Models\Content;
+use App\Models\MenuItem;
+use App\Models\Path;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Closure;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
@@ -28,10 +27,11 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use App\Models\Path;
-use Illuminate\Validation\Rule;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
+use Illuminate\Validation\Rule;
 
 class ContentForm
 {
@@ -72,7 +72,7 @@ class ContentForm
                                                     ->columnSpan(2)
                                                     ->required()
                                                     ->maxLength(80)
-                                                    ->helperText(fn($state) => strlen($state ?? '') . ' / 80 ' . __('resource.default_form_fields.signs'))
+                                                    ->helperText(fn ($state) => strlen($state ?? '').' / 80 '.__('resource.default_form_fields.signs'))
                                                     ->live(onBlur: true)
                                                     ->afterStateUpdated(function (Set $set, Get $get, ?string $state) {
                                                         if (blank($get('metaData.meta_title'))) {
@@ -89,21 +89,21 @@ class ContentForm
                                                             ->dehydrated(false),
                                                         TextInput::make('slug')
                                                             ->label(__('resource.content_resource.form.path'))
-                                                            ->disabled(fn(Get $get, string $operation) => $operation === 'edit' && !$get('edit_slug'))
+                                                            ->disabled(fn (Get $get, string $operation) => $operation === 'edit' && ! $get('edit_slug'))
                                                             ->required()
                                                             ->dehydrated()
                                                             ->maxLength(100)
                                                             ->rules([Rule::notIn(Path::RESERVED_SLUGS)])
                                                             ->validationMessages(['not_in' => __('resource.default_form_fields.slug_reserved')])
                                                             ->live(onBlur: true)
-                                                            ->helperText(fn($state) => strlen($state ?? '') . ' / 100 ' . __('resource.default_form_fields.signs'))
+                                                            ->helperText(fn ($state) => strlen($state ?? '').' / 100 '.__('resource.default_form_fields.signs'))
                                                             ->prefixAction(
                                                                 Action::make('edit_slug')
                                                                     ->icon('heroicon-m-pencil')
                                                                     ->color('danger')
                                                                     ->tooltip(__('resource.content_resource.form.path_tooltip'))
-                                                                    ->visible(fn(string $operation) => $operation === 'edit')
-                                                                    ->action(fn(Set $set, Get $get) => $set('edit_slug', !$get('edit_slug')))
+                                                                    ->visible(fn (string $operation) => $operation === 'edit')
+                                                                    ->action(fn (Set $set, Get $get) => $set('edit_slug', ! $get('edit_slug')))
                                                             ),
                                                     ]),
                                             ]),
@@ -125,8 +125,8 @@ class ContentForm
                                                     ->label(__('resource.content_resource.form.author'))
                                                     ->native(false)
                                                     ->relationship('author', 'name')
-                                                    ->default(fn() => auth()->id())
-                                                    ->disabled(fn(string $operation) => $operation === 'create')
+                                                    ->default(fn () => auth()->id())
+                                                    ->disabled(fn (string $operation) => $operation === 'create')
                                                     ->dehydrated(false)
                                                     ->columnSpan(3),
                                                 Select::make('category_id')
@@ -134,15 +134,15 @@ class ContentForm
                                                     ->native(false)
                                                     ->preload()
                                                     ->live()
-                                                    ->afterStateUpdated(fn(Set $set) => $set('cluster_id', null))
-                                                    ->getOptionLabelFromRecordUsing(fn($record) => $record->active
+                                                    ->afterStateUpdated(fn (Set $set) => $set('cluster_id', null))
+                                                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->active
                                                         ? $record->name
-                                                        : '<span class="text-danger-400">' . $record->name . ' (' . __('resource.default_form_fields.inactive') . ')</span>'
+                                                        : '<span class="text-danger-400">'.$record->name.' ('.__('resource.default_form_fields.inactive').')</span>'
                                                     )
                                                     ->allowHtml()
                                                     ->relationship('category', 'name')
-                                                    ->disabled(fn($record) => $record && \App\Models\MenuItem::where('model_type', \App\Models\Content::class)->where('model_id', $record->id)->exists())
-                                                    ->helperText(fn($record) => $record && \App\Models\MenuItem::where('model_type', \App\Models\Content::class)->where('model_id', $record->id)->exists()
+                                                    ->disabled(fn ($record) => $record && MenuItem::where('model_type', Content::class)->where('model_id', $record->id)->exists())
+                                                    ->helperText(fn ($record) => $record && MenuItem::where('model_type', Content::class)->where('model_id', $record->id)->exists()
                                                         ? __('resource.content_resource.form.category_disabled_menu')
                                                         : null)
                                                     ->columnSpan(3),
@@ -150,7 +150,7 @@ class ContentForm
                                                     ->label(__('resource.content_resource.form.is_featured'))
                                                     ->default(false)
                                                     ->inline(false)
-                                                    ->columnSpan(fn(Get $get) => $get('cluster_id') ? 1 : 3)
+                                                    ->columnSpan(fn (Get $get) => $get('cluster_id') ? 1 : 3)
                                                     ->onIcon(Heroicon::Star)
                                                     ->offIcon(Heroicon::Star),
                                                 Toggle::make('is_pillar')
@@ -158,19 +158,19 @@ class ContentForm
                                                     ->inline(false)
                                                     ->live()
                                                     ->columnSpan(1)
-                                                    ->visible(fn(Get $get) => (bool) $get('cluster_id'))
-                                                    ->afterStateHydrated(fn($state, $component) => $component->state($state === true))
-                                                    ->dehydrateStateUsing(fn($state) => $state ?: null)
+                                                    ->visible(fn (Get $get) => (bool) $get('cluster_id'))
+                                                    ->afterStateHydrated(fn ($state, $component) => $component->state($state === true))
+                                                    ->dehydrateStateUsing(fn ($state) => $state ?: null)
                                                     ->onIcon(Heroicon::Fire)
                                                     ->offIcon(Heroicon::Fire)
                                                     ->rules([
-                                                        fn(Get $get, ?Model $record): Closure => static function (string $attribute, mixed $value, Closure $fail) use ($get, $record): void {
+                                                        fn (Get $get, ?Model $record): Closure => static function (string $attribute, mixed $value, Closure $fail) use ($get, $record): void {
                                                             if (! $value || ! $get('cluster_id')) {
                                                                 return;
                                                             }
                                                             $exists = Content::where('cluster_id', $get('cluster_id'))
                                                                 ->whereNotNull('is_pillar')
-                                                                ->when($record?->id, fn($q, $id) => $q->where('id', '!=', $id))
+                                                                ->when($record?->id, fn ($q, $id) => $q->where('id', '!=', $id))
                                                                 ->exists();
                                                             if ($exists) {
                                                                 $fail(__('resource.content_resource.validation.pillar_exists'));
@@ -183,18 +183,18 @@ class ContentForm
                                                     ->placeholder(__('resource.content_resource.form.cluster_position_placeholder'))
                                                     ->options(array_combine(range(0, 15), range(0, 15)))
                                                     ->columnSpan(1)
-                                                    ->visible(fn(Get $get) => (bool) $get('cluster_id')),
+                                                    ->visible(fn (Get $get) => (bool) $get('cluster_id')),
                                                 Select::make('cluster_id')
                                                     ->label(__('resource.content_resource.form.cluster'))
                                                     ->native(false)
                                                     ->preload()
                                                     ->searchable()
                                                     ->live()
-                                                    ->disabled(fn(Get $get) => ! $get('category_id'))
+                                                    ->disabled(fn (Get $get) => ! $get('category_id'))
                                                     ->relationship(
                                                         name: 'cluster',
                                                         titleAttribute: 'title',
-                                                        modifyQueryUsing: fn(Builder $query, Get $get) => $query->where('category_id', $get('category_id')),
+                                                        modifyQueryUsing: fn (Builder $query, Get $get) => $query->where('category_id', $get('category_id')),
                                                     )
                                                     ->columnSpan(3),
                                             ]),
@@ -208,7 +208,7 @@ class ContentForm
                                                     ->rows(10)
                                                     ->maxLength(160)
                                                     ->live(onBlur: true)
-                                                    ->helperText(fn($state) => strlen($state ?? '') . ' / 160 ' . __('resource.default_form_fields.signs')),
+                                                    ->helperText(fn ($state) => strlen($state ?? '').' / 160 '.__('resource.default_form_fields.signs')),
                                                 CuratorPicker::make('feature_image_id')
                                                     ->label(__('resource.content_resource.form.feature_image'))
                                                     ->hintIcon('heroicon-m-information-circle')
@@ -232,9 +232,9 @@ class ContentForm
                             ->schema([
                                 Placeholder::make('inbound_links')
                                     ->label('')
-                                    ->content(fn(?Model $record) => $record
+                                    ->content(fn (?Model $record) => $record
                                         ? new HtmlString(view('filament.resources.contents.inbound-links', [
-                                            'articles' => Content::where('content', 'like', '%"postId":' . $record->id . '%')
+                                            'articles' => Content::where('content', 'like', '%"postId":'.$record->id.'%')
                                                 ->with('category')
                                                 ->select(['id', 'title', 'status', 'is_pillar', 'category_id'])
                                                 ->get(),

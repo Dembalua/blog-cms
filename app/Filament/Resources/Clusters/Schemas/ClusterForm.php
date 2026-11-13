@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Clusters\Schemas;
 
-use App\Models\Category;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -40,9 +39,9 @@ class ClusterForm
                             ->relationship(
                                 name: 'relatedClusters',
                                 titleAttribute: 'title',
-                                modifyQueryUsing: fn(Builder $query, ?Model $record) => $query->when(
+                                modifyQueryUsing: fn (Builder $query, ?Model $record) => $query->when(
                                     $record?->id,
-                                    fn($q, $id) => $q->where('clusters.id', '!=', $id)
+                                    fn ($q, $id) => $q->where('clusters.id', '!=', $id)
                                 ),
                             )
                             ->preload()

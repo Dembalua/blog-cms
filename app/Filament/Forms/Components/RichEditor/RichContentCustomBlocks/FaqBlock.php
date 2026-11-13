@@ -44,7 +44,7 @@ class FaqBlock extends RichContentCustomBlock
                     ->minItems(1)
                     ->addActionLabel(__('rich-editor-blocks.faq.add_item'))
                     ->collapsible()
-                    ->itemLabel(fn(array $state): ?string => $state['question'] ?? null),
+                    ->itemLabel(fn (array $state): ?string => $state['question'] ?? null),
             ]);
     }
 
@@ -57,11 +57,11 @@ class FaqBlock extends RichContentCustomBlock
         $count = count($config['items'] ?? []);
 
         if ($count > 0) {
-            $label .= ' (' . $count . ')';
+            $label .= ' ('.$count.')';
         }
 
-        if (!empty($config['heading'])) {
-            $label .= ': ' . $config['heading'];
+        if (! empty($config['heading'])) {
+            $label .= ': '.$config['heading'];
         }
 
         return $label;
@@ -74,7 +74,7 @@ class FaqBlock extends RichContentCustomBlock
     {
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.faq.preview', [
             'heading' => $config['heading'] ?? null,
-            'items'   => $config['items'] ?? [],
+            'items' => $config['items'] ?? [],
         ])->render();
     }
 
@@ -86,7 +86,7 @@ class FaqBlock extends RichContentCustomBlock
     {
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.faq.index', [
             'heading' => $config['heading'] ?? null,
-            'items'   => $config['items'] ?? [],
+            'items' => $config['items'] ?? [],
         ])->render();
     }
 
@@ -109,12 +109,12 @@ class FaqBlock extends RichContentCustomBlock
         $faqItems = [];
         $nodes = $contentJson['content'] ?? [];
 
-        if (!is_array($nodes)) {
+        if (! is_array($nodes)) {
             return [];
         }
 
         foreach ($nodes as $node) {
-            if (!is_array($node)) {
+            if (! is_array($node)) {
                 continue;
             }
 
@@ -123,14 +123,14 @@ class FaqBlock extends RichContentCustomBlock
                 if (($attrs['id'] ?? '') === static::getId()) {
                     $blockData = $attrs['config'] ?? [];
                     foreach ($blockData['items'] ?? [] as $item) {
-                        if (!empty($item['question']) && !empty($item['answer'])) {
+                        if (! empty($item['question']) && ! empty($item['answer'])) {
                             $faqItems[] = $item;
                         }
                     }
                 }
             }
 
-            if (!empty($node['content'])) {
+            if (! empty($node['content'])) {
                 $faqItems = array_merge($faqItems, static::extractItems($node));
             }
         }

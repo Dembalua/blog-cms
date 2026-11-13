@@ -20,6 +20,7 @@ class AffiliateLinkResource extends Resource
     protected static ?string $model = AffiliateLink::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
+
     protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -42,9 +43,9 @@ class AffiliateLinkResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListAffiliateLinks::route('/'),
+            'index' => ListAffiliateLinks::route('/'),
             'create' => CreateAffiliateLink::route('/create'),
-            'edit'   => EditAffiliateLink::route('/{record}/edit'),
+            'edit' => EditAffiliateLink::route('/{record}/edit'),
         ];
     }
 

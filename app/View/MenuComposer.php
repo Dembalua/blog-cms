@@ -43,7 +43,7 @@ class MenuComposer
         return Content::whereIn('id', $ids)
             ->with('path')
             ->get()
-            ->map(fn($content) => (object) [
+            ->map(fn ($content) => (object) [
                 'title' => $content->title,
                 'model' => $content,
             ]);
@@ -67,8 +67,8 @@ class MenuComposer
                     $q->whereHasMorph('model', [Content::class], fn ($q) => $q->where('status', ContentStatus::PUBLISHED))
                         ->orWhereHasMorph('model', [Category::class]);
                 })
-                ->orderBy('order')
-                ->with(['children' => $withChildren, 'model', 'model.path']);
+                    ->orderBy('order')
+                    ->with(['children' => $withChildren, 'model', 'model.path']);
             };
 
             return MenuItem::whereNull('parent_id')

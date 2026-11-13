@@ -21,7 +21,7 @@ class MaintenanceModeTest extends FilamentTestCase
 
         $content = Content::factory()->page()->published()->create();
 
-        $this->get('/' . $content->path->url)->assertOk();
+        $this->get('/'.$content->path->url)->assertOk();
     }
 
     public function test_site_returns_503_when_maintenance_mode_enabled(): void
@@ -30,7 +30,7 @@ class MaintenanceModeTest extends FilamentTestCase
 
         $content = Content::factory()->page()->published()->create();
 
-        $this->get('/' . $content->path->url)->assertStatus(503);
+        $this->get('/'.$content->path->url)->assertStatus(503);
     }
 
     public function test_maintenance_page_is_shown_when_maintenance_mode_enabled(): void
@@ -39,7 +39,7 @@ class MaintenanceModeTest extends FilamentTestCase
 
         $content = Content::factory()->page()->published()->create();
 
-        $this->get('/' . $content->path->url)->assertViewIs('maintenance');
+        $this->get('/'.$content->path->url)->assertViewIs('maintenance');
     }
 
     public function test_allowed_ip_can_access_site_during_maintenance(): void
@@ -50,7 +50,7 @@ class MaintenanceModeTest extends FilamentTestCase
         $content = Content::factory()->page()->published()->create();
 
         $this->withServerVariables(['REMOTE_ADDR' => '123.123.123.123'])
-            ->get('/' . $content->path->url)
+            ->get('/'.$content->path->url)
             ->assertOk();
     }
 
@@ -62,7 +62,7 @@ class MaintenanceModeTest extends FilamentTestCase
         $content = Content::factory()->page()->published()->create();
 
         $this->withServerVariables(['REMOTE_ADDR' => '999.999.999.999'])
-            ->get('/' . $content->path->url)
+            ->get('/'.$content->path->url)
             ->assertStatus(503);
     }
 
@@ -72,7 +72,7 @@ class MaintenanceModeTest extends FilamentTestCase
         Setting::factory()->maintenanceEnabled()->create();
         Setting::factory()->maintenancePages([$content->id])->create();
 
-        $this->get('/' . $content->path->url)->assertOk();
+        $this->get('/'.$content->path->url)->assertOk();
     }
 
     public function test_allowed_page_has_maintenance_mode_active_flag(): void
@@ -81,7 +81,7 @@ class MaintenanceModeTest extends FilamentTestCase
         Setting::factory()->maintenanceEnabled()->create();
         Setting::factory()->maintenancePages([$content->id])->create();
 
-        $this->get('/' . $content->path->url)
+        $this->get('/'.$content->path->url)
             ->assertOk()
             ->assertViewHas('maintenanceModeActive', true);
     }
@@ -93,7 +93,7 @@ class MaintenanceModeTest extends FilamentTestCase
         Setting::factory()->maintenanceEnabled()->create();
         Setting::factory()->maintenancePages([$allowed->id])->create();
 
-        $this->get('/' . $blocked->path->url)->assertStatus(503);
+        $this->get('/'.$blocked->path->url)->assertStatus(503);
     }
 
     public function test_admin_is_accessible_during_maintenance(): void

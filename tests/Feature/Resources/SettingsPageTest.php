@@ -51,7 +51,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'site',
-            'key'   => 'name',
+            'key' => 'name',
             'value' => 'New Site Name',
         ]);
     }
@@ -74,7 +74,7 @@ class SettingsPageTest extends FilamentTestCase
 
         Livewire::test(Settings::class)
             ->fillForm([
-                'site_name'   => 'Test',
+                'site_name' => 'Test',
                 'menu_header' => $menu->id,
             ])
             ->call('save')
@@ -82,7 +82,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'menu',
-            'key'   => 'header',
+            'key' => 'header',
             'value' => $menu->id,
         ]);
     }
@@ -93,7 +93,7 @@ class SettingsPageTest extends FilamentTestCase
 
         Livewire::test(Settings::class)
             ->fillForm([
-                'site_name'   => 'Test',
+                'site_name' => 'Test',
                 'menu_footer' => $menu->id,
             ])
             ->call('save')
@@ -101,7 +101,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'menu',
-            'key'   => 'footer',
+            'key' => 'footer',
             'value' => $menu->id,
         ]);
     }
@@ -110,7 +110,7 @@ class SettingsPageTest extends FilamentTestCase
     {
         Livewire::test(Settings::class)
             ->fillForm([
-                'site_name'      => 'Test',
+                'site_name' => 'Test',
                 'menu_max_depth' => 2,
             ])
             ->call('save')
@@ -118,7 +118,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'menu',
-            'key'   => 'max_depth',
+            'key' => 'max_depth',
             'value' => 2,
         ]);
     }
@@ -127,7 +127,7 @@ class SettingsPageTest extends FilamentTestCase
     {
         Livewire::test(Settings::class)
             ->fillForm([
-                'site_name'     => 'Test',
+                'site_name' => 'Test',
                 'footer_slogan' => 'Making the web better.',
             ])
             ->call('save')
@@ -135,7 +135,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'footer',
-            'key'   => 'slogan',
+            'key' => 'slogan',
             'value' => 'Making the web better.',
         ]);
     }
@@ -158,9 +158,9 @@ class SettingsPageTest extends FilamentTestCase
     {
         Livewire::test(Settings::class)
             ->fillForm([
-                'site_name'           => 'Test',
+                'site_name' => 'Test',
                 'metaData.meta_title' => 'My Meta Title',
-                'metaData.robots'     => MetaDataRobots::INDEX_FOLLOW->value,
+                'metaData.robots' => MetaDataRobots::INDEX_FOLLOW->value,
             ])
             ->call('save')
             ->assertHasNoFormErrors();
@@ -169,7 +169,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('meta_data', [
             'model_type' => Setting::class,
-            'model_id'   => $setting->id,
+            'model_id' => $setting->id,
             'meta_title' => 'My Meta Title',
         ]);
     }
@@ -187,7 +187,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'theme',
-            'key'   => 'light_primary',
+            'key' => 'light_primary',
             'value' => '#7C3AED',
         ]);
     }
@@ -201,7 +201,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'theme',
-            'key'   => 'dark_primary',
+            'key' => 'dark_primary',
             'value' => '#A78BFA',
         ]);
     }
@@ -214,7 +214,7 @@ class SettingsPageTest extends FilamentTestCase
         Livewire::test(Settings::class)
             ->assertSchemaStateSet([
                 'theme_light_primary' => '#FF0000',
-                'theme_dark_primary'  => '#00FF00',
+                'theme_dark_primary' => '#00FF00',
             ]);
     }
 
@@ -231,7 +231,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'content',
-            'key'   => 'category_page_size',
+            'key' => 'category_page_size',
             'value' => 6,
         ]);
     }
@@ -267,7 +267,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'rss',
-            'key'   => 'title',
+            'key' => 'title',
             'value' => 'My RSS Feed',
         ]);
     }
@@ -281,7 +281,7 @@ class SettingsPageTest extends FilamentTestCase
 
         $this->assertDatabaseHas('settings', [
             'group' => 'rss',
-            'key'   => 'description',
+            'key' => 'description',
             'value' => 'A blog about web development.',
         ]);
     }
@@ -301,7 +301,7 @@ class SettingsPageTest extends FilamentTestCase
 
         Livewire::test(Settings::class)
             ->assertSchemaStateSet([
-                'rss_title'       => 'My Feed',
+                'rss_title' => 'My Feed',
                 'rss_description' => 'My description.',
             ]);
     }

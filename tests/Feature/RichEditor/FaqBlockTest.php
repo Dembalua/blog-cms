@@ -171,7 +171,7 @@ class FaqBlockTest extends FilamentTestCase
     public function test_extract_items_returns_empty_when_no_faq_blocks(): void
     {
         $content = [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => [
                 ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Hello world']]],
             ],
@@ -183,12 +183,12 @@ class FaqBlockTest extends FilamentTestCase
     public function test_extract_items_returns_items_from_faq_block(): void
     {
         $content = [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => [
                 [
-                    'type'  => 'customBlock',
+                    'type' => 'customBlock',
                     'attrs' => [
-                        'id'     => 'faq',
+                        'id' => 'faq',
                         'config' => [
                             'items' => [
                                 ['question' => 'What is PHP?', 'answer' => 'A server-side scripting language.'],
@@ -210,12 +210,12 @@ class FaqBlockTest extends FilamentTestCase
     public function test_extract_items_ignores_other_custom_blocks(): void
     {
         $content = [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => [
                 [
-                    'type'  => 'customBlock',
+                    'type' => 'customBlock',
                     'attrs' => [
-                        'id'     => 'image-text',
+                        'id' => 'image-text',
                         'config' => ['heading' => 'Some heading', 'body' => 'Some text'],
                     ],
                 ],
@@ -228,12 +228,12 @@ class FaqBlockTest extends FilamentTestCase
     public function test_extract_items_skips_incomplete_items(): void
     {
         $content = [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => [
                 [
-                    'type'  => 'customBlock',
+                    'type' => 'customBlock',
                     'attrs' => [
-                        'id'     => 'faq',
+                        'id' => 'faq',
                         'config' => [
                             'items' => [
                                 ['question' => 'What is Git?', 'answer' => 'A version control system.'],
@@ -255,19 +255,19 @@ class FaqBlockTest extends FilamentTestCase
     public function test_extract_items_merges_items_from_multiple_faq_blocks(): void
     {
         $content = [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => [
                 [
-                    'type'  => 'customBlock',
+                    'type' => 'customBlock',
                     'attrs' => [
-                        'id'     => 'faq',
+                        'id' => 'faq',
                         'config' => ['items' => [['question' => 'What is Docker?', 'answer' => 'A container platform.']]],
                     ],
                 ],
                 [
-                    'type'  => 'customBlock',
+                    'type' => 'customBlock',
                     'attrs' => [
-                        'id'     => 'faq',
+                        'id' => 'faq',
                         'config' => ['items' => [['question' => 'What is Kubernetes?', 'answer' => 'A container orchestrator.']]],
                     ],
                 ],

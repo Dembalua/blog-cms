@@ -17,15 +17,15 @@ class SubmitIndexNowTest extends FilamentTestCase
         parent::setUp();
 
         config([
-            'services.indexnow.key'      => self::KEY,
+            'services.indexnow.key' => self::KEY,
             'services.indexnow.endpoint' => 'https://api.indexnow.org/indexnow',
-            'app.url'                    => 'https://example.test',
+            'app.url' => 'https://example.test',
         ]);
     }
 
     protected function tearDown(): void
     {
-        $file = public_path(self::KEY . '.txt');
+        $file = public_path(self::KEY.'.txt');
         if (is_file($file)) {
             unlink($file);
         }
@@ -70,7 +70,7 @@ class SubmitIndexNowTest extends FilamentTestCase
                 && $request['host'] === 'example.test'
                 && $request['key'] === 'testkey1234567890abcdef111111111'
                 && $request['keyLocation'] === 'https://example.test/testkey1234567890abcdef111111111.txt'
-                && in_array('https://example.test/' . $content->path->url, $request['urlList']);
+                && in_array('https://example.test/'.$content->path->url, $request['urlList']);
         });
     }
 
@@ -104,8 +104,8 @@ class SubmitIndexNowTest extends FilamentTestCase
 
         $this->artisan('indexnow:submit')->assertSuccessful();
 
-        Http::assertSent(fn($request) => in_array(
-            'https://example.test/' . $category->path->url,
+        Http::assertSent(fn ($request) => in_array(
+            'https://example.test/'.$category->path->url,
             $request['urlList']
         ));
     }
@@ -123,10 +123,10 @@ class SubmitIndexNowTest extends FilamentTestCase
     public function test_ignores_content_updated_outside_since_window(): void
     {
         $old = Content::factory()->post()->published()->create();
-        Content::withoutTimestamps(fn() => $old->forceFill([
-            'updated_at'   => now()->subDays(3),
+        Content::withoutTimestamps(fn () => $old->forceFill([
+            'updated_at' => now()->subDays(3),
             'published_at' => now()->subDays(3),
-            'revised_at'   => null,
+            'revised_at' => null,
         ])->save());
 
         Http::fake();

@@ -33,7 +33,7 @@ class MediaTable extends BaseMediaTable
                         $tempPath = tempnam(sys_get_temp_dir(), 'download');
                         file_put_contents($tempPath, $disk->get($record->path));
 
-                        return response()->download($tempPath, $record->name . '.' . $record->ext)
+                        return response()->download($tempPath, $record->name.'.'.$record->ext)
                             ->deleteFileAfterSend(true);
                     })
                     ->authorize('download'),

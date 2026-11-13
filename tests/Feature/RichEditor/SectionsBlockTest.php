@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\RichEditor;
 
-use App\Enums\ContentStatus;
 use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\SectionsBlock;
 use App\Models\Cluster;
 use App\Models\Content;
@@ -136,15 +135,15 @@ class SectionsBlockTest extends FilamentTestCase
     public function test_to_html_renders_internal_link_when_post_selected(): void
     {
         $cluster = Cluster::factory()->create();
-        $post    = Content::factory()->published()->create([
+        $post = Content::factory()->published()->create([
             'cluster_id' => $cluster->id,
-            'title'      => 'Linked Article',
+            'title' => 'Linked Article',
         ]);
 
         $html = SectionsBlock::toHtml(
             ['items' => [[
-                'heading'      => 'A',
-                'body'         => 'a',
+                'heading' => 'A',
+                'body' => 'a',
                 'link_post_id' => $post->id,
             ]]],
             []
@@ -177,13 +176,13 @@ class SectionsBlockTest extends FilamentTestCase
     public function test_to_html_link_with_arrow_class_when_enabled(): void
     {
         $cluster = Cluster::factory()->create();
-        $post    = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
+        $post = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
 
         $html = SectionsBlock::toHtml(
             ['items' => [[
-                'heading'         => 'A',
-                'body'            => 'a',
-                'link_post_id'    => $post->id,
+                'heading' => 'A',
+                'body' => 'a',
+                'link_post_id' => $post->id,
                 'link_with_arrow' => true,
             ]]],
             []
@@ -195,13 +194,13 @@ class SectionsBlockTest extends FilamentTestCase
     public function test_to_html_link_without_arrow_class_when_disabled(): void
     {
         $cluster = Cluster::factory()->create();
-        $post    = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
+        $post = Content::factory()->published()->create(['cluster_id' => $cluster->id]);
 
         $html = SectionsBlock::toHtml(
             ['items' => [[
-                'heading'         => 'A',
-                'body'            => 'a',
-                'link_post_id'    => $post->id,
+                'heading' => 'A',
+                'body' => 'a',
+                'link_post_id' => $post->id,
                 'link_with_arrow' => false,
             ]]],
             []

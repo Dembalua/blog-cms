@@ -28,7 +28,7 @@ class CategoryFactory extends Factory
         return $this->afterCreating(function (Category $category) {
             $category->path()->create([
                 'slug' => Str::slug($category->name, '-', 'de'),
-                'url'  => Str::slug($category->name, '-', 'de'),
+                'url' => Str::slug($category->name, '-', 'de'),
             ]);
         });
     }

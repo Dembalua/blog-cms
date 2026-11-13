@@ -50,7 +50,7 @@ class AffiliateNetworkResourceTest extends FilamentTestCase
         AffiliateNetwork::factory()->create(['name' => 'Awin']);
         AffiliateNetwork::factory()->create(['name' => 'Digistore24']);
 
-        $sortedAsc  = AffiliateNetwork::orderBy('name')->get();
+        $sortedAsc = AffiliateNetwork::orderBy('name')->get();
         $sortedDesc = AffiliateNetwork::orderBy('name', 'desc')->get();
 
         Livewire::test(ListAffiliateNetworks::class)
@@ -121,7 +121,7 @@ class AffiliateNetworkResourceTest extends FilamentTestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('affiliate_networks', [
-            'id'   => $network->id,
+            'id' => $network->id,
             'name' => 'Amazon Updated',
         ]);
     }

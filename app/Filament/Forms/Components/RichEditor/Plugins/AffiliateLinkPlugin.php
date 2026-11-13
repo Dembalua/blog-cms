@@ -63,11 +63,11 @@ class AffiliateLinkPlugin implements RichContentPlugin
                         ->options(AffiliateNetwork::orderBy('name')->pluck('name', 'id'))
                         ->native(false)
                         ->live()
-                        ->afterStateUpdated(fn(Set $set) => $set('affiliate_link_id', null)),
+                        ->afterStateUpdated(fn (Set $set) => $set('affiliate_link_id', null)),
                     Select::make('affiliate_link_id')
                         ->label(__('rich-editor-blocks.affiliate_link.fields.link'))
-                        ->options(fn(Get $get) => AffiliateLink::where('is_active', true)
-                            ->when($get('affiliate_network_id'), fn($q, $id) => $q->where('affiliate_network_id', $id))
+                        ->options(fn (Get $get) => AffiliateLink::where('is_active', true)
+                            ->when($get('affiliate_network_id'), fn ($q, $id) => $q->where('affiliate_network_id', $id))
                             ->orderBy('name')
                             ->pluck('name', 'id')
                         )
@@ -77,16 +77,16 @@ class AffiliateLinkPlugin implements RichContentPlugin
                 ])
                 ->action(function (array $arguments, array $data, RichEditor $component): void {
                     $editorSelection = $arguments['editorSelection'] ?? null;
-                    $isSinglePoint   = ($editorSelection['anchor'] ?? null) === ($editorSelection['head'] ?? null);
+                    $isSinglePoint = ($editorSelection['anchor'] ?? null) === ($editorSelection['head'] ?? null);
 
                     if ($isSinglePoint) {
-                        $link    = AffiliateLink::find($data['affiliate_link_id']);
+                        $link = AffiliateLink::find($data['affiliate_link_id']);
                         $commands = [
                             EditorCommand::make('insertContent', [[
-                                'type'  => 'text',
-                                'text'  => $link?->name ?? '',
+                                'type' => 'text',
+                                'text' => $link?->name ?? '',
                                 'marks' => [[
-                                    'type'  => 'affiliateLink',
+                                    'type' => 'affiliateLink',
                                     'attrs' => ['affiliateLinkId' => (int) $data['affiliate_link_id']],
                                 ]],
                             ]]),

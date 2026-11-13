@@ -41,12 +41,12 @@ return [
     ],
 
     'turnstile' => [
-        'site_key'   => env('TURNSTILE_SITE_KEY'),
+        'site_key' => env('TURNSTILE_SITE_KEY'),
         'secret_key' => env('TURNSTILE_SECRET_KEY'),
     ],
 
     'indexnow' => [
-        'key'      => env('INDEXNOW_KEY'),
+        'key' => env('INDEXNOW_KEY'),
         'endpoint' => env('INDEXNOW_ENDPOINT', 'https://api.indexnow.org/indexnow'),
     ],
 

@@ -20,6 +20,7 @@ class PathObserver
                 if ($newPath !== null) {
                     PathRedirect::where('old_path', $newPath)->delete();
                 }
+
                 return;
             }
 
@@ -28,6 +29,7 @@ class PathObserver
                     ['old_path' => $oldPath],
                     ['new_path' => null, 'status_code' => RedirectStatus::GONE]
                 );
+
                 return;
             }
 
@@ -36,7 +38,7 @@ class PathObserver
             PathRedirect::updateOrCreate(
                 ['old_path' => $oldPath],
                 [
-                    'new_path'    => $newPath,
+                    'new_path' => $newPath,
                     'status_code' => RedirectStatus::MOVED_PERMANENTLY,
                 ]
             );

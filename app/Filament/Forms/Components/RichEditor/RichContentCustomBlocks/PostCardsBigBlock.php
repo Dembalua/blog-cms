@@ -50,9 +50,9 @@ class PostCardsBigBlock extends RichContentCustomBlock
                 Select::make('source')
                     ->label(__('rich-editor-blocks.post_cards_big.fields.source'))
                     ->options([
-                        'latest'   => __('rich-editor-blocks.post_cards_big.fields.source_latest'),
+                        'latest' => __('rich-editor-blocks.post_cards_big.fields.source_latest'),
                         'category' => __('rich-editor-blocks.post_cards_big.fields.source_category'),
-                        'cluster'  => __('rich-editor-blocks.post_cards_big.fields.source_cluster'),
+                        'cluster' => __('rich-editor-blocks.post_cards_big.fields.source_cluster'),
                     ])
                     ->default('latest')
                     ->required()
@@ -88,11 +88,11 @@ class PostCardsBigBlock extends RichContentCustomBlock
         $count = (int) ($config['count'] ?? 0);
 
         if ($count > 0) {
-            $label .= ' (' . $count . ')';
+            $label .= ' ('.$count.')';
         }
 
         if (! empty($config['heading'])) {
-            $label .= ': ' . $config['heading'];
+            $label .= ': '.$config['heading'];
         }
 
         return $label;
@@ -105,9 +105,9 @@ class PostCardsBigBlock extends RichContentCustomBlock
     {
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.post-cards-big.preview', [
             'heading' => $config['heading'] ?? null,
-            'intro'   => $config['intro'] ?? null,
-            'count'   => (int) ($config['count'] ?? 3),
-            'source'  => $config['source'] ?? 'latest',
+            'intro' => $config['intro'] ?? null,
+            'count' => (int) ($config['count'] ?? 3),
+            'source' => $config['source'] ?? 'latest',
         ])->render();
     }
 
@@ -117,7 +117,7 @@ class PostCardsBigBlock extends RichContentCustomBlock
      */
     public static function toHtml(array $config, array $data): string
     {
-        $count  = in_array((int) ($config['count'] ?? 3), [3, 6, 9, 12], true) ? (int) $config['count'] : 3;
+        $count = in_array((int) ($config['count'] ?? 3), [3, 6, 9, 12], true) ? (int) $config['count'] : 3;
         $source = $config['source'] ?? 'latest';
 
         $query = Content::with(['featureImage', 'path', 'category'])
@@ -148,10 +148,10 @@ class PostCardsBigBlock extends RichContentCustomBlock
         }
 
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.post-cards-big.index', [
-            'heading'      => $config['heading'] ?? null,
-            'intro'        => $config['intro'] ?? null,
-            'posts'        => $posts,
-            'categoryUrl'  => $categoryUrl,
+            'heading' => $config['heading'] ?? null,
+            'intro' => $config['intro'] ?? null,
+            'posts' => $posts,
+            'categoryUrl' => $categoryUrl,
             'categoryName' => $categoryName,
         ])->render();
     }

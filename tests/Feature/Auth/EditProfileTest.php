@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Filament\Pages\Auth\EditProfile;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
-use App\Filament\Pages\Auth\EditProfile;
 use Tests\FilamentTestCase;
 
 class EditProfileTest extends FilamentTestCase

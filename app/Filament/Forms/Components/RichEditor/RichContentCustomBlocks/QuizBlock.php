@@ -73,7 +73,7 @@ class QuizBlock extends RichContentCustomBlock
                             ->minItems(2)
                             ->addActionLabel(__('rich-editor-blocks.quiz.add_answer'))
                             ->itemLabel(fn (array $state): ?string => isset($state['label'], $state['points'])
-                                ? $state['label'] . ' → ' . $state['points']
+                                ? $state['label'].' → '.$state['points']
                                 : ($state['label'] ?? null)),
                     ])
                     ->minItems(1)
@@ -136,7 +136,7 @@ class QuizBlock extends RichContentCustomBlock
                                             ->orderBy('cluster_position')
                                             ->get(['id', 'title', 'cluster_position'])
                                             ->mapWithKeys(fn ($c) => [
-                                                $c->id => ($c->cluster_position ? $c->cluster_position . ' – ' : '') . $c->title,
+                                                $c->id => ($c->cluster_position ? $c->cluster_position.' – ' : '').$c->title,
                                             ])
                                             ->toArray()
                                         : []
@@ -152,7 +152,7 @@ class QuizBlock extends RichContentCustomBlock
                     ->addActionLabel(__('rich-editor-blocks.quiz.add_result'))
                     ->collapsible()
                     ->itemLabel(fn (array $state): ?string => isset($state['min_points'], $state['max_points'])
-                        ? ($state['heading'] ?? '') . ' (' . $state['min_points'] . '–' . $state['max_points'] . ')'
+                        ? ($state['heading'] ?? '').' ('.$state['min_points'].'–'.$state['max_points'].')'
                         : ($state['heading'] ?? null)),
             ]);
     }
@@ -166,11 +166,11 @@ class QuizBlock extends RichContentCustomBlock
         $count = count($config['questions'] ?? []);
 
         if ($count > 0) {
-            $label .= ' (' . $count . ')';
+            $label .= ' ('.$count.')';
         }
 
         if (! empty($config['heading'])) {
-            $label .= ': ' . $config['heading'];
+            $label .= ': '.$config['heading'];
         }
 
         return $label;
@@ -182,10 +182,10 @@ class QuizBlock extends RichContentCustomBlock
     public static function toPreviewHtml(array $config): string
     {
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.quiz.preview', [
-            'heading'   => $config['heading'] ?? null,
-            'intro'     => $config['intro'] ?? null,
+            'heading' => $config['heading'] ?? null,
+            'intro' => $config['intro'] ?? null,
             'questions' => $config['questions'] ?? [],
-            'results'   => $config['results'] ?? [],
+            'results' => $config['results'] ?? [],
         ])->render();
     }
 
@@ -201,11 +201,11 @@ class QuizBlock extends RichContentCustomBlock
         ], $config['results'] ?? []);
 
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.quiz.index', [
-            'heading'   => $config['heading'] ?? null,
-            'intro'     => $config['intro'] ?? null,
+            'heading' => $config['heading'] ?? null,
+            'intro' => $config['intro'] ?? null,
             'cta_label' => $config['cta_label'] ?? __('rich-editor-blocks.quiz.defaults.cta_label'),
             'questions' => $config['questions'] ?? [],
-            'results'   => $results,
+            'results' => $results,
         ])->render();
     }
 
@@ -226,13 +226,13 @@ class QuizBlock extends RichContentCustomBlock
             return '';
         }
 
-        $href      = url($post->path->url);
+        $href = url($post->path->url);
         $withArrow = (bool) ($result['link_with_arrow'] ?? true);
-        $class     = 'internal-link' . ($withArrow ? ' internal-link--with-arrow' : '');
-        $arrow     = $withArrow
+        $class = 'internal-link'.($withArrow ? ' internal-link--with-arrow' : '');
+        $arrow = $withArrow
             ? '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="internal-link-arrow" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>'
             : '';
 
-        return '<a href="' . e($href) . '" class="' . $class . '">' . $arrow . e($post->title) . '</a>';
+        return '<a href="'.e($href).'" class="'.$class.'">'.$arrow.e($post->title).'</a>';
     }
 }

@@ -1,6 +1,15 @@
 <?php
 
 declare(strict_types=1);
+use App\Curator\MediaPathGenerator;
+use App\Filament\Resources\Media\MediaResource;
+use App\Filament\Resources\Media\Pages\ListMedia;
+use App\Models\Media;
+use Awcodes\Curator\Providers\GlideUrlProvider;
+use Awcodes\Curator\Resources\Media\Pages\CreateMedia;
+use Awcodes\Curator\Resources\Media\Pages\EditMedia;
+use Awcodes\Curator\Resources\Media\Schemas\MediaForm;
+use Awcodes\Curator\Resources\Media\Tables\MediaTable;
 
 return [
     'curation_formats' => [
@@ -25,8 +34,8 @@ return [
         ],
     ],
     'glide_token' => env('CURATOR_GLIDE_TOKEN'),
-    'model' => App\Models\Media::class,
-    'path_generator' => \App\Curator\MediaPathGenerator::class,
+    'model' => Media::class,
+    'path_generator' => MediaPathGenerator::class,
     'resource' => [
         'label' => 'Media',
         'plural_label' => 'Media',
@@ -38,18 +47,18 @@ return [
             'should_register' => true,
             'should_show_badge' => false,
         ],
-        'resource' => App\Filament\Resources\Media\MediaResource::class,
+        'resource' => MediaResource::class,
         'pages' => [
-            'create' => Awcodes\Curator\Resources\Media\Pages\CreateMedia::class,
-            'edit' => Awcodes\Curator\Resources\Media\Pages\EditMedia::class,
-            'index' => \App\Filament\Resources\Media\Pages\ListMedia::class,
+            'create' => CreateMedia::class,
+            'edit' => EditMedia::class,
+            'index' => ListMedia::class,
         ],
         'schemas' => [
-            'form' => Awcodes\Curator\Resources\Media\Schemas\MediaForm::class,
+            'form' => MediaForm::class,
         ],
         'tables' => [
-            'table' => Awcodes\Curator\Resources\Media\Tables\MediaTable::class,
+            'table' => MediaTable::class,
         ],
     ],
-    'url_provider' => Awcodes\Curator\Providers\GlideUrlProvider::class,
+    'url_provider' => GlideUrlProvider::class,
 ];

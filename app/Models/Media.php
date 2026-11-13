@@ -15,8 +15,10 @@ class Media extends CuratorMedia
             get: function (): string {
                 if ($this->hasCuration('og')) {
                     $curation = $this->getCuration('og');
+
                     return Storage::disk($curation['disk'])->url($curation['path']);
                 }
+
                 return $this->url;
             }
         );
@@ -28,8 +30,10 @@ class Media extends CuratorMedia
             get: function (): string {
                 if ($this->hasCuration('card')) {
                     $curation = $this->getCuration('card');
+
                     return Storage::disk($curation['disk'])->url($curation['path']);
                 }
+
                 return $this->medium_url;
             }
         );
@@ -41,8 +45,10 @@ class Media extends CuratorMedia
             get: function (): string {
                 if ($this->hasCuration('hero')) {
                     $curation = $this->getCuration('hero');
+
                     return Storage::disk($curation['disk'])->url($curation['path']);
                 }
+
                 return GlideBuilder::make()->width(1920)->height(480)->format('webp')->fit('crop')->toUrl($this->path);
             }
         );
@@ -54,8 +60,10 @@ class Media extends CuratorMedia
             get: function (): string {
                 if ($this->hasCuration('homepage_hero')) {
                     $curation = $this->getCuration('homepage_hero');
+
                     return Storage::disk($curation['disk'])->url($curation['path']);
                 }
+
                 return GlideBuilder::make()->width(1100)->height(700)->format('webp')->fit('crop')->toUrl($this->path);
             }
         );

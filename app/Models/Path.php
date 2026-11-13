@@ -23,15 +23,14 @@ class Path extends Model
     protected function slug(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => $value !== null ? trim($value, '/') : null,
+            set: fn (?string $value) => $value !== null ? trim($value, '/') : null,
         );
     }
 
     protected function url(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => $value !== null ? trim($value, '/') : null,
+            set: fn (?string $value) => $value !== null ? trim($value, '/') : null,
         );
     }
 }
-

@@ -41,7 +41,7 @@ return [
             'password_description' => 'Leave blank when editing to avoid changing the password',
             'password_confirmation' => 'Confirm Password',
             'email_verified_at' => 'E-Mail Verified at',
-        ]
+        ],
     ],
 
     // Category Resource
@@ -50,9 +50,9 @@ return [
             'model_label' => 'Category',
             'plural_model_label' => 'Categories',
         ],
-        'delete_blocked_title'          => 'Cannot delete',
-        'delete_blocked_menu_body'      => 'This category is still linked in a menu.',
-        'delete_blocked_contents_body'  => 'This category still has articles.',
+        'delete_blocked_title' => 'Cannot delete',
+        'delete_blocked_menu_body' => 'This category is still linked in a menu.',
+        'delete_blocked_contents_body' => 'This category still has articles.',
         'form' => [
             'category_section_title' => 'Category',
             'category_section_description' => 'Create and manage your Category.',
@@ -66,7 +66,7 @@ return [
         ],
         'tabs' => [
             'general' => 'General',
-            'seo'     => 'SEO',
+            'seo' => 'SEO',
         ],
     ],
     // Category Resource
@@ -92,7 +92,7 @@ return [
             'content' => 'Content',
             'is_featured' => 'Featured',
             'published_at' => 'Published At',
-            'revised_at'   => 'Revised At',
+            'revised_at' => 'Revised At',
             'author' => 'Author',
 
             'category' => 'Category',
@@ -106,8 +106,8 @@ return [
         ],
         'tabs' => [
             'general' => 'General',
-            'seo'     => 'SEO',
-            'links'   => 'Links',
+            'seo' => 'SEO',
+            'links' => 'Links',
         ],
         'inbound_links' => [
             'count' => ':count article(s) link to this content',
@@ -119,7 +119,7 @@ return [
         ],
         'validation' => [
             'pillar_exists' => 'A pillar is already set for this cluster.',
-            'url_exists'    => 'The URL ":url" is already taken.',
+            'url_exists' => 'The URL ":url" is already taken.',
         ],
     ],
     // Cluster Resource
@@ -129,14 +129,14 @@ return [
             'plural_model_label' => 'Clusters',
         ],
         'form' => [
-            'section_title'           => 'Cluster',
-            'section_description'     => 'Create and manage your topic clusters.',
-            'title'                   => 'Title',
-            'related_clusters'        => 'Related Clusters',
+            'section_title' => 'Cluster',
+            'section_description' => 'Create and manage your topic clusters.',
+            'title' => 'Title',
+            'related_clusters' => 'Related Clusters',
             'related_clusters_helper' => 'Up to 3 clusters that will be linked in the pillar article.',
         ],
         'contents_widget' => [
-            'heading'  => 'Articles in this Cluster',
+            'heading' => 'Articles in this Cluster',
             'is_pillar' => 'Pillar',
         ],
     ],
@@ -144,41 +144,41 @@ return [
     // Affiliate Link Resource
     'affiliate_link_resource' => [
         'navigation' => [
-            'model_label'        => 'Affiliate Link',
+            'model_label' => 'Affiliate Link',
             'plural_model_label' => 'Affiliate Links',
         ],
         'form' => [
             'section_title' => 'Affiliate Link',
-            'network'       => 'Network',
-            'name'          => 'Name',
-            'slug'          => 'Slug',
-            'slug_tooltip'  => 'Warning: Changing the slug creates a redirect entry.',
-            'url'           => 'Target URL',
-            'is_active'     => 'Active',
+            'network' => 'Network',
+            'name' => 'Name',
+            'slug' => 'Slug',
+            'slug_tooltip' => 'Warning: Changing the slug creates a redirect entry.',
+            'url' => 'Target URL',
+            'is_active' => 'Active',
         ],
         'table' => [
-            'clicks'           => 'Clicks',
-            'articles_count'   => 'Articles',
+            'clicks' => 'Clicks',
+            'articles_count' => 'Articles',
             'last_status_code' => 'Last Status',
-            'last_checked_at'  => 'Last Checked',
+            'last_checked_at' => 'Last Checked',
         ],
         'filters' => [
             'unused' => 'Unused links',
         ],
         'delete_blocked_title' => 'Cannot delete',
-        'delete_blocked_body'  => 'This link is still used in articles.',
+        'delete_blocked_body' => 'This link is still used in articles.',
         'usage_widget' => [
-            'heading'          => 'Used in articles',
-            'clicks'           => 'Clicks',
-            'last_clicked_at'  => 'Last click',
-            'unassigned'       => 'Clicks without article attribution: :count',
+            'heading' => 'Used in articles',
+            'clicks' => 'Clicks',
+            'last_clicked_at' => 'Last click',
+            'unassigned' => 'Clicks without article attribution: :count',
         ],
     ],
 
     // Affiliate Network Resource
     'affiliate_network_resource' => [
         'navigation' => [
-            'model_label'        => 'Network',
+            'model_label' => 'Network',
             'plural_model_label' => 'Networks',
         ],
         'form' => [
@@ -188,7 +188,7 @@ return [
             'links_count' => 'Links',
         ],
         'delete_blocked_title' => 'Cannot delete',
-        'delete_blocked_body'  => 'This network still has affiliate links assigned to it.',
+        'delete_blocked_body' => 'This network still has affiliate links assigned to it.',
         'links_widget' => [
             'heading' => 'Assigned Links',
         ],
@@ -197,31 +197,31 @@ return [
     // Homepage Resource
     'homepage_resource' => [
         'navigation' => [
-            'model_label'        => 'Homepage',
+            'model_label' => 'Homepage',
             'plural_model_label' => 'Homepages',
         ],
         'form' => [
-            'general_section_title'       => 'General',
+            'general_section_title' => 'General',
             'general_section_description' => 'Internal name and metadata of this homepage variant.',
-            'title'                       => 'Internal name',
-            'title_hint'                  => 'Only visible in admin, not on the frontend.',
-            'author'                      => 'Author',
-            'published_at'                => 'Published at',
-            'revised_at'                  => 'Revised at',
-            'hero_section_title'          => 'Hero section',
-            'hero_section_description'    => 'The visible top area of the homepage.',
-            'hero_kicker'                 => 'Kicker (small overline)',
-            'hero_headline'               => 'Headline',
-            'hero_headline_accent'        => 'Headline accent (second part, italic & accent color)',
-            'hero_text'                   => 'Hero text',
-            'hero_text_hint'              => 'Line breaks become paragraphs.',
-            'hero_image'                  => 'Hero image',
-            'hero_image_button_label'     => 'Select image',
-            'content_section_title'       => 'Content below hero',
+            'title' => 'Internal name',
+            'title_hint' => 'Only visible in admin, not on the frontend.',
+            'author' => 'Author',
+            'published_at' => 'Published at',
+            'revised_at' => 'Revised at',
+            'hero_section_title' => 'Hero section',
+            'hero_section_description' => 'The visible top area of the homepage.',
+            'hero_kicker' => 'Kicker (small overline)',
+            'hero_headline' => 'Headline',
+            'hero_headline_accent' => 'Headline accent (second part, italic & accent color)',
+            'hero_text' => 'Hero text',
+            'hero_text_hint' => 'Line breaks become paragraphs.',
+            'hero_image' => 'Hero image',
+            'hero_image_button_label' => 'Select image',
+            'content_section_title' => 'Content below hero',
             'content_section_description' => 'Additional blocks and rich content shown below the hero.',
         ],
         'table' => [
-            'active'       => 'Active',
+            'active' => 'Active',
             'active_badge' => 'Live',
         ],
         'validation' => [
@@ -255,5 +255,5 @@ return [
             'title_hint' => 'Automatically generated from the selected content',
             'title_tooltip' => 'Edit title',
         ],
-    ]
+    ],
 ];

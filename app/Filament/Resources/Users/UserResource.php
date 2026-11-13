@@ -18,8 +18,11 @@ use UnitEnum;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Users;
+
     protected static ?int $navigationSort = 2;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
@@ -51,6 +54,7 @@ class UserResource extends Resource
     {
         return __('resource.user_resource.navigation.model_label');
     }
+
     public static function getPluralModelLabel(): string
     {
         return __('resource.user_resource.navigation.plural_model_label');

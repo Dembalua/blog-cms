@@ -14,8 +14,8 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
     public function test_active_link_redirects_to_target_url(): void
     {
         $link = AffiliateLink::factory()->create([
-            'slug'      => 'tailwind-css-book',
-            'url'       => 'https://example.com/tailwind',
+            'slug' => 'tailwind-css-book',
+            'url' => 'https://example.com/tailwind',
             'is_active' => true,
         ]);
 
@@ -27,14 +27,14 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
     public function test_active_link_increments_click_counter(): void
     {
         $link = AffiliateLink::factory()->create([
-            'slug'   => 'webpack-guide',
+            'slug' => 'webpack-guide',
             'clicks' => 0,
         ]);
 
         $this->get('/go/webpack-guide');
 
         $this->assertDatabaseHas('affiliate_links', [
-            'id'     => $link->id,
+            'id' => $link->id,
             'clicks' => 1,
         ]);
     }
@@ -57,8 +57,8 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
     public function test_old_slug_follows_301_redirect(): void
     {
         PathRedirect::create([
-            'old_path'    => 'go/old-devops-book',
-            'new_path'    => 'go/new-devops-book',
+            'old_path' => 'go/old-devops-book',
+            'new_path' => 'go/new-devops-book',
             'status_code' => RedirectStatus::MOVED_PERMANENTLY,
         ]);
 
@@ -70,8 +70,8 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
     public function test_deleted_slug_returns_410(): void
     {
         PathRedirect::create([
-            'old_path'    => 'go/removed-course',
-            'new_path'    => null,
+            'old_path' => 'go/removed-course',
+            'new_path' => null,
             'status_code' => RedirectStatus::GONE,
         ]);
 
@@ -85,24 +85,24 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
 
     public function test_valid_c_parameter_creates_pivot_row(): void
     {
-        $link    = AffiliateLink::factory()->create(['slug' => 'per-article-link']);
+        $link = AffiliateLink::factory()->create(['slug' => 'per-article-link']);
         $content = Content::factory()->create();
 
-        $this->get('/go/per-article-link?c=' . $content->id);
+        $this->get('/go/per-article-link?c='.$content->id);
 
         $this->assertDatabaseHas('affiliate_link_clicks', [
             'affiliate_link_id' => $link->id,
-            'content_id'        => $content->id,
-            'clicks'            => 1,
+            'content_id' => $content->id,
+            'clicks' => 1,
         ]);
     }
 
     public function test_subsequent_click_increments_pivot_and_updates_last_clicked_at(): void
     {
-        $link    = AffiliateLink::factory()->create(['slug' => 'repeat-link']);
+        $link = AffiliateLink::factory()->create(['slug' => 'repeat-link']);
         $content = Content::factory()->create();
 
-        $this->get('/go/repeat-link?c=' . $content->id);
+        $this->get('/go/repeat-link?c='.$content->id);
 
         $firstClickedAt = AffiliateLinkClick::query()
             ->where('affiliate_link_id', $link->id)
@@ -114,7 +114,7 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
             ->where('content_id', $content->id)
             ->update(['last_clicked_at' => now()->subHour()]);
 
-        $this->get('/go/repeat-link?c=' . $content->id);
+        $this->get('/go/repeat-link?c='.$content->id);
 
         $pivot = AffiliateLinkClick::query()
             ->where('affiliate_link_id', $link->id)
@@ -134,21 +134,21 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
 
     public function test_pivot_tracks_total_separately_from_global_counter(): void
     {
-        $link    = AffiliateLink::factory()->create(['slug' => 'dual-counter']);
+        $link = AffiliateLink::factory()->create(['slug' => 'dual-counter']);
         $content = Content::factory()->create();
 
-        $this->get('/go/dual-counter?c=' . $content->id);
-        $this->get('/go/dual-counter?c=' . $content->id);
+        $this->get('/go/dual-counter?c='.$content->id);
+        $this->get('/go/dual-counter?c='.$content->id);
         $this->get('/go/dual-counter');
 
         $this->assertDatabaseHas('affiliate_links', [
-            'id'     => $link->id,
+            'id' => $link->id,
             'clicks' => 3,
         ]);
         $this->assertDatabaseHas('affiliate_link_clicks', [
             'affiliate_link_id' => $link->id,
-            'content_id'        => $content->id,
-            'clicks'            => 2,
+            'content_id' => $content->id,
+            'clicks' => 2,
         ]);
     }
 
@@ -199,10 +199,10 @@ class AffiliateLinkRedirectTest extends FilamentTestCase
 
     public function test_inactive_link_does_not_record_pivot_click(): void
     {
-        $link    = AffiliateLink::factory()->inactive()->create(['slug' => 'inactive-c']);
+        $link = AffiliateLink::factory()->inactive()->create(['slug' => 'inactive-c']);
         $content = Content::factory()->create();
 
-        $this->get('/go/inactive-c?c=' . $content->id);
+        $this->get('/go/inactive-c?c='.$content->id);
 
         $this->assertDatabaseMissing('affiliate_link_clicks', [
             'affiliate_link_id' => $link->id,

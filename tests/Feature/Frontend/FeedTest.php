@@ -60,26 +60,26 @@ class FeedTest extends FilamentTestCase
         $category = Category::factory()->create();
         Content::factory()->post()->published()->create(['category_id' => $category->id]);
 
-        $this->get('/rss/category/' . $category->path->slug)
+        $this->get('/rss/category/'.$category->path->slug)
             ->assertOk()
             ->assertHeader('Content-Type', 'application/xml;charset=UTF-8');
     }
 
     public function test_category_feed_only_contains_posts_from_that_category(): void
     {
-        $category      = Category::factory()->create();
+        $category = Category::factory()->create();
         $otherCategory = Category::factory()->create();
 
         Content::factory()->post()->published()->create([
-            'title'       => 'Matching Post',
+            'title' => 'Matching Post',
             'category_id' => $category->id,
         ]);
         Content::factory()->post()->published()->create([
-            'title'       => 'Other Category Post',
+            'title' => 'Other Category Post',
             'category_id' => $otherCategory->id,
         ]);
 
-        $this->get('/rss/category/' . $category->path->slug)
+        $this->get('/rss/category/'.$category->path->slug)
             ->assertSee('Matching Post')
             ->assertDontSee('Other Category Post');
     }

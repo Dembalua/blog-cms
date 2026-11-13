@@ -62,13 +62,13 @@ class HomepageForm
                             ->required()
                             ->maxLength(25)
                             ->live(onBlur: true)
-                            ->helperText(fn ($state) => strlen($state ?? '') . ' / 25 ' . __('resource.default_form_fields.signs')),
+                            ->helperText(fn ($state) => strlen($state ?? '').' / 25 '.__('resource.default_form_fields.signs')),
                         TextInput::make('hero_headline_accent')
                             ->label(__('resource.homepage_resource.form.hero_headline_accent'))
                             ->required()
                             ->maxLength(25)
                             ->live(onBlur: true)
-                            ->helperText(fn ($state) => strlen($state ?? '') . ' / 25 ' . __('resource.default_form_fields.signs')),
+                            ->helperText(fn ($state) => strlen($state ?? '').' / 25 '.__('resource.default_form_fields.signs')),
                         Textarea::make('hero_text')
                             ->label(__('resource.homepage_resource.form.hero_text'))
                             ->hint(__('resource.homepage_resource.form.hero_text_hint'))
@@ -76,7 +76,7 @@ class HomepageForm
                             ->rows(6)
                             ->maxLength(350)
                             ->live(onBlur: true)
-                            ->helperText(fn ($state) => strlen($state ?? '') . ' / 350 ' . __('resource.default_form_fields.signs'))
+                            ->helperText(fn ($state) => strlen($state ?? '').' / 350 '.__('resource.default_form_fields.signs'))
                             ->columnSpan(2),
                         CuratorPicker::make('hero_image_id')
                             ->label(__('resource.homepage_resource.form.hero_image'))

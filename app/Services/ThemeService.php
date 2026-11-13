@@ -10,28 +10,28 @@ class ThemeService
     public function generateVariables(): void
     {
         $light = [
-            'primary'     => Setting::get('theme.light_primary')     ?? '#7C3AED',
-            'secondary'   => Setting::get('theme.light_secondary')   ?? '#8B5CF6',
-            'background'  => Setting::get('theme.light_background')  ?? '#FAF5FF',
-            'text'        => Setting::get('theme.light_text')        ?? '#0F172A',
-            'surface'     => Setting::get('theme.light_surface')     ?? '#FAF5FF',
-            'text_muted'  => Setting::get('theme.light_text_muted')  ?? '#374151',
+            'primary' => Setting::get('theme.light_primary') ?? '#7C3AED',
+            'secondary' => Setting::get('theme.light_secondary') ?? '#8B5CF6',
+            'background' => Setting::get('theme.light_background') ?? '#FAF5FF',
+            'text' => Setting::get('theme.light_text') ?? '#0F172A',
+            'surface' => Setting::get('theme.light_surface') ?? '#FAF5FF',
+            'text_muted' => Setting::get('theme.light_text_muted') ?? '#374151',
             'text_subtle' => Setting::get('theme.light_text_subtle') ?? '#6B7280',
-            'border'      => Setting::get('theme.light_border')      ?? '#EFE7FC',
+            'border' => Setting::get('theme.light_border') ?? '#EFE7FC',
         ];
 
         $dark = [
-            'primary'     => Setting::get('theme.dark_primary')     ?? '#A78BFA',
-            'secondary'   => Setting::get('theme.dark_secondary')   ?? '#C4B5FD',
-            'background'  => Setting::get('theme.dark_background')  ?? '#100D1A',
-            'text'        => Setting::get('theme.dark_text')        ?? '#EDE9F6',
-            'surface'     => Setting::get('theme.dark_surface')     ?? '#1A1625',
-            'text_muted'  => Setting::get('theme.dark_text_muted')  ?? '#B8B0CC',
+            'primary' => Setting::get('theme.dark_primary') ?? '#A78BFA',
+            'secondary' => Setting::get('theme.dark_secondary') ?? '#C4B5FD',
+            'background' => Setting::get('theme.dark_background') ?? '#100D1A',
+            'text' => Setting::get('theme.dark_text') ?? '#EDE9F6',
+            'surface' => Setting::get('theme.dark_surface') ?? '#1A1625',
+            'text_muted' => Setting::get('theme.dark_text_muted') ?? '#B8B0CC',
             'text_subtle' => Setting::get('theme.dark_text_subtle') ?? '#8B80A0',
-            'border'      => Setting::get('theme.dark_border')      ?? '#2D2640',
+            'border' => Setting::get('theme.dark_border') ?? '#2D2640',
         ];
 
-        $css  = ":root {\n";
+        $css = ":root {\n";
         $css .= "    --color-primary: {$light['primary']};\n";
         $css .= "    --color-secondary: {$light['secondary']};\n";
         $css .= "    --color-background: {$light['background']};\n";

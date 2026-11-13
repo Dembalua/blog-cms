@@ -19,13 +19,13 @@ class PathService
         } elseif ($model instanceof Content && $model->category_id) {
             $model->loadMissing('category.path');
             $categoryUrl = $model->category?->path?->url;
-            $slug        = $model->path?->slug;
+            $slug = $model->path?->slug;
 
             if (! $categoryUrl || ! $slug) {
                 return;
             }
 
-            $url = $categoryUrl . '/' . $slug;
+            $url = $categoryUrl.'/'.$slug;
         } else {
             return;
         }
@@ -56,13 +56,13 @@ class PathService
         Content::with('path')
             ->where('category_id', $category->id)
             ->get()
-            ->each(fn($content) => $this->generateForModel($content));
+            ->each(fn ($content) => $this->generateForModel($content));
     }
 
     private function buildUrl(MenuItem $menuItem): string
     {
         $segments = [];
-        $current  = $menuItem;
+        $current = $menuItem;
 
         while ($current !== null) {
             $model = $current->model;

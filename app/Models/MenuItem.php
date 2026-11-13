@@ -14,6 +14,7 @@ class MenuItem extends Model
 {
     use HasFactory;
     use ModelTree;
+
     protected $fillable = [
         'menu_id',
         'title',
@@ -26,12 +27,12 @@ class MenuItem extends Model
     protected static function booted(): void
     {
         static::saved(function (MenuItem $item) {
-            Cache::forget('menu_' . $item->menu_id);
+            Cache::forget('menu_'.$item->menu_id);
             static::clearCategoryMenuCache($item);
         });
 
         static::deleted(function (MenuItem $item) {
-            Cache::forget('menu_' . $item->menu_id);
+            Cache::forget('menu_'.$item->menu_id);
             static::clearCategoryMenuCache($item);
         });
     }
@@ -41,14 +42,14 @@ class MenuItem extends Model
         return $this->morphTo();
     }
 
-    public function parent():BelongsTo
+    public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class,'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class,'parent_id');
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     private static function clearCategoryMenuCache(MenuItem $item): void

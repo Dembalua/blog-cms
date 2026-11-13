@@ -14,11 +14,11 @@ class SettingSeeder extends Seeder
 {
     public function run(): void
     {
-        $media       = Media::all()->keyBy('name');
+        $media = Media::all()->keyBy('name');
         $header = Menu::where('name', 'Main Navigation')->first();
         $footer = Menu::where('name', 'Footer Navigation')->first();
 
-        $homepageId    = Content::where('type', ContentType::HOMEPAGE)->value('id');
+        $homepageId = Content::where('type', ContentType::HOMEPAGE)->value('id');
         $privacyPageId = Content::where('title', 'Privacy Policy')->value('id');
 
         $settings = [
@@ -74,12 +74,12 @@ class SettingSeeder extends Seeder
 
         if (! $seoAnchor->metaData) {
             $seoAnchor->metaData()->create([
-                'meta_title'       => 'My Blog – Articles & Tutorials',
+                'meta_title' => 'My Blog – Articles & Tutorials',
                 'meta_description' => 'Discover articles and tutorials about web development and more.',
-                'meta_keywords'    => ['blog', 'web development', 'tutorials'],
-                'og_title'         => 'My Blog – Articles & Tutorials',
-                'og_description'   => 'Discover articles and tutorials about web development and more.',
-                'robots'           => MetaDataRobots::INDEX_FOLLOW,
+                'meta_keywords' => ['blog', 'web development', 'tutorials'],
+                'og_title' => 'My Blog – Articles & Tutorials',
+                'og_description' => 'Discover articles and tutorials about web development and more.',
+                'robots' => MetaDataRobots::INDEX_FOLLOW,
             ]);
         }
     }

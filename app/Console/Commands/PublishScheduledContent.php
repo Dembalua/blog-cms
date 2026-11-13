@@ -21,8 +21,8 @@ class PublishScheduledContent extends Command
             ->with('path')
             ->get();
 
-        $publishable = $contents->filter(fn(Content $c) => $c->path?->url);
-        $skipped     = $contents->filter(fn(Content $c) => ! $c->path?->url);
+        $publishable = $contents->filter(fn (Content $c) => $c->path?->url);
+        $skipped = $contents->filter(fn (Content $c) => ! $c->path?->url);
 
         foreach ($publishable as $content) {
             $content->update(['status' => ContentStatus::PUBLISHED]);

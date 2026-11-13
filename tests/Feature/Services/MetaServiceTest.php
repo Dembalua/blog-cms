@@ -8,7 +8,6 @@ use App\Models\Content;
 use App\Models\MetaData;
 use App\Models\Setting;
 use App\Services\MetaService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\FilamentTestCase;
 
 class MetaServiceTest extends FilamentTestCase
@@ -22,7 +21,7 @@ class MetaServiceTest extends FilamentTestCase
         $property = new \ReflectionProperty(MetaService::class, 'globalMeta');
         $property->setValue(null, null);
 
-        $this->metaService = new MetaService();
+        $this->metaService = new MetaService;
     }
 
     public function test_model_meta_title_overrides_global(): void

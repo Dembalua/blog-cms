@@ -27,7 +27,7 @@ class EditContent extends EditRecord
 
     private function validateUrlUniqueness(?int $excludePathId): void
     {
-        $slug       = $this->data['path']['slug'] ?? null;
+        $slug = $this->data['path']['slug'] ?? null;
         $categoryId = $this->data['category_id'] ?? null;
 
         if (! $slug || ! $categoryId) {
@@ -40,10 +40,10 @@ class EditContent extends EditRecord
             return;
         }
 
-        $potentialUrl = $categoryUrl . '/' . $slug;
+        $potentialUrl = $categoryUrl.'/'.$slug;
 
         $exists = Path::where('url', $potentialUrl)
-            ->when($excludePathId, fn($q, $id) => $q->where('id', '!=', $id))
+            ->when($excludePathId, fn ($q, $id) => $q->where('id', '!=', $id))
             ->exists();
 
         if ($exists) {

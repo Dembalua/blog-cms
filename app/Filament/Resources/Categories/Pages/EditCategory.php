@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Categories\Pages;
 
 use App\Filament\Resources\Categories\CategoryResource;
+use App\Models\Category;
 use App\Models\MenuItem;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
@@ -17,7 +18,7 @@ class EditCategory extends EditRecord
         return [
             DeleteAction::make()
                 ->before(function (DeleteAction $action, $record) {
-                    if (MenuItem::where('model_type', \App\Models\Category::class)->where('model_id', $record->id)->exists()) {
+                    if (MenuItem::where('model_type', Category::class)->where('model_id', $record->id)->exists()) {
                         Notification::make()
                             ->danger()
                             ->title(__('resource.category_resource.delete_blocked_title'))

@@ -36,12 +36,13 @@ class MaintenanceMode
             $allowedPaths = Content::whereIn('id', $allowedContentIds)
                 ->with('path')
                 ->get()
-                ->map(fn($c) => ltrim($c->path?->url ?? '', '/'))
+                ->map(fn ($c) => ltrim($c->path?->url ?? '', '/'))
                 ->filter()
                 ->values();
 
             if ($allowedPaths->contains($currentPath)) {
                 view()->share('maintenanceModeActive', true);
+
                 return $next($request);
             }
         }

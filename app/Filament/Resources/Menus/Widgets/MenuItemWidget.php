@@ -53,10 +53,11 @@ class MenuItemWidget extends Tree
                         ->columnSpanFull()
                         ->options(function () {
                             $maxDepth = (int) (Setting::get('menu.max_depth') ?? 3);
+
                             return MenuItem::where('menu_id', $this->record?->id)
                                 ->where('model_type', Category::class)
                                 ->get()
-                                ->filter(fn($item) => $item->getDepth() < $maxDepth - 1)
+                                ->filter(fn ($item) => $item->getDepth() < $maxDepth - 1)
                                 ->pluck('title', 'id');
                         })
                         ->visible(fn () => MenuItem::where('menu_id', $this->record?->id)
@@ -69,15 +70,15 @@ class MenuItemWidget extends Tree
                             Select::make('model_type')
                                 ->label(__('resource.menu_resource.widget.model_type_label'))
                                 ->options([
-                                    'page'     => __('resource.menu_resource.widget.mode_type_options.page'),
-                                    'post'     => __('resource.menu_resource.widget.mode_type_options.post'),
+                                    'page' => __('resource.menu_resource.widget.mode_type_options.page'),
+                                    'post' => __('resource.menu_resource.widget.mode_type_options.post'),
                                     'category' => __('resource.menu_resource.widget.mode_type_options.category'),
                                 ])
                                 ->required()
                                 ->live(),
                             Select::make('model_id')
                                 ->label(__('resource.menu_resource.widget.model_id_label'))
-                                ->helperText(fn(Get $get) => in_array($get('model_type'), ['page', 'post'])
+                                ->helperText(fn (Get $get) => in_array($get('model_type'), ['page', 'post'])
                                     ? __('resource.menu_resource.widget.model_id_hint')
                                     : null)
                                 ->options(function (Get $get, ?Model $record) {
@@ -85,27 +86,27 @@ class MenuItemWidget extends Tree
 
                                     $usedIds = MenuItem::when(
                                         $record,
-                                        fn($q) => $q->where('id', '!=', $record->id)
+                                        fn ($q) => $q->where('id', '!=', $record->id)
                                     )
                                         ->where('model_type', match ($modelType) {
                                             'page', 'post' => Content::class,
-                                            'category'     => Category::class,
-                                            default        => '',
+                                            'category' => Category::class,
+                                            default => '',
                                         })
                                         ->pluck('model_id');
 
                                     return match ($modelType) {
-                                        'page'     => Content::where('type', ContentType::PAGE)
+                                        'page' => Content::where('type', ContentType::PAGE)
                                             ->whereNull('category_id')
                                             ->whereNotIn('id', $usedIds)
                                             ->pluck('title', 'id'),
-                                        'post'     => Content::where('type', ContentType::POST)
+                                        'post' => Content::where('type', ContentType::POST)
                                             ->whereNull('category_id')
                                             ->whereNotIn('id', $usedIds)
                                             ->pluck('title', 'id'),
                                         'category' => Category::whereNotIn('id', $usedIds)
                                             ->pluck('name', 'id'),
-                                        default    => [],
+                                        default => [],
                                     };
                                 })
                                 ->searchable()
@@ -114,12 +115,14 @@ class MenuItemWidget extends Tree
                                 ->visible(fn (Get $get) => filled($get('model_type')))
                                 ->live()
                                 ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
-                                    if (! $state) return;
+                                    if (! $state) {
+                                        return;
+                                    }
 
                                     $title = match ($get('model_type')) {
                                         'page', 'post' => Content::find($state)?->title,
-                                        'category'     => Category::find($state)?->name,
-                                        default        => null,
+                                        'category' => Category::find($state)?->name,
+                                        default => null,
                                     };
 
                                     if ($title) {
@@ -133,7 +136,7 @@ class MenuItemWidget extends Tree
                         ->label(__('resource.menu_resource.widget.title_label'))
                         ->columnSpanFull()
                         ->maxLength(80)
-                        ->helperText(fn($state) => strlen($state ?? '') . ' / 80 ' . __('resource.default_form_fields.signs'))
+                        ->helperText(fn ($state) => strlen($state ?? '').' / 80 '.__('resource.default_form_fields.signs'))
                         ->live(onBlur: true)
                         ->hintIcon('heroicon-m-question-mark-circle')
                         ->hintIconTooltip(__('resource.menu_resource.widget.title_hint'))
@@ -167,6 +170,7 @@ class MenuItemWidget extends Tree
                         $data['model_type'] = Category::class;
                     }
                     $data['menu_id'] = $this->record?->id;
+
                     return $data;
                 })
                 ->after(function (MenuItem $record) {

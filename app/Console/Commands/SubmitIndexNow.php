@@ -27,7 +27,7 @@ class SubmitIndexNow extends Command
         }
 
         $since = Carbon::now()->subHours((int) $this->option('since'));
-        $base  = rtrim(config('app.url'), '/');
+        $base = rtrim(config('app.url'), '/');
 
         $noIndex = [MetaDataRobots::NOINDEX_FOLLOW, MetaDataRobots::NOINDEX_NOFOLLOW];
 
@@ -35,9 +35,9 @@ class SubmitIndexNow extends Command
             ->with('path', 'metaData')
             ->where('updated_at', '>=', $since)
             ->get()
-            ->filter(fn(Category $c) => $c->path?->url)
-            ->filter(fn(Category $c) => ! in_array($c->metaData?->robots, $noIndex))
-            ->map(fn(Category $c) => $base . '/' . $c->path->url);
+            ->filter(fn (Category $c) => $c->path?->url)
+            ->filter(fn (Category $c) => ! in_array($c->metaData?->robots, $noIndex))
+            ->map(fn (Category $c) => $base.'/'.$c->path->url);
 
         $contentUrls = Content::where('status', ContentStatus::PUBLISHED)
             ->with('path', 'metaData')
@@ -47,9 +47,9 @@ class SubmitIndexNow extends Command
                     ->orWhere('updated_at', '>=', $since);
             })
             ->get()
-            ->filter(fn(Content $c) => $c->path?->url)
-            ->filter(fn(Content $c) => ! in_array($c->metaData?->robots, $noIndex))
-            ->map(fn(Content $c) => $base . '/' . $c->path->url);
+            ->filter(fn (Content $c) => $c->path?->url)
+            ->filter(fn (Content $c) => ! in_array($c->metaData?->robots, $noIndex))
+            ->map(fn (Content $c) => $base.'/'.$c->path->url);
 
         $urls = collect()
             ->concat($categoryUrls)
@@ -68,7 +68,7 @@ class SubmitIndexNow extends Command
             $service->submit($chunk);
         }
 
-        $this->info('Submitted ' . count($urls) . ' URL(s) to IndexNow.');
+        $this->info('Submitted '.count($urls).' URL(s) to IndexNow.');
 
         return self::SUCCESS;
     }

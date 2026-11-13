@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Frontend;
 
-use App\Enums\ContentStatus;
 use App\Enums\RedirectStatus;
 use App\Models\Category;
 use App\Models\Content;
@@ -17,7 +16,7 @@ class FrontendControllerTest extends FilamentTestCase
     {
         $content = Content::factory()->post()->published()->create();
 
-        $this->get('/' . $content->path->url)
+        $this->get('/'.$content->path->url)
             ->assertOk()
             ->assertViewIs('pages.post');
     }
@@ -26,7 +25,7 @@ class FrontendControllerTest extends FilamentTestCase
     {
         $content = Content::factory()->page()->published()->create();
 
-        $this->get('/' . $content->path->url)
+        $this->get('/'.$content->path->url)
             ->assertOk()
             ->assertViewIs('pages.page');
     }
@@ -35,7 +34,7 @@ class FrontendControllerTest extends FilamentTestCase
     {
         $category = Category::factory()->active()->create();
 
-        $this->get('/' . $category->path->url)
+        $this->get('/'.$category->path->url)
             ->assertOk()
             ->assertViewIs('pages.category');
     }
@@ -44,7 +43,7 @@ class FrontendControllerTest extends FilamentTestCase
     {
         $content = Content::factory()->draft()->create();
 
-        $this->get('/' . $content->path->url)
+        $this->get('/'.$content->path->url)
             ->assertNotFound();
     }
 
@@ -58,8 +57,8 @@ class FrontendControllerTest extends FilamentTestCase
     public function test_301_redirect_is_followed(): void
     {
         PathRedirect::create([
-            'old_path'    => 'old-url',
-            'new_path'    => 'new-url',
+            'old_path' => 'old-url',
+            'new_path' => 'new-url',
             'status_code' => RedirectStatus::MOVED_PERMANENTLY,
         ]);
 
@@ -71,8 +70,8 @@ class FrontendControllerTest extends FilamentTestCase
     public function test_410_returns_gone(): void
     {
         PathRedirect::create([
-            'old_path'    => 'deleted-url',
-            'new_path'    => null,
+            'old_path' => 'deleted-url',
+            'new_path' => null,
             'status_code' => RedirectStatus::GONE,
         ]);
 
@@ -85,7 +84,7 @@ class FrontendControllerTest extends FilamentTestCase
     {
         $content = Content::factory()->archived()->create();
 
-        $this->get('/' . $content->path->url)
+        $this->get('/'.$content->path->url)
             ->assertNotFound();
     }
 
@@ -98,7 +97,7 @@ class FrontendControllerTest extends FilamentTestCase
         $category = Category::factory()->active()->create();
         Content::factory()->post()->published()->count(3)->create(['category_id' => $category->id]);
 
-        $response = $this->get('/' . $category->path->url);
+        $response = $this->get('/'.$category->path->url);
 
         $response->assertOk();
         $this->assertInstanceOf(LengthAwarePaginator::class, $response->original->getData()['contents']);
@@ -111,7 +110,7 @@ class FrontendControllerTest extends FilamentTestCase
         $category = Category::factory()->active()->create();
         Content::factory()->post()->published()->count(3)->create(['category_id' => $category->id]);
 
-        $response = $this->get('/' . $category->path->url);
+        $response = $this->get('/'.$category->path->url);
 
         $response->assertOk();
         $this->assertCount(2, $response->original->getData()['contents']);
@@ -124,7 +123,7 @@ class FrontendControllerTest extends FilamentTestCase
         $category = Category::factory()->active()->create();
         Content::factory()->post()->published()->count(3)->create(['category_id' => $category->id]);
 
-        $response = $this->get('/' . $category->path->url . '?page=2');
+        $response = $this->get('/'.$category->path->url.'?page=2');
 
         $response->assertOk();
         $this->assertCount(1, $response->original->getData()['contents']);
@@ -135,7 +134,7 @@ class FrontendControllerTest extends FilamentTestCase
         $category = Category::factory()->active()->create();
         Content::factory()->post()->published()->count(3)->create(['category_id' => $category->id]);
 
-        $response = $this->get('/' . $category->path->url);
+        $response = $this->get('/'.$category->path->url);
 
         $response->assertOk();
         $paginator = $response->original->getData()['contents'];

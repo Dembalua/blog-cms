@@ -15,12 +15,13 @@ class CreateContent extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['author_id'] = auth()->id();
+
         return $data;
     }
 
     protected function beforeSave(): void
     {
-        $slug       = $this->data['path']['slug'] ?? null;
+        $slug = $this->data['path']['slug'] ?? null;
         $categoryId = $this->data['category_id'] ?? null;
 
         if (! $slug || ! $categoryId) {
@@ -33,7 +34,7 @@ class CreateContent extends CreateRecord
             return;
         }
 
-        $potentialUrl = $categoryUrl . '/' . $slug;
+        $potentialUrl = $categoryUrl.'/'.$slug;
 
         if (Path::where('url', $potentialUrl)->exists()) {
             Notification::make()

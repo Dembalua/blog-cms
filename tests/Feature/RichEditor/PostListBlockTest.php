@@ -77,8 +77,8 @@ class PostListBlockTest extends FilamentTestCase
         $html = PostListBlock::toHtml(
             [
                 'heading' => 'Picked',
-                'count'   => 2,
-                'items'   => [
+                'count' => 2,
+                'items' => [
                     ['post_id' => $postA->id],
                     ['post_id' => $postB->id],
                 ],
@@ -99,8 +99,8 @@ class PostListBlockTest extends FilamentTestCase
         $html = PostListBlock::toHtml(
             [
                 'heading' => 'Ordered',
-                'count'   => 3,
-                'items'   => [
+                'count' => 3,
+                'items' => [
                     ['post_id' => $postC->id],
                     ['post_id' => $postA->id],
                     ['post_id' => $postB->id],
@@ -111,7 +111,7 @@ class PostListBlockTest extends FilamentTestCase
 
         $posGamma = strpos($html, 'Gamma');
         $posAlpha = strpos($html, 'Alpha');
-        $posBeta  = strpos($html, 'Beta');
+        $posBeta = strpos($html, 'Beta');
 
         $this->assertNotFalse($posGamma);
         $this->assertNotFalse($posAlpha);
@@ -127,8 +127,8 @@ class PostListBlockTest extends FilamentTestCase
         $html = PostListBlock::toHtml(
             [
                 'heading' => 'Skip Missing',
-                'count'   => 2,
-                'items'   => [
+                'count' => 2,
+                'items' => [
                     ['post_id' => $post->id],
                     ['post_id' => 99999],
                 ],
@@ -147,8 +147,8 @@ class PostListBlockTest extends FilamentTestCase
         $html = PostListBlock::toHtml(
             [
                 'heading' => 'My List Heading',
-                'count'   => 1,
-                'items'   => [['post_id' => $post->id]],
+                'count' => 1,
+                'items' => [['post_id' => $post->id]],
             ],
             []
         );
@@ -163,9 +163,9 @@ class PostListBlockTest extends FilamentTestCase
         $html = PostListBlock::toHtml(
             [
                 'heading' => 'H',
-                'intro'   => 'List intro text.',
-                'count'   => 1,
-                'items'   => [['post_id' => $post->id]],
+                'intro' => 'List intro text.',
+                'count' => 1,
+                'items' => [['post_id' => $post->id]],
             ],
             []
         );
@@ -176,16 +176,16 @@ class PostListBlockTest extends FilamentTestCase
     public function test_to_html_uses_cluster_title_as_overline_when_present(): void
     {
         $cluster = Cluster::factory()->create(['title' => 'Sleep Cluster']);
-        $post    = Content::factory()->create([
-            'title'      => 'Deep Sleep Tips',
+        $post = Content::factory()->create([
+            'title' => 'Deep Sleep Tips',
             'cluster_id' => $cluster->id,
         ]);
 
         $html = PostListBlock::toHtml(
             [
                 'heading' => 'H',
-                'count'   => 1,
-                'items'   => [['post_id' => $post->id]],
+                'count' => 1,
+                'items' => [['post_id' => $post->id]],
             ],
             []
         );
@@ -196,17 +196,17 @@ class PostListBlockTest extends FilamentTestCase
     public function test_to_html_falls_back_to_category_as_overline(): void
     {
         $category = Category::factory()->create(['name' => 'Mindfulness Category']);
-        $post     = Content::factory()->create([
-            'title'       => 'Being Present',
+        $post = Content::factory()->create([
+            'title' => 'Being Present',
             'category_id' => $category->id,
-            'cluster_id'  => null,
+            'cluster_id' => null,
         ]);
 
         $html = PostListBlock::toHtml(
             [
                 'heading' => 'H',
-                'count'   => 1,
-                'items'   => [['post_id' => $post->id]],
+                'count' => 1,
+                'items' => [['post_id' => $post->id]],
             ],
             []
         );
@@ -241,8 +241,8 @@ class PostListBlockTest extends FilamentTestCase
         $html = PostListBlock::toPreviewHtml(
             [
                 'heading' => 'H',
-                'count'   => 4,
-                'items'   => [
+                'count' => 4,
+                'items' => [
                     ['post_id' => 1],
                     ['post_id' => 2],
                 ],

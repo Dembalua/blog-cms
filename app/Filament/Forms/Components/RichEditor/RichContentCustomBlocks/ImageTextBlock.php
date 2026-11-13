@@ -49,12 +49,12 @@ class ImageTextBlock extends RichContentCustomBlock
                     ->rows(4)
                     ->maxLength(800)
                     ->live(onBlur: true)
-                    ->helperText(fn ($state) => strlen($state ?? '') . ' / 800 ' . __('resource.default_form_fields.signs') . ' — ' . __('rich-editor-blocks.image_text.fields.body_link_hint')),
+                    ->helperText(fn ($state) => strlen($state ?? '').' / 800 '.__('resource.default_form_fields.signs').' — '.__('rich-editor-blocks.image_text.fields.body_link_hint')),
                 Select::make('image_position')
                     ->label(__('rich-editor-blocks.image_text.fields.image_position'))
                     ->options([
                         'right' => __('rich-editor-blocks.image_text.fields.image_position_right'),
-                        'left'  => __('rich-editor-blocks.image_text.fields.image_position_left'),
+                        'left' => __('rich-editor-blocks.image_text.fields.image_position_left'),
                     ])
                     ->default('right')
                     ->native(false),
@@ -91,7 +91,7 @@ class ImageTextBlock extends RichContentCustomBlock
                                     ->orderBy('cluster_position')
                                     ->get(['id', 'title', 'cluster_position'])
                                     ->mapWithKeys(fn ($c) => [
-                                        $c->id => ($c->cluster_position ? $c->cluster_position . ' – ' : '') . $c->title,
+                                        $c->id => ($c->cluster_position ? $c->cluster_position.' – ' : '').$c->title,
                                     ])
                                     ->toArray()
                                 : []
@@ -123,7 +123,7 @@ class ImageTextBlock extends RichContentCustomBlock
     {
         $label = __('rich-editor-blocks.image_text.label');
 
-        return $label . (! empty($config['heading']) ? ': ' . $config['heading'] : '');
+        return $label.(! empty($config['heading']) ? ': '.$config['heading'] : '');
     }
 
     /**
@@ -134,10 +134,10 @@ class ImageTextBlock extends RichContentCustomBlock
         $image = isset($config['image_id']) ? Media::find($config['image_id']) : null;
 
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.image-text.preview', [
-            'heading'       => $config['heading'] ?? null,
-            'body'          => str_replace('{link}', '…', $config['body'] ?? ''),
+            'heading' => $config['heading'] ?? null,
+            'body' => str_replace('{link}', '…', $config['body'] ?? ''),
             'imagePosition' => $config['image_position'] ?? 'right',
-            'image'         => $image,
+            'image' => $image,
         ])->render();
     }
 
@@ -150,10 +150,10 @@ class ImageTextBlock extends RichContentCustomBlock
         $image = isset($config['image_id']) ? Media::find($config['image_id']) : null;
 
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.image-text.index', [
-            'heading'       => $config['heading'] ?? null,
-            'body'          => self::renderBody($config),
+            'heading' => $config['heading'] ?? null,
+            'body' => self::renderBody($config),
             'imagePosition' => $config['image_position'] ?? 'right',
-            'image'         => $image,
+            'image' => $image,
         ])->render();
     }
 
@@ -162,19 +162,19 @@ class ImageTextBlock extends RichContentCustomBlock
      */
     private static function renderBody(array $config): string
     {
-        $body      = $config['body'] ?? '';
-        $linkHtml  = self::buildLinkHtml($config);
-        $bodyHtml  = nl2br(e($body));
+        $body = $config['body'] ?? '';
+        $linkHtml = self::buildLinkHtml($config);
+        $bodyHtml = nl2br(e($body));
 
         if ($linkHtml && str_contains($body, '{link}')) {
-            return '<p>' . str_replace('{link}', $linkHtml, $bodyHtml) . '</p>';
+            return '<p>'.str_replace('{link}', $linkHtml, $bodyHtml).'</p>';
         }
 
         if ($linkHtml) {
-            return '<p>' . $bodyHtml . '</p><p>' . $linkHtml . '</p>';
+            return '<p>'.$bodyHtml.'</p><p>'.$linkHtml.'</p>';
         }
 
-        return '<p>' . $bodyHtml . '</p>';
+        return '<p>'.$bodyHtml.'</p>';
     }
 
     /**
@@ -194,10 +194,10 @@ class ImageTextBlock extends RichContentCustomBlock
             return '';
         }
 
-        $href      = url($target->path->url);
+        $href = url($target->path->url);
         $withArrow = (bool) ($config['link_with_arrow'] ?? true);
-        $class     = 'internal-link' . ($withArrow ? ' internal-link--with-arrow' : '');
+        $class = 'internal-link'.($withArrow ? ' internal-link--with-arrow' : '');
 
-        return '<a href="' . e($href) . '" class="' . $class . '">' . e($target->title) . '</a>';
+        return '<a href="'.e($href).'" class="'.$class.'">'.e($target->title).'</a>';
     }
 }

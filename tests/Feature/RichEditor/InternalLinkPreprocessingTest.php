@@ -14,7 +14,7 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
     private function docWith(array $paragraphs): array
     {
         return [
-            'type'    => 'doc',
+            'type' => 'doc',
             'content' => $paragraphs,
         ];
     }
@@ -25,7 +25,7 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
     private function paragraphWith(array $children): array
     {
         return [
-            'type'    => 'paragraph',
+            'type' => 'paragraph',
             'content' => $children,
         ];
     }
@@ -36,10 +36,10 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
     private function internalLinkText(string $text, int $postId, bool $withArrow = false): array
     {
         return [
-            'type'  => 'text',
-            'text'  => $text,
+            'type' => 'text',
+            'text' => $text,
             'marks' => [[
-                'type'  => 'internalLink',
+                'type' => 'internalLink',
                 'attrs' => ['postId' => $postId, 'withArrow' => $withArrow],
             ]],
         ];
@@ -57,7 +57,7 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
     public function test_renders_current_post_title_instead_of_stored_text(): void
     {
         $target = Content::factory()->published()->create(['title' => 'Current Target Title']);
-        $host   = $this->makeHostWithContent(
+        $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([
                     $this->internalLinkText('Stale Link Text', $target->id),
@@ -74,7 +74,7 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
     public function test_renders_updated_title_after_target_rename(): void
     {
         $target = Content::factory()->published()->create(['title' => 'Original Title']);
-        $host   = $this->makeHostWithContent(
+        $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([
                     $this->internalLinkText('Original Title', $target->id),
@@ -93,7 +93,7 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
     public function test_href_follows_target_slug(): void
     {
         $target = Content::factory()->published()->create(['title' => 'Pointed To']);
-        $host   = $this->makeHostWithContent(
+        $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([
                     $this->internalLinkText('Pointed To', $target->id),
@@ -214,7 +214,7 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
     public function test_multiple_links_in_document_are_processed_independently(): void
     {
         $alive = Content::factory()->published()->create(['title' => 'Alive Target']);
-        $host  = $this->makeHostWithContent(
+        $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([$this->internalLinkText('old', $alive->id)]),
                 $this->paragraphWith([$this->internalLinkText('ghost', 99999)]),
@@ -234,9 +234,9 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
 
     public function test_original_content_attribute_is_restored_after_rendering(): void
     {
-        $target     = Content::factory()->published()->create(['title' => 'New Title']);
+        $target = Content::factory()->published()->create(['title' => 'New Title']);
         $originalText = 'Pre-rename Text';
-        $host       = $this->makeHostWithContent(
+        $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([
                     $this->internalLinkText($originalText, $target->id),
@@ -272,10 +272,10 @@ class InternalLinkPreprocessingTest extends FilamentTestCase
         $host = $this->makeHostWithContent(
             $this->docWith([
                 $this->paragraphWith([[
-                    'type'  => 'text',
-                    'text'  => 'External site',
+                    'type' => 'text',
+                    'text' => 'External site',
                     'marks' => [[
-                        'type'  => 'link',
+                        'type' => 'link',
                         'attrs' => ['href' => 'https://example.com'],
                     ]],
                 ]]),

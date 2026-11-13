@@ -42,7 +42,7 @@ class InternalLinkExtension extends Mark
 
         $href = ($postId !== null ? ($this->urlCache[(string) $postId] ?? null) : null) ?? '#';
 
-        $class = 'internal-link' . ($withArrow ? ' internal-link--with-arrow' : '');
+        $class = 'internal-link'.($withArrow ? ' internal-link--with-arrow' : '');
 
         return ['a', array_merge($HTMLAttributes, ['href' => $href, 'class' => $class]), 0];
     }

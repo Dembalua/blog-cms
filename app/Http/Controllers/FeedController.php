@@ -19,7 +19,7 @@ class FeedController extends Controller
         ]);
 
         return view('feed.info', [
-            'feedUrl'   => route('feed.main'),
+            'feedUrl' => route('feed.main'),
             'feedTitle' => Setting::get('rss.title') ?? config('app.name'),
         ]);
     }
@@ -41,7 +41,7 @@ class FeedController extends Controller
 
     public function category(string $slug): Feed
     {
-        $category = Category::whereHas('path', fn($q) => $q->where('slug', $slug))->firstOrFail();
+        $category = Category::whereHas('path', fn ($q) => $q->where('slug', $slug))->firstOrFail();
 
         $items = Content::with(['featureImage', 'path', 'author'])
             ->where('type', ContentType::POST)
@@ -55,11 +55,12 @@ class FeedController extends Controller
         $feedItems = $items->map(function (Content $content) {
             $item = $content->toFeedItem();
             $curation = $content->featureImage?->getCuration('pinterest');
-            if (!empty($curation['url'])) {
+            if (! empty($curation['url'])) {
                 $item->enclosure($curation['url'])
                     ->enclosureLength(0)
                     ->enclosureType('image/webp');
             }
+
             return $item;
         });
 

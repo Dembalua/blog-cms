@@ -18,9 +18,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Support\Enums\Width;
 use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Database\Eloquent\Model;
 
 class InternalLinkPlugin implements RichContentPlugin
 {
@@ -90,7 +90,7 @@ class InternalLinkPlugin implements RichContentPlugin
                                 ->orderBy('cluster_position')
                                 ->get(['id', 'title', 'cluster_position'])
                                 ->mapWithKeys(fn ($c) => [
-                                    $c->id => ($c->cluster_position ? $c->cluster_position . ' – ' : '') . $c->title,
+                                    $c->id => ($c->cluster_position ? $c->cluster_position.' – ' : '').$c->title,
                                 ])
                                 ->toArray()
                             : []
@@ -103,15 +103,15 @@ class InternalLinkPlugin implements RichContentPlugin
                 ])
                 ->action(function (array $arguments, array $data, RichEditor $component): void {
                     $editorSelection = $arguments['editorSelection'] ?? null;
-                    $withArrow       = (bool) ($data['with_arrow'] ?? false);
-                    $post            = Content::find($data['post_id']);
+                    $withArrow = (bool) ($data['with_arrow'] ?? false);
+                    $post = Content::find($data['post_id']);
 
                     $commands = [
                         EditorCommand::make('insertContent', [[
-                            'type'  => 'text',
-                            'text'  => $post?->title ?? '',
+                            'type' => 'text',
+                            'text' => $post?->title ?? '',
                             'marks' => [[
-                                'type'  => 'internalLink',
+                                'type' => 'internalLink',
                                 'attrs' => ['postId' => (int) $data['post_id'], 'withArrow' => $withArrow],
                             ]],
                         ]]),

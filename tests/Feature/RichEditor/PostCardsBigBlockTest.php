@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\RichEditor;
 
-use App\Enums\ContentStatus;
-use App\Enums\ContentType;
 use App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks\PostCardsBigBlock;
 use App\Models\Category;
 use App\Models\Cluster;
@@ -127,9 +125,9 @@ class PostCardsBigBlockTest extends FilamentTestCase
 
         $html = PostCardsBigBlock::toHtml(
             [
-                'heading'     => 'Category A',
-                'count'       => 3,
-                'source'      => 'category',
+                'heading' => 'Category A',
+                'count' => 3,
+                'source' => 'category',
                 'category_id' => $categoryA->id,
             ],
             []
@@ -153,9 +151,9 @@ class PostCardsBigBlockTest extends FilamentTestCase
 
         $html = PostCardsBigBlock::toHtml(
             [
-                'heading'    => 'Cluster A',
-                'count'      => 3,
-                'source'     => 'cluster',
+                'heading' => 'Cluster A',
+                'count' => 3,
+                'source' => 'cluster',
                 'cluster_id' => $clusterA->id,
             ],
             []

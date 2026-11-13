@@ -40,7 +40,7 @@ class ContactFormBlock extends RichContentCustomBlock
         $label = __('rich-editor-blocks.contact_form.label');
 
         if (! empty($config['button_text'])) {
-            $label .= ': ' . $config['button_text'];
+            $label .= ': '.$config['button_text'];
         }
 
         return $label;

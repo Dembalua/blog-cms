@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class AffiliateNetwork extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
     ];

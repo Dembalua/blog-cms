@@ -85,7 +85,7 @@ class PostListBlock extends RichContentCustomBlock
                                     ->orderBy('cluster_position')
                                     ->get(['id', 'title', 'cluster_position'])
                                     ->mapWithKeys(fn ($c) => [
-                                        $c->id => ($c->cluster_position ? $c->cluster_position . ' – ' : '') . $c->title,
+                                        $c->id => ($c->cluster_position ? $c->cluster_position.' – ' : '').$c->title,
                                     ])
                                     ->toArray()
                                 : [])
@@ -124,9 +124,9 @@ class PostListBlock extends RichContentCustomBlock
             $parts[] = $post->cluster->title;
         }
 
-        $prefix = $parts ? implode(' · ', $parts) . ' — ' : '';
+        $prefix = $parts ? implode(' · ', $parts).' — ' : '';
 
-        return $prefix . $post->title;
+        return $prefix.$post->title;
     }
 
     /**
@@ -138,11 +138,11 @@ class PostListBlock extends RichContentCustomBlock
         $count = (int) ($config['count'] ?? 0);
 
         if ($count > 0) {
-            $label .= ' (' . $count . ')';
+            $label .= ' ('.$count.')';
         }
 
         if (! empty($config['heading'])) {
-            $label .= ': ' . $config['heading'];
+            $label .= ': '.$config['heading'];
         }
 
         return $label;
@@ -155,9 +155,9 @@ class PostListBlock extends RichContentCustomBlock
     {
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.post-list.preview', [
             'heading' => $config['heading'] ?? null,
-            'intro'   => $config['intro'] ?? null,
-            'count'   => (int) ($config['count'] ?? 4),
-            'items'   => $config['items'] ?? [],
+            'intro' => $config['intro'] ?? null,
+            'count' => (int) ($config['count'] ?? 4),
+            'items' => $config['items'] ?? [],
         ])->render();
     }
 
@@ -188,8 +188,8 @@ class PostListBlock extends RichContentCustomBlock
 
         return view('filament.forms.components.rich-editor.rich-content-custom-blocks.post-list.index', [
             'heading' => $config['heading'] ?? null,
-            'intro'   => $config['intro'] ?? null,
-            'posts'   => $orderedPosts,
+            'intro' => $config['intro'] ?? null,
+            'posts' => $orderedPosts,
         ])->render();
     }
 }

@@ -14,12 +14,12 @@ class IndexNowService
 
     public function publishKeyFile(): void
     {
-        $key       = config('services.indexnow.key');
+        $key = config('services.indexnow.key');
         $stateFile = storage_path('app/indexnow-published-key.txt');
-        $previous  = is_file($stateFile) ? trim((string) file_get_contents($stateFile)) : null;
+        $previous = is_file($stateFile) ? trim((string) file_get_contents($stateFile)) : null;
 
         if ($previous && $previous !== $key) {
-            $previousPath = public_path($previous . '.txt');
+            $previousPath = public_path($previous.'.txt');
             if (is_file($previousPath)) {
                 unlink($previousPath);
             }
@@ -29,10 +29,11 @@ class IndexNowService
             if (is_file($stateFile)) {
                 unlink($stateFile);
             }
+
             return;
         }
 
-        file_put_contents(public_path($key . '.txt'), $key);
+        file_put_contents(public_path($key.'.txt'), $key);
         file_put_contents($stateFile, $key);
     }
 
@@ -42,23 +43,23 @@ class IndexNowService
             return false;
         }
 
-        $key         = config('services.indexnow.key');
-        $endpoint    = config('services.indexnow.endpoint');
-        $host        = parse_url(config('app.url'), PHP_URL_HOST);
-        $keyLocation = rtrim(config('app.url'), '/') . '/' . $key . '.txt';
+        $key = config('services.indexnow.key');
+        $endpoint = config('services.indexnow.endpoint');
+        $host = parse_url(config('app.url'), PHP_URL_HOST);
+        $keyLocation = rtrim(config('app.url'), '/').'/'.$key.'.txt';
 
         $response = Http::timeout(15)->acceptJson()->post($endpoint, [
-            'host'        => $host,
-            'key'         => $key,
+            'host' => $host,
+            'key' => $key,
             'keyLocation' => $keyLocation,
-            'urlList'     => array_values($urls),
+            'urlList' => array_values($urls),
         ]);
 
         if (! $response->successful()) {
             Log::warning('IndexNow submit failed', [
                 'status' => $response->status(),
-                'body'   => $response->body(),
-                'count'  => count($urls),
+                'body' => $response->body(),
+                'count' => count($urls),
             ]);
 
             return false;

@@ -123,7 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'log_mail_to'     => env('LOG_MAIL_TO', 'fallback@email.de'),
+    'log_mail_to' => env('LOG_MAIL_TO', 'fallback@email.de'),
     'contact_mail_to' => env('CONTACT_MAIL_TO'),
 
 ];

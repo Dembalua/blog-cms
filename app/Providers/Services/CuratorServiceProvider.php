@@ -2,10 +2,10 @@
 
 namespace App\Providers\Services;
 
+use App\Models\Media;
 use App\Policies\MediaPolicy;
 use Awcodes\Curator\Curations\CurationPreset;
 use Awcodes\Curator\Facades\Curation;
-use App\Models\Media;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 

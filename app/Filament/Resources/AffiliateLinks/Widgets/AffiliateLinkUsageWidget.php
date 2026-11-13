@@ -15,7 +15,7 @@ class AffiliateLinkUsageWidget extends TableWidget
 {
     public ?Model $record = null;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected function getTableHeading(): string
     {
@@ -29,8 +29,8 @@ class AffiliateLinkUsageWidget extends TableWidget
             return null;
         }
 
-        $assigned   = (int) AffiliateLinkClick::where('affiliate_link_id', $linkId)->sum('clicks');
-        $total      = (int) ($this->record->clicks ?? 0);
+        $assigned = (int) AffiliateLinkClick::where('affiliate_link_id', $linkId)->sum('clicks');
+        $total = (int) ($this->record->clicks ?? 0);
         $unassigned = max(0, $total - $assigned);
 
         return __('resource.affiliate_link_resource.usage_widget.unassigned', ['count' => $unassigned]);
@@ -42,7 +42,7 @@ class AffiliateLinkUsageWidget extends TableWidget
 
         return Content::query()
             ->with('category')
-            ->where('content', 'like', '%"affiliateLinkId":' . $linkId . '%')
+            ->where('content', 'like', '%"affiliateLinkId":'.$linkId.'%')
             ->select('id', 'title', 'type', 'status', 'category_id', 'published_at', 'revised_at')
             ->addSelect([
                 'link_clicks' => AffiliateLinkClick::query()
@@ -92,12 +92,12 @@ class AffiliateLinkUsageWidget extends TableWidget
                     ->sortable(),
                 TextColumn::make('published_at')
                     ->label(__('resource.content_resource.form.published_at'))
-                    ->formatStateUsing(fn($state) => $state?->isoFormat('L'))
+                    ->formatStateUsing(fn ($state) => $state?->isoFormat('L'))
                     ->placeholder('—')
                     ->sortable(),
                 TextColumn::make('revised_at')
                     ->label(__('resource.content_resource.form.revised_at'))
-                    ->formatStateUsing(fn($state) => $state?->isoFormat('L'))
+                    ->formatStateUsing(fn ($state) => $state?->isoFormat('L'))
                     ->placeholder('—')
                     ->sortable(),
             ])

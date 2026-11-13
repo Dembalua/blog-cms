@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthentication;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthenticationRecovery;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
@@ -15,11 +16,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, HasName, MustVerifyEmail, HasAppAuthentication, HasAppAuthenticationRecovery
+class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery, HasName, MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasRoles;
     use HasFactory, Notifiable;
+
+    /** @use HasFactory<UserFactory> */
+    use HasRoles;
     use InteractsWithAppAuthentication;
     use InteractsWithAppAuthenticationRecovery;
 
@@ -68,7 +70,7 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
             return true;
         }
 
-        return str_ends_with($this->email, '@' . $domain) && $this->hasVerifiedEmail();
+        return str_ends_with($this->email, '@'.$domain) && $this->hasVerifiedEmail();
     }
 
     public function getFilamentName(): string

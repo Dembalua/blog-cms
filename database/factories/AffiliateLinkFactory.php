@@ -17,11 +17,11 @@ class AffiliateLinkFactory extends Factory
 
         return [
             'affiliate_network_id' => AffiliateNetwork::factory(),
-            'name'                 => ucwords($name),
-            'slug'                 => Str::slug($name, '-', 'de'),
-            'url'                  => fake()->url(),
-            'is_active'            => true,
-            'clicks'               => 0,
+            'name' => ucwords($name),
+            'slug' => Str::slug($name, '-', 'de'),
+            'url' => fake()->url(),
+            'is_active' => true,
+            'clicks' => 0,
         ];
     }
 

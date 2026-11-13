@@ -31,7 +31,7 @@ class Category extends Model
                 PathRedirect::updateOrCreate(
                     ['old_path' => $model->path->url],
                     [
-                        'new_path'    => null,
+                        'new_path' => null,
                         'status_code' => RedirectStatus::GONE,
                     ]
                 );
@@ -44,7 +44,7 @@ class Category extends Model
             MenuItem::where('model_type', Category::class)
                 ->where('model_id', $model->id)
                 ->pluck('menu_id')
-                ->each(fn($menuId) => Cache::forget("menu_{$menuId}"));
+                ->each(fn ($menuId) => Cache::forget("menu_{$menuId}"));
         });
     }
 
