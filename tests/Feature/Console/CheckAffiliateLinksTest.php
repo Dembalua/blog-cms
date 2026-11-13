@@ -89,6 +89,7 @@ class CheckAffiliateLinksTest extends FilamentTestCase
         $link = AffiliateLink::factory()->create(['url' => 'https://example.com/unreachable']);
 
         Http::fake(['https://example.com/unreachable' => fn () => throw new \Exception('Connection failed')]);
+        Mail::fake();
 
         $this->artisan('affiliate-links:check');
 

@@ -1,5 +1,11 @@
 # Blog CMS
 
+[![Tests](https://img.shields.io/github/actions/workflow/status/Dembalua/blog-cms/ci.yml?branch=main&label=tests&logo=github)](https://github.com/Dembalua/blog-cms/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/Dembalua/blog-cms)](LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/Dembalua/blog-cms)](https://github.com/Dembalua/blog-cms/commits/main)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?logo=php&logoColor=white)](https://php.net)
+[![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
+
 Laravel-based CMS with Filament Admin Panel and Livewire frontend.
 
 ## Requirements
