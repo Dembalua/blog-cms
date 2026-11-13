@@ -37,7 +37,7 @@
                 });
             </script>
         @endif
-        <link rel="stylesheet" href="{{ asset('css/variables.css') }}?v={{ filemtime(public_path('css/variables.css')) }}">
+        <link rel="stylesheet" href="{{ asset('css/variables.css') }}?v={{ @filemtime(public_path('css/variables.css')) }}">
         @if($siteFavicon)
             <link rel="icon" href="{{ $siteFavicon->url }}">
         @endif
