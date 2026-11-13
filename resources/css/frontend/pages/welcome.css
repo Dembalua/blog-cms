@@ -1,0 +1,8 @@
+@media (min-width: 1024px) {
+    .hero-image {
+        mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 15,0 Q 2,50 15,100 L 100,100 L 100,0 Z' fill='white'/%3E%3C/svg%3E");
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 15,0 Q 2,50 15,100 L 100,100 L 100,0 Z' fill='white'/%3E%3C/svg%3E");
+        mask-size: 100% 100%;
+        -webkit-mask-size: 100% 100%;
+    }
+}

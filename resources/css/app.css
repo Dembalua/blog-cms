@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+@import './frontend/fonts.css';
+@import './frontend/variables.css';
+@import './frontend/typography.css';
+@import './frontend/layout.css';
+@import './frontend/elements.css';
+@import './frontend/pages/welcome.css';
+@import './frontend/pages/maintenance.css';
+@import './frontend/pages/feeds.css';
+
+@custom-variant dark (&:is(.dark, .dark *));
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+[x-cloak] { display: none !important; }
