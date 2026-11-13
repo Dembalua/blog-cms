@@ -22,6 +22,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
 
     /** @use HasFactory<UserFactory> */
     use HasRoles;
+
     use InteractsWithAppAuthentication;
     use InteractsWithAppAuthenticationRecovery;
 
