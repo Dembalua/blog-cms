@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ContentStatus;
-use App\Enums\RedirectStatus;
 use App\Models\Category;
 use App\Models\Content;
 use App\Models\MenuItem;
-use App\Models\Path;
-use App\Models\PathRedirect;
 use App\Models\Setting;
 use App\Services\BreadcrumbService;
 use App\Services\MetaService;
+use App\Services\PathService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 
 class FrontendController extends Controller
 {
-    public function show(MetaService $metaService, BreadcrumbService $breadcrumbService, AffiliateRedirectController $affiliateRedirect, string $url = ''): mixed
+    public function show(MetaService $metaService, BreadcrumbService $breadcrumbService, AffiliateRedirectController $affiliateRedirect, PathService $pathService, string $url = ''): mixed
     {
         if (str_starts_with($url, 'go/')) {
             $response = $affiliateRedirect->handle(substr($url, 3), request('c'));
@@ -26,27 +24,13 @@ class FrontendController extends Controller
             }
         }
 
-        $path = Path::with([
-            'model' => fn ($q) => $q->morphWith([
-                Category::class => ['metaData', 'image'],
-                Content::class => ['metaData', 'featureImage', 'author'],
-            ]),
-        ])->where('url', $url)->first();
+        $result = $pathService->resolve($url);
 
-        if (! $path) {
-            $redirect = PathRedirect::where('old_path', $url)->first();
-
-            if (! $redirect) {
-                abort(404);
-            }
-
-            if ($redirect->status_code === RedirectStatus::GONE || $redirect->new_path === null) {
-                abort(410);
-            }
-
-            return redirect($redirect->new_path, $redirect->status_code->value);
+        if ($result instanceof RedirectResponse) {
+            return $result;
         }
 
+        $path = $result;
         $model = $path->model;
 
         view()->share('meta', $metaService->resolve($model));
@@ -54,10 +38,6 @@ class FrontendController extends Controller
         view()->share('breadcrumbs', $breadcrumbService->fromUrl($path->url));
 
         if ($model instanceof Content) {
-            if ($model->status !== ContentStatus::PUBLISHED) {
-                abort(404);
-            }
-
             if ($model->type->value === 'post') {
                 return view('pages.post', ['content' => $model]);
             }
@@ -68,10 +48,6 @@ class FrontendController extends Controller
         }
 
         if ($model instanceof Category) {
-            if (! $model->active) {
-                abort(404);
-            }
-
             [$categoryIds, $directContentIds, $subCategoryIds, $subCategoryChildIds] = Cache::rememberForever(
                 "category_menu_ids_v3_{$model->id}",
                 function () use ($model) {

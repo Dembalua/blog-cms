@@ -2,12 +2,48 @@
 
 namespace App\Services;
 
+use App\Contracts\PubliclyVisible;
+use App\Enums\RedirectStatus;
+use App\Models\Category;
 use App\Models\Content;
 use App\Models\MenuItem;
+use App\Models\Path;
+use App\Models\PathRedirect;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 
 class PathService
 {
+    public function resolve(string $url): Path|RedirectResponse
+    {
+        $path = Path::with([
+            'model' => fn ($q) => $q->morphWith([
+                Category::class => ['metaData', 'image'],
+                Content::class => ['metaData', 'featureImage', 'author'],
+            ]),
+        ])->where('url', $url)->first();
+
+        if ($path) {
+            if ($path->model instanceof PubliclyVisible && ! $path->model->isPubliclyVisible()) {
+                abort(404);
+            }
+
+            return $path;
+        }
+
+        $redirect = PathRedirect::where('old_path', $url)->first();
+
+        if (! $redirect) {
+            abort(404);
+        }
+
+        if ($redirect->status_code === RedirectStatus::GONE || $redirect->new_path === null) {
+            abort(410);
+        }
+
+        return redirect($redirect->new_path, $redirect->status_code->value);
+    }
+
     public function generateForModel(Model $model): void
     {
         $menuItem = MenuItem::where('model_type', get_class($model))

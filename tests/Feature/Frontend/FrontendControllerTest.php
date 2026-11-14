@@ -47,6 +47,14 @@ class FrontendControllerTest extends FilamentTestCase
             ->assertNotFound();
     }
 
+    public function test_inactive_category_returns_404(): void
+    {
+        $category = Category::factory()->create(['active' => false]);
+
+        $this->get('/'.$category->path->url)
+            ->assertNotFound();
+    }
+
     public function test_unknown_path_returns_404(): void
     {
         $this->get('/this-does-not-exist')
