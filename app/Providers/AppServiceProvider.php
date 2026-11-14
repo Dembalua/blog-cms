@@ -49,18 +49,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        FilamentAsset::register([
-            Js::make('internal-link-extension', rescue(
-                fn () => Vite::asset('resources/js/filament/internal-link-extension.js'),
-                '',
-                false,
-            )),
-            Js::make('affiliate-link-extension', rescue(
-                fn () => Vite::asset('resources/js/filament/affiliate-link-extension.js'),
-                '',
-                false,
-            )),
-        ]);
+        if (file_exists(public_path('build/manifest.json'))) {
+            FilamentAsset::register([
+                Js::make('internal-link-extension', Vite::asset('resources/js/filament/internal-link-extension.js')),
+                Js::make('affiliate-link-extension', Vite::asset('resources/js/filament/affiliate-link-extension.js')),
+            ]);
+        }
 
         Path::observe(PathObserver::class);
         MenuItem::observe(MenuItemObserver::class);
