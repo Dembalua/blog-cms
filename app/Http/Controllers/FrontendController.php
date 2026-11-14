@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\ContentStatus;
 use App\Enums\RedirectStatus;
-use App\Models\AffiliateLink;
-use App\Models\AffiliateLinkClick;
 use App\Models\Category;
 use App\Models\Content;
 use App\Models\MenuItem;
@@ -15,42 +13,16 @@ use App\Models\Setting;
 use App\Services\BreadcrumbService;
 use App\Services\MetaService;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
-    public function show(MetaService $metaService, BreadcrumbService $breadcrumbService, string $url = ''): mixed
+    public function show(MetaService $metaService, BreadcrumbService $breadcrumbService, AffiliateRedirectController $affiliateRedirect, string $url = ''): mixed
     {
         if (str_starts_with($url, 'go/')) {
-            $link = AffiliateLink::where('slug', substr($url, 3))->first();
+            $response = $affiliateRedirect->handle(substr($url, 3), request('c'));
 
-            if ($link && $link->is_active) {
-                $link->increment('clicks');
-
-                $contentId = (int) request('c');
-                if ($contentId > 0 && Content::whereKey($contentId)->exists()) {
-                    $affected = AffiliateLinkClick::where('affiliate_link_id', $link->id)
-                        ->where('content_id', $contentId)
-                        ->update([
-                            'clicks' => DB::raw('clicks + 1'),
-                            'last_clicked_at' => now(),
-                        ]);
-
-                    if ($affected === 0) {
-                        AffiliateLinkClick::create([
-                            'affiliate_link_id' => $link->id,
-                            'content_id' => $contentId,
-                            'clicks' => 1,
-                            'last_clicked_at' => now(),
-                        ]);
-                    }
-                }
-
-                return redirect($link->url, 302);
-            }
-
-            if ($link && ! $link->is_active) {
-                return redirect('/');
+            if ($response) {
+                return $response;
             }
         }
 
