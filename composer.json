@@ -6,7 +6,7 @@
     "keywords": ["laravel", "filament", "blog", "cms"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.5",
         "awcodes/filament-curator": "^5.0",
         "bezhansalleh/filament-language-switch": "^5.0",
         "bezhansalleh/filament-shield": "^4.1",
