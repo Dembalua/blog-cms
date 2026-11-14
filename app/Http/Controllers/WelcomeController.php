@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Models\Content;
 use App\Models\Setting;
@@ -38,7 +37,7 @@ class WelcomeController extends Controller
         view()->share('meta', $meta);
 
         $latestPosts = Content::with(['featureImage', 'path', 'category'])
-            ->where('status', ContentStatus::PUBLISHED)
+            ->published()
             ->where('type', ContentType::POST)
             ->select('id', 'title', 'excerpt', 'category_id', 'feature_image_id', 'published_at', 'revised_at', 'is_featured')
             ->orderByDesc('published_at')

@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use App\Enums\ContentStatus;
 use App\Models\Content;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -30,7 +29,7 @@ class CategoryClustersNavigation extends Component
 
         $this->pillars = Content::whereIn('cluster_id', $relatedClusterIds)
             ->where('is_pillar', true)
-            ->where('status', ContentStatus::PUBLISHED)
+            ->published()
             ->with(['path', 'cluster', 'featureImage'])
             ->select(['id', 'title', 'cluster_id', 'is_pillar', 'feature_image_id'])
             ->get();

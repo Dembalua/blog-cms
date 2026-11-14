@@ -2,7 +2,6 @@
 
 namespace App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks;
 
-use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Models\Category;
 use App\Models\Cluster;
@@ -122,7 +121,7 @@ class PostCardsBigBlock extends RichContentCustomBlock
 
         $query = Content::with(['featureImage', 'path', 'category'])
             ->where('type', ContentType::POST)
-            ->where('status', ContentStatus::PUBLISHED);
+            ->published();
 
         if ($source === 'category' && ! empty($config['category_id'])) {
             $query->where('category_id', $config['category_id']);

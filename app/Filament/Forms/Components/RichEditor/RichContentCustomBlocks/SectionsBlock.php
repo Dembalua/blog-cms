@@ -2,7 +2,6 @@
 
 namespace App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks;
 
-use App\Enums\ContentStatus;
 use App\Models\Category;
 use App\Models\Cluster;
 use App\Models\Content;
@@ -83,7 +82,7 @@ class SectionsBlock extends RichContentCustomBlock
                                     ->label(__('rich-editor-blocks.internal_link.fields.article'))
                                     ->options(fn (Get $get, ?Model $record): array => filled($get('link_cluster_id'))
                                         ? Content::where('cluster_id', $get('link_cluster_id'))
-                                            ->where('status', ContentStatus::PUBLISHED)
+                                            ->published()
                                             ->when($record?->id, fn ($q, $id) => $q->where('id', '!=', $id))
                                             ->orderBy('cluster_position')
                                             ->get(['id', 'title', 'cluster_position'])
