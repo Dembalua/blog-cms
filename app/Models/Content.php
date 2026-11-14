@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\PubliclyVisible;
 use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Enums\RedirectStatus;
@@ -28,7 +29,7 @@ use Illuminate\Support\Facades\Cache;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
-class Content extends Model implements Feedable, HasRichContent
+class Content extends Model implements Feedable, HasRichContent, PubliclyVisible
 {
     use HasFactory, InteractsWithRichContent;
 
@@ -381,6 +382,16 @@ class Content extends Model implements Feedable, HasRichContent
         return $this->morphOne(Path::class, 'model');
     }
 
+    public function scopePublished($query)
+    {
+        return $query->where('status', ContentStatus::PUBLISHED);
+    }
+
+    public function isPubliclyVisible(): bool
+    {
+        return $this->status === ContentStatus::PUBLISHED;
+    }
+
     public function toFeedItem(): FeedItem
     {
         $imageUrl = $this->featureImage?->url ?? '';
@@ -410,7 +421,7 @@ class Content extends Model implements Feedable, HasRichContent
     {
         return static::with(['featureImage', 'path', 'author'])
             ->where('type', ContentType::POST)
-            ->where('status', ContentStatus::PUBLISHED)
+            ->published()
             ->where('published_at', '<=', now())
             ->orderByDesc('published_at')
             ->limit(20)

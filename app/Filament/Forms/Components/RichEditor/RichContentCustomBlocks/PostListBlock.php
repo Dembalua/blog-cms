@@ -2,7 +2,6 @@
 
 namespace App\Filament\Forms\Components\RichEditor\RichContentCustomBlocks;
 
-use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Models\Category;
 use App\Models\Cluster;
@@ -81,7 +80,7 @@ class PostListBlock extends RichContentCustomBlock
                             ->options(fn (Get $get): array => filled($get('cluster_id'))
                                 ? Content::where('cluster_id', $get('cluster_id'))
                                     ->where('type', ContentType::POST)
-                                    ->where('status', ContentStatus::PUBLISHED)
+                                    ->published()
                                     ->orderBy('cluster_position')
                                     ->get(['id', 'title', 'cluster_position'])
                                     ->mapWithKeys(fn ($c) => [

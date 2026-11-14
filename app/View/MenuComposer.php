@@ -2,7 +2,6 @@
 
 namespace App\View;
 
-use App\Enums\ContentStatus;
 use App\Models\Category;
 use App\Models\Content;
 use App\Models\MenuItem;
@@ -64,7 +63,7 @@ class MenuComposer
         return self::$requestCache[$settingKey] = Cache::rememberForever("menu_{$menuId}", function () use ($menuId) {
             $withChildren = function ($query) use (&$withChildren) {
                 $query->where(function ($q) {
-                    $q->whereHasMorph('model', [Content::class], fn ($q) => $q->where('status', ContentStatus::PUBLISHED))
+                    $q->whereHasMorph('model', [Content::class], fn ($q) => $q->published())
                         ->orWhereHasMorph('model', [Category::class]);
                 })
                     ->orderBy('order')
@@ -75,8 +74,8 @@ class MenuComposer
                 ->with(['children' => $withChildren, 'model', 'model.path'])
                 ->where('menu_id', $menuId)
                 ->where(function ($query) {
-                    $query->whereHasMorph('model', [Content::class], fn ($q) => $q->where('status', ContentStatus::PUBLISHED))
-                        ->orWhereHasMorph('model', [Category::class], fn ($q) => $q->where('active', true));
+                    $query->whereHasMorph('model', [Content::class], fn ($q) => $q->published())
+                        ->orWhereHasMorph('model', [Category::class], fn ($q) => $q->active());
                 })
                 ->orderBy('order')
                 ->get();

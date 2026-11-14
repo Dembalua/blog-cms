@@ -2,7 +2,6 @@
 
 namespace App\Filament\Pages;
 
-use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Filament\Forms\MetaDataFields;
 use App\Models\Category;
@@ -226,7 +225,7 @@ class Settings extends Page
                                             ->multiple()
                                             ->searchable()
                                             ->options(
-                                                Content::where('status', ContentStatus::PUBLISHED)
+                                                Content::published()
                                                     ->whereHas('path', fn ($q) => $q->whereNotNull('url'))
                                                     ->with('path')
                                                     ->get()

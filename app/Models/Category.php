@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\PubliclyVisible;
 use App\Enums\RedirectStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Cache;
 
-class Category extends Model
+class Category extends Model implements PubliclyVisible
 {
     use HasFactory;
 
@@ -61,6 +62,11 @@ class Category extends Model
     public function scopeActive($query)
     {
         return $query->where('active', true);
+    }
+
+    public function isPubliclyVisible(): bool
+    {
+        return $this->active;
     }
 
     public function metaData(): MorphOne

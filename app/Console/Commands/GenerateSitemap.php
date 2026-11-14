@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Enums\MetaDataRobots;
 use App\Models\Category;
@@ -33,7 +32,7 @@ class GenerateSitemap extends Command
             $lastmod = $homepage->updated_at;
 
             if ($this->homepageShowsLatestPosts($homepage)) {
-                $maxPost = Content::where('status', ContentStatus::PUBLISHED)
+                $maxPost = Content::published()
                     ->where('type', ContentType::POST)
                     ->max('updated_at');
 
@@ -44,7 +43,7 @@ class GenerateSitemap extends Command
 
             $homeUrl->setLastModificationDate($lastmod);
         } else {
-            $latestPostUpdate = Content::where('status', ContentStatus::PUBLISHED)
+            $latestPostUpdate = Content::published()
                 ->where('type', ContentType::POST)
                 ->max('updated_at');
 
@@ -66,7 +65,7 @@ class GenerateSitemap extends Command
                     ->setLastModificationDate($category->updated_at)
             ));
 
-        Content::where('status', ContentStatus::PUBLISHED)
+        Content::published()
             ->with('path', 'metaData')
             ->get()
             ->filter(fn (Content $content) => $content->path?->url)

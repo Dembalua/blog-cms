@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Forms\Components\RichEditor\Plugins;
 
-use App\Enums\ContentStatus;
 use App\Filament\Forms\Components\RichEditor\TipTapExtensions\InternalLinkExtension;
 use App\Models\Category;
 use App\Models\Cluster;
@@ -85,7 +84,7 @@ class InternalLinkPlugin implements RichContentPlugin
                         ->label(__('rich-editor-blocks.internal_link.fields.article'))
                         ->options(fn (Get $get, ?Model $record): array => filled($get('cluster_id'))
                             ? Content::where('cluster_id', $get('cluster_id'))
-                                ->where('status', ContentStatus::PUBLISHED)
+                                ->published()
                                 ->when($record?->id, fn ($q, $id) => $q->where('id', '!=', $id))
                                 ->orderBy('cluster_position')
                                 ->get(['id', 'title', 'cluster_position'])

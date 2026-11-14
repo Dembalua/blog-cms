@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\ContentStatus;
 use App\Enums\MetaDataRobots;
 use App\Models\Category;
 use App\Models\Content;
@@ -39,7 +38,7 @@ class SubmitIndexNow extends Command
             ->filter(fn (Category $c) => ! in_array($c->metaData?->robots, $noIndex))
             ->map(fn (Category $c) => $base.'/'.$c->path->url);
 
-        $contentUrls = Content::where('status', ContentStatus::PUBLISHED)
+        $contentUrls = Content::published()
             ->with('path', 'metaData')
             ->where(function ($q) use ($since) {
                 $q->where('revised_at', '>=', $since)

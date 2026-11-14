@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ContentStatus;
 use App\Enums\ContentType;
 use App\Models\Category;
 use App\Models\Content;
@@ -45,7 +44,7 @@ class FeedController extends Controller
 
         $items = Content::with(['featureImage', 'path', 'author'])
             ->where('type', ContentType::POST)
-            ->where('status', ContentStatus::PUBLISHED)
+            ->published()
             ->where('published_at', '<=', now())
             ->where('category_id', $category->id)
             ->orderByDesc('published_at')

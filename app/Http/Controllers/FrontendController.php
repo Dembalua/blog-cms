@@ -135,7 +135,7 @@ class FrontendController extends Controller
                         $query->orWhereIn('id', $directContentIds);
                     }
                 })
-                ->where('status', ContentStatus::PUBLISHED)
+                ->published()
                 ->select('id', 'title', 'excerpt', 'category_id', 'feature_image_id', 'published_at', 'revised_at', 'is_featured')
                 ->orderByDesc('published_at')
                 ->paginate(Setting::get('content.category_page_size') ?? 12);
